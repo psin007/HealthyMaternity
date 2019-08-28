@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#abcdef">
+
+    <ImageView
+        android:id="@+id/imageViewWelcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/healthymaternity"
+        android:layout_marginTop="@android:dimen/app_icon_size"
+        android:layout_marginLeft="@android:dimen/app_icon_size"
+        android:layout_marginRight="@android:dimen/app_icon_size"/>
+    <Button
+        android:id="@+id/buttonWelcome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imageViewWelcome"
+        android:layout_marginLeft="@android:dimen/thumbnail_width"
+        android:layout_centerHorizontal="true"
+        android:text="@string/welcome"
+        android:background="#D68910"
+        android:textColor="#ffffff"
+        android:textAllCaps="false"
+        android:textSize="23sp"
+        android:onClick="welcomeClicked"
+        android:focusableInTouchMode="true"/>
+    <CheckBox
+        android:id="@+id/checkboxTNC"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="I accept Term of use "
+        android:textColor="#2E10D6"
+        android:buttonTint="#2E10D6"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_below="@+id/buttonWelcome"
+        android:layout_marginTop="@android:dimen/app_icon_size"
+        android:layout_marginBottom="@android:dimen/app_icon_size"
+        android:layout_centerHorizontal="true"
+        android:checked="true"
+        />
+    <TextView
+        android:id="@+id/textViewError"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:layout_below="@+id/checkboxTNC"
+        android:layout_centerHorizontal="true"/>
+
+
+
+
+</RelativeLayout>

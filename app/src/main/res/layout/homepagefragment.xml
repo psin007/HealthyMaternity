@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_marginBottom="@dimen/activity_horizontal_margin"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+
+    <ImageView
+        android:id="@+id/home_header_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/couplehand" />
+    <LinearLayout
+        android:id="@+id/home_header_text_content"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:background="@color/transparent_grey"
+        app:layout_constraintRight_toRightOf="@+id/home_header_image"
+        app:layout_constraintLeft_toLeftOf="@+id/home_header_image"
+        app:layout_constraintTop_toTopOf="@+id/home_header_image"
+        app:layout_constraintBottom_toBottomOf="@+id/home_header_image"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/home_header_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/activity_horizontal_margin"
+            android:textSize="@dimen/big_text_size"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:textColor="@color/text_color"
+            android:text="" />
+        <TextView
+            android:id="@+id/home_date_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/activity_horizontal_margin"
+            android:textSize="@dimen/medium_text_size"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:textColor="@color/sub_text_color"
+            android:text="" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/welcome_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/home_header_image"
+        android:padding="@dimen/activity_horizontal_margin"
+        android:textSize="@dimen/medium_text_size"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:textColor="@color/sub_text_color"
+        android:text="Hi Wonder Woman,\n Welcome to healthy Maternity." />
+
+
+    <LinearLayout
+        android:id="@+id/home_weight_section"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/welcome_message"
+        android:weightSum="2"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.CardView
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/dotted_border"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center_horizontal">
+                <TextView
+                    android:id="@+id/hint_before_preg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/nav_header_vertical_spacing"
+                    android:text="@string/weight_before_pregnancy_kg"
+                    android:textAlignment="center" />
+                <TextView
+                    android:id="@+id/weight_before_preg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/nav_header_vertical_spacing"
+                    android:text="65"
+                    android:textSize="@dimen/medium_text_size"
+                    android:textColor="#000"
+                    android:textAlignment="center" />
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+        <android.support.v7.widget.CardView
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/hint_current_preg"
+                    android:padding="@dimen/nav_header_vertical_spacing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="@string/current_weight_kg"/>
+
+                <TextView
+                    android:id="@+id/weight_current"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/nav_header_vertical_spacing"
+                    android:text="65"
+                    android:textSize="@dimen/medium_text_size"
+                    android:textColor="#000"
+                    android:textAlignment="center" />
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        app:layout_constraintTop_toBottomOf="@+id/home_weight_section">
+
+        <TextView
+            android:id="@+id/idealweightRangeLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/nav_header_vertical_spacing"
+            android:text="Ideal Weight Range"
+            android:textSize="@dimen/medium_text_size"
+            android:textColor="#000"
+            android:textAlignment="center"
+            />
+        <LinearLayout
+
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/min_ideal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/nav_header_vertical_spacing"
+                android:text="65 KG"
+                android:textSize="@dimen/medium_text_size"
+                android:textColor="#000"
+                android:textAlignment="center" />
+            <android.support.v7.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:src="@drawable/ic_keyboard_arrow_left_black_24dp"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+                <android.support.v7.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_pregnant_woman_black_24dp"/>
+                <TextView
+                    android:id="@+id/weeklabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Week 3"
+                    android:textColor="@color/sub_text_color"/>
+
+            </LinearLayout>
+            <android.support.v7.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:src="@drawable/ic_keyboard_arrow_left_black_24dp"/>
+            <TextView
+                android:id="@+id/max_ideal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/nav_header_vertical_spacing"
+                android:text="67 KG"
+                android:textSize="@dimen/medium_text_size"
+                android:textColor="#000"
+                android:textAlignment="center" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>
