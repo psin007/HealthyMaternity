@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    android:id="@+id/form_scroll_view"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".RegisterActivity"
+        >
+        <!-- Registration form Label -->
+        <TextView
+            android:id="@+id/label_Register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="90dp"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:text="@string/register"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:typeface="sans"
+            android:textColor="#000000"
+            />
+
+
+        <!-- User name Label -->
+
+        <TextView
+            android:id="@+id/tvUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/label_Register"
+            android:layout_marginLeft="36dp"
+            android:layout_marginTop="20dp"
+            android:textSize="18sp"
+            android:text="Your username?"
+            android:textColor="#000000"
+            />
+
+        <EditText
+            android:id="@+id/etUserName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvUserName"
+            android:hint="marysmith"
+            android:background="@drawable/border"
+            android:layout_marginLeft="36dp"
+            android:layout_marginRight="36dp"
+            android:layout_marginTop="8dp"/>
+        <!--Height -->
+
+        <TextView
+            android:id="@+id/tvHeight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/etUserName"
+            android:layout_marginLeft="36dp"
+            android:layout_marginTop="20dp"
+            android:textSize="18sp"
+
+            android:text="Your height (CM)?"
+            android:textColor="#000000"
+            />
+
+        <EditText
+            android:id="@+id/etHeight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:layout_below="@id/tvHeight"
+            android:hint="160 "
+            android:background="@drawable/border"
+            android:layout_marginLeft="36dp"
+            android:layout_marginRight="36dp"
+            android:layout_marginTop="8dp"/>
+
+        <!--Weight -->
+
+        <TextView
+            android:id="@+id/tvWeight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/etHeight"
+            android:layout_marginLeft="36dp"
+            android:layout_marginTop="20dp"
+            android:textSize="18sp"
+            android:text="Your weight before pregnancy (KG)?"
+            android:textColor="#000000"
+            />
+
+        <EditText
+            android:id="@+id/etWeightBeforePreg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:layout_below="@id/tvWeight"
+            android:hint="85"
+            android:background="@drawable/border"
+            android:layout_marginLeft="36dp"
+            android:layout_marginRight="36dp"
+            android:layout_marginTop="8dp"/>
+
+        <TextView
+            android:id="@+id/tvCurrentWeight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/etWeightBeforePreg"
+            android:layout_marginLeft="36dp"
+            android:layout_marginTop="20dp"
+            android:textSize="18sp"
+            android:text="Your current weight(KG)?"
+            android:textColor="#000000"
+            />
+
+        <EditText
+            android:id="@+id/etCurrentWeight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:layout_below="@id/tvCurrentWeight"
+            android:hint="78"
+            android:background="@drawable/border"
+            android:layout_marginLeft="36dp"
+            android:layout_marginRight="36dp"
+            android:layout_marginTop="8dp"/>
+
+        <TextView
+            android:id="@+id/tvWeeksPregnant"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/etCurrentWeight"
+            android:layout_marginLeft="36dp"
+            android:layout_marginTop="20dp"
+            android:textSize="18sp"
+            android:text="How many weeks pregnant are you?"
+            android:textColor="#000000"
+            />
+
+        <EditText
+            android:id="@+id/etWeeksPregnant"
+            android:layout_width="match_parent"
+            android:inputType="number"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvWeeksPregnant"
+            android:hint="3"
+            android:background="@drawable/border"
+            android:layout_marginLeft="36dp"
+            android:layout_marginRight="36dp"
+            android:layout_marginTop="8dp"/>
+
+
+        <Button
+            android:id="@+id/btNext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/etWeeksPregnant"
+            android:layout_marginRight="42dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/colorPrimary"
+            android:onClick="nextForm"
+            android:text="Next"
+            android:textAllCaps="false"
+            android:textColor="#ffffff"
+            android:textSize="18sp" />
+    </RelativeLayout>
+</ScrollView>

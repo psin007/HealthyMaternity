@@ -44,7 +44,7 @@ public class FormActivity extends AppCompatActivity {
         //ToDo: RR added the above lines
   }
 
-    protected void nextForm(View view){
+    public void nextForm(View view){
         int flag = 0;
         etUserName = (EditText)findViewById(R.id.etUserName);
 

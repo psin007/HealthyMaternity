@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/cardview_light_background">
+
+    <TextView
+        android:id="@+id/tv_curweek"
+        android:layout_width="match_parent"
+        android:layout_height="122dp"
+        android:gravity="center"
+        android:text="Weight Gain Graph"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:typeface="serif"
+        app:fontFamily="sans-serif-black" />
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/weight_line_chart"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginBottom="@dimen/activity_horizontal_margin"
+        android:layout_height="400dp"
+        android:layout_centerInParent="true"/>
+</LinearLayout>

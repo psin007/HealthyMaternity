@@ -4,16 +4,18 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
 
-public class WeightValuesAPI {
+public class CheckUserNameClient {
     //ToChange - parameters value of method
-    public static String getWeightValues() {
+    public static String checkIfUserNameExist(String username) {
+        //ToChange methodpath
+        final String methodPath = "restcalorietracker.credential/checkCredentials/" + username ;
         //initialise
         URL url = null;
         HttpURLConnection conn = null;
         String textResult = "";
         //Making HTTP request
         try {
-            url = new URL(RestClientAddress.address);
+            url = new URL(RestClientAddress.address + methodPath);
             //open the connection
             conn = (HttpURLConnection) url.openConnection();
             //set the timeout
