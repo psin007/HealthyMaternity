@@ -9,6 +9,28 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+    <string name="tnc"><u>Terms &amp; Conditions</u></string>
+    <string name="tncContent">
+        Thanks for using Healthy Maternity! This application is developed by team Bonza, located at Caulfield, Monash University. Team BONZA and its associates provide their services to you subject to the following conditions. And please be aware of that team BONZA reserves the right of final interpretation of these conditions.
+        \n\n
+        <b>DISCLAIMERS</b>\n\n
+        Your use of any aspects of the service is at your own risk. You must consult with healthcare providers and make your medical decisions based on the information provided.
+        If you use the device which you or someone else rooted, team BONZA shall not be responsible for the security of your data, including your personal information, and you shall bear all responsibility for any breach, illegal access, loss or corruption of such data.
+        \n\n
+        You may request termination of your account at any time and for any reason and you may exercise your rights according to The Australian Privacy Principles (”APPs”) under the Privacy Act 1988, by sending an e-mail to our team.
+        \n\n
+        <b>TECHNOLOGY</b>
+        \n\n
+        We do not warrant or guarantee that the service will function or be compatible with your device. Information will be transmitted over a medium that will be beyond our control and jurisdiction; multiple factors, including network availability, may affect graph generation or otherwise interfere with the operation of the service.
+        \n\n
+        <b>USER’S RESPONSIBILITIES</b>
+        \n\n
+        By proceeding to use our application, you are obligated to agree that:\n
+        >you will not reproduce, duplicate, copy, sell, resell, or exploit the service or any portion of any of the foregoing;\n
+        >you will not infringe the intellectual property rights, privacy rights, or moral rights of any third party;
+        \n\n
+        You agree not to interfere or attempt to interfere with the proper working of the service or to disrupt the operations or violate the security of the Service. Violations of system or network operation or security may result in civil or criminal liability. We will investigate possible occurrences of such violations, and we may involve and cooperate with law enforcement authorities in prosecuting anyone involved with such violations. You agree to comply with all user responsibilities and obligations as stated in this Agreement.
+    </string>
 
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
