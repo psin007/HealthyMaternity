@@ -46,7 +46,7 @@ public class WelcomeActvity extends AppCompatActivity {
                 builder.setMessage(getTNC);
 
                 // Set the Title
-                builder.setTitle("Term and Conditions");
+                builder.setTitle("Terms and Conditions");
                 builder.setCancelable(true);
 
                 builder
