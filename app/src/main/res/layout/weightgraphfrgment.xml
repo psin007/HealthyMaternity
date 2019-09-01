@@ -17,6 +17,12 @@
         android:typeface="serif"
         app:fontFamily="sans-serif-black" />
 
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="          Kg" />
+
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/weight_line_chart"
         android:layout_width="match_parent"
@@ -25,4 +31,11 @@
         android:layout_marginBottom="@dimen/activity_horizontal_margin"
         android:layout_height="400dp"
         android:layout_centerInParent="true"/>
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:text="Week           " />
 </LinearLayout>

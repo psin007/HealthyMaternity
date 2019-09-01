@@ -24,7 +24,6 @@
             android:label="@string/title_activity_homepage"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".View.FormActivity" />
-        <activity android:name=".View.TNCActivity" />
         <activity android:name=".View.WelcomeActvity">
 
         </activity>

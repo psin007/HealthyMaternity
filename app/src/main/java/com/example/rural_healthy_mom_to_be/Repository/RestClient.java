@@ -72,14 +72,15 @@ public class RestClient {
         return resultArr;
     }
 
-    public static String getWeightGainForNorWeight() {
+    public static String [] getWeightGainForNorWeight(String limit) throws JSONException {
         //initialise
         URL url = null;
         HttpURLConnection conn = null;
         String textResult = "";
+        String [] resultArr = new String [40];
         //Making HTTP request
         try {
-            url = new URL("https://87y2yd8o05.execute-api.us-east-1.amazonaws.com/weight/weight");
+            url = new URL(BASE_URL);
             //open the connection
             conn = (HttpURLConnection) url.openConnection();
             //set the timeout
@@ -90,17 +91,12 @@ public class RestClient {
             //add http headers to set your response type to json
             conn.setRequestProperty("Content-Type", "application/json");
             conn.setRequestProperty("Accept", "application/json");
-            conn.setRequestProperty("Accept", "application/json");
             //Read the response
+
             Scanner inStream = new Scanner(conn.getInputStream());
             //read the input stream and store it as string
-            if (inStream.nextLine().equals("[]"))
-                return "error";
-            else
-            {
-                while (inStream.hasNextLine()) {
-                    textResult += inStream.nextLine();
-                }
+            while (inStream.hasNextLine()) {
+                textResult += inStream.nextLine();
             }
 
             Log.i("error",new Integer(conn.getResponseCode()).toString());
@@ -109,17 +105,38 @@ public class RestClient {
         } finally {
             conn.disconnect();
         }
-        return textResult;
+
+        JSONArray arr = new JSONArray(textResult);
+
+
+        if (limit == "max")
+        {
+            for(int i = 40;i<=79;i++)
+            {
+                String maxWeight = arr.getJSONObject(i).getString("max_weight_gain");
+                resultArr[i-40] = maxWeight;
+            }
+        }
+        else
+        {
+            for(int i = 40;i<=79;i++)
+            {
+                String minWeight = arr.getJSONObject(i).getString("min_weight_gain");
+                resultArr[i-40] = minWeight;
+            }
+        }
+        return resultArr;
     }
 
-    public static String getWeightGainForOverWeight() {
+    public static String [] getWeightGainForOverWeight(String limit) throws JSONException {
         //initialise
         URL url = null;
         HttpURLConnection conn = null;
         String textResult = "";
+        String [] resultArr = new String [40];
         //Making HTTP request
         try {
-            url = new URL("https://87y2yd8o05.execute-api.us-east-1.amazonaws.com/weight/weight");
+            url = new URL(BASE_URL);
             //open the connection
             conn = (HttpURLConnection) url.openConnection();
             //set the timeout
@@ -130,17 +147,12 @@ public class RestClient {
             //add http headers to set your response type to json
             conn.setRequestProperty("Content-Type", "application/json");
             conn.setRequestProperty("Accept", "application/json");
-            conn.setRequestProperty("Accept", "application/json");
             //Read the response
+
             Scanner inStream = new Scanner(conn.getInputStream());
             //read the input stream and store it as string
-            if (inStream.nextLine().equals("[]"))
-                return "error";
-            else
-            {
-                while (inStream.hasNextLine()) {
-                    textResult += inStream.nextLine();
-                }
+            while (inStream.hasNextLine()) {
+                textResult += inStream.nextLine();
             }
 
             Log.i("error",new Integer(conn.getResponseCode()).toString());
@@ -149,17 +161,38 @@ public class RestClient {
         } finally {
             conn.disconnect();
         }
-        return textResult;
+
+        JSONArray arr = new JSONArray(textResult);
+
+
+        if (limit == "max")
+        {
+            for(int i = 80;i<=119;i++)
+            {
+                String maxWeight = arr.getJSONObject(i).getString("max_weight_gain");
+                resultArr[i-80] = maxWeight;
+            }
+        }
+        else
+        {
+            for(int i = 80;i<=119;i++)
+            {
+                String minWeight = arr.getJSONObject(i).getString("min_weight_gain");
+                resultArr[i-80] = minWeight;
+            }
+        }
+        return resultArr;
     }
 
-    public static String getWeightGainForObesity() {
+    public static String [] getWeightGainForObesity(String limit) throws JSONException {
         //initialise
         URL url = null;
         HttpURLConnection conn = null;
         String textResult = "";
+        String [] resultArr = new String [40];
         //Making HTTP request
         try {
-            url = new URL("https://87y2yd8o05.execute-api.us-east-1.amazonaws.com/weight/weight");
+            url = new URL(BASE_URL);
             //open the connection
             conn = (HttpURLConnection) url.openConnection();
             //set the timeout
@@ -170,17 +203,12 @@ public class RestClient {
             //add http headers to set your response type to json
             conn.setRequestProperty("Content-Type", "application/json");
             conn.setRequestProperty("Accept", "application/json");
-            conn.setRequestProperty("Accept", "application/json");
             //Read the response
+
             Scanner inStream = new Scanner(conn.getInputStream());
             //read the input stream and store it as string
-            if (inStream.nextLine().equals("[]"))
-                return "error";
-            else
-            {
-                while (inStream.hasNextLine()) {
-                    textResult += inStream.nextLine();
-                }
+            while (inStream.hasNextLine()) {
+                textResult += inStream.nextLine();
             }
 
             Log.i("error",new Integer(conn.getResponseCode()).toString());
@@ -189,7 +217,27 @@ public class RestClient {
         } finally {
             conn.disconnect();
         }
-        return textResult;
+
+        JSONArray arr = new JSONArray(textResult);
+
+
+        if (limit == "max")
+        {
+            for(int i = 120;i<=159;i++)
+            {
+                String maxWeight = arr.getJSONObject(i).getString("max_weight_gain");
+                resultArr[i-120] = maxWeight;
+            }
+        }
+        else
+        {
+            for(int i = 120;i<=159;i++)
+            {
+                String minWeight = arr.getJSONObject(i).getString("min_weight_gain");
+                resultArr[i-120] = minWeight;
+            }
+        }
+        return resultArr;
     }
 
 }

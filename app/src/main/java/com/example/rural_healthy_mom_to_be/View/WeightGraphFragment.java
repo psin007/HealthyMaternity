@@ -23,6 +23,7 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.LargeValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import org.json.JSONException;
@@ -40,6 +41,7 @@ public class WeightGraphFragment extends Fragment {
     private LineChart chart;
     private String [] upperRange;
     private String [] lowerRange;
+    private float bmi;
     LoggedinUser currentUser;
 
     ArrayList<Entry>lineEntries1 = new ArrayList<>();
@@ -49,6 +51,7 @@ public class WeightGraphFragment extends Fragment {
     float PRE_WEIGHT;
     int curWeek;
     float currentWeight;
+    float currentHeight;
 
     ArrayList<ILineDataSet> dataSets = new ArrayList<>();
 
@@ -105,7 +108,7 @@ public class WeightGraphFragment extends Fragment {
         description.setText("Expected Weight Each Week");
         description.setEnabled(true);
         chart.setDescription(description);
-
+        chart.animateXY(500,500);
         //refresh
         chart.invalidate();
 
@@ -116,7 +119,7 @@ public class WeightGraphFragment extends Fragment {
         LineDataSet ds1 = new LineDataSet(lineEntries1, "max weight");
 
         ds1.setDrawValues(false);
-        ds1.setColor(Color.parseColor("#495af2"));
+        ds1.setColor(Color.parseColor("#F15A4A"));
         ds1.setDrawCircles(false);
         ds1.setLineWidth(4f);
         ds1.setValueTextSize(10f);
@@ -130,7 +133,7 @@ public class WeightGraphFragment extends Fragment {
         LineDataSet ds2 = new LineDataSet(lineEntries2, "min weight");
 
         ds2.setDrawValues(false);
-        ds2.setColor(Color.parseColor("#F15A4A"));
+        ds2.setColor(Color.parseColor("#495af2"));
         ds2.setDrawCircles(false);
         ds2.setLineWidth(4f);
         ds2.setValueTextSize(10f);
@@ -142,12 +145,12 @@ public class WeightGraphFragment extends Fragment {
 
     private void setUsrWeight(){
         LineDataSet ds3 = new LineDataSet(lineEntries3, "current weight");
-
-        ds3.setDrawValues(false);
-        ds3.setColor(Color.parseColor("#3dd8db"));
+        ds3.setDrawValues(true);
+        ds3.setColor(Color.parseColor("#e08b4a"));
         ds3.setDrawCircles(true);
-        ds3.setCircleRadius(5f);
-        ds3.setCircleHoleRadius(3f);
+        ds3.setCircleRadius(10f);
+        ds3.setCircleHoleRadius(5f);
+        ds3.setCircleColor(Color.parseColor("#e08b4a"));
         ds3.setLineWidth(4f);
         ds3.setValueTextSize(10f);
         ds3.setFormLineWidth(2f);
@@ -164,8 +167,26 @@ public class WeightGraphFragment extends Fragment {
             String response = null;
 
             try {
-                upperRange = RestClient.getWeightGainForUnderWeight("max");
-                lowerRange = RestClient.getWeightGainForUnderWeight("min");
+                if(bmi < 18.5)
+                {
+                    upperRange = RestClient.getWeightGainForUnderWeight("max");
+                    lowerRange = RestClient.getWeightGainForUnderWeight("min");
+                }
+                if((bmi >= 18.5) && (bmi < 25))
+                {
+                    upperRange = RestClient.getWeightGainForNorWeight("max");
+                    lowerRange = RestClient.getWeightGainForNorWeight("min");
+                }
+                if((bmi >=25)&&(bmi < 30))
+                {
+                    upperRange = RestClient.getWeightGainForOverWeight("max");
+                    lowerRange = RestClient.getWeightGainForOverWeight("min");
+                }
+                else
+                {
+                    upperRange = RestClient.getWeightGainForObesity("max");
+                    lowerRange = RestClient.getWeightGainForObesity("min");
+                }
 
                 int xaxis = 0;
                 for(String val:upperRange)
@@ -210,11 +231,15 @@ public class WeightGraphFragment extends Fragment {
         }
         protected void onPostExecute(LoggedinUser details) {
            currentWeight = (float)details.getCurrentWeight();
+           currentHeight = (float)details.getHeightInCm();
            PRE_WEIGHT = (float)details.getWeightBeforePregnancy();
            curWeek = details.getCurrentWeek();
 
-           lineEntries3.add(new BarEntry(curWeek,currentWeight));
-           setUsrWeight();
+            bmi = PRE_WEIGHT * 10000/(currentHeight*currentHeight);
+
+            lineEntries3.add(new BarEntry(curWeek,currentWeight));
+            setUsrWeight();
+            chart.notifyDataSetChanged();
             chart.invalidate();
         }
     }
