@@ -40,7 +40,7 @@
         android:layout_marginLeft="126dp"
         android:layout_marginTop="45dp"
         android:buttonTint="#2E10D6"
-        android:checked="true"
+        android:checked="false"
         android:text="I accept"
         android:textColor="#2E10D6"
         app:layout_constraintBottom_toBottomOf="parent"
