@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.rural_healthy_mom_to_be.Model.LoggedinUser;
 import com.example.rural_healthy_mom_to_be.R;
@@ -37,6 +38,7 @@ import java.util.List;
 
 public class WeightGraphFragment extends Fragment {
     View vWeightGraph;
+    TextView vWeightHeader;
     LoggedInUserDb loggedInUserdb;
     private LineChart chart;
     private String [] upperRange;
@@ -59,7 +61,7 @@ public class WeightGraphFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
             savedInstanceState) {
         vWeightGraph = inflater.inflate(R.layout.weightgraphfrgment, container, false);
-
+        vWeightHeader = vWeightGraph.findViewById(R.id.graphWeight);
         loggedInUserdb = Room.databaseBuilder(vWeightGraph.getContext(),
                 LoggedInUserDb.class, "LoggedInUserDatabase")
                 .fallbackToDestructiveMigration()
