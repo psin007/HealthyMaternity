@@ -12,7 +12,7 @@ import com.example.rural_healthy_mom_to_be.View.WelcomeActvity;
 
 public class MainActivity extends AppCompatActivity {
 
-    private int SPLASH_TIME = 3000;
+    private int SPLASH_TIME = 1500;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

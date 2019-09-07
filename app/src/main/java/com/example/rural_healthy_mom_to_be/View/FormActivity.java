@@ -62,8 +62,8 @@ public class FormActivity extends AppCompatActivity {
             etHeight.setError("This field is mandatory!");
             flag = 1;
         }
-        else if(Double.parseDouble(etHeight.getText().toString()) < 50){
-            etHeight.setError("Please enter correct value of height!");
+        else if(Double.parseDouble(etHeight.getText().toString()) < 50 || Double.parseDouble(etHeight.getText().toString()) > 250){
+            etHeight.setError("Please enter the value within the available range 50 - 250 cm!");
             flag = 1;
         }
         else {
@@ -76,8 +76,8 @@ public class FormActivity extends AppCompatActivity {
             etWeightBeforePreg.setError("This field is mandatory!");
             flag = 1;
         }
-        else if(Double.parseDouble(etHeight.getText().toString()) < 25 || Double.parseDouble(etHeight.getText().toString()) > 300){
-            etWeightBeforePreg.setError("Please enter correct value of weight!");
+        else if(Double.parseDouble(etHeight.getText().toString()) < 25 || Double.parseDouble(etHeight.getText().toString()) > 200){
+            etWeightBeforePreg.setError("Please enter the value within the available range 25 - 200 kg!");
             flag = 1;
         }
         else{
@@ -90,8 +90,8 @@ public class FormActivity extends AppCompatActivity {
             etCurrentWeight.setError("This field is mandatory!");
             flag = 1;
         }
-        else if(Double.parseDouble(etCurrentWeight.getText().toString()) < 25 || Double.parseDouble(etCurrentWeight.getText().toString()) > 300){
-            etCurrentWeight.setError("Please enter correct value of weight!");
+        else if(Double.parseDouble(etCurrentWeight.getText().toString()) < 25 || Double.parseDouble(etCurrentWeight.getText().toString()) > 200){
+            etCurrentWeight.setError("Please enter the value within the available range 25 - 200 kg!");
             flag = 1;
         }
         else{

@@ -236,7 +236,8 @@ public class WeightGraphFragment extends Fragment {
            currentHeight = (float)details.getHeightInCm();
            PRE_WEIGHT = (float)details.getWeightBeforePregnancy();
            curWeek = details.getCurrentWeek();
-
+           String cwt = String.valueOf(currentWeight);
+            vWeightHeader.setText(cwt + " kg");
             bmi = PRE_WEIGHT * 10000/(currentHeight*currentHeight);
 
             lineEntries3.add(new BarEntry(curWeek,currentWeight));
