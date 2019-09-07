@@ -126,7 +126,7 @@
             android:layout_height="wrap_content"
             android:inputType="numberDecimal"
             android:layout_below="@id/tvCurrentWeight"
-            android:hint="78"
+            android:hint="98"
             android:background="@drawable/border"
             android:layout_marginLeft="36dp"
             android:layout_marginRight="36dp"

@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fcf6f5ff">
+    android:background="#ffffff">
 
 
     <android.support.v7.widget.CardView
@@ -30,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="140dp"
             android:adjustViewBounds="true"
-            android:src="@drawable/couplehand" />
+            android:src="@mipmap/ic_launcher_round" />
     </android.support.v7.widget.CardView>
 <!--    <ImageView-->
 <!--        android:id="@+id/imageViewWelcome"-->

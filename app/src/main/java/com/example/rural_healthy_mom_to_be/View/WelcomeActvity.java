@@ -41,7 +41,7 @@ public class WelcomeActvity extends AppCompatActivity {
                 AlertDialog.Builder builder
                         = new AlertDialog
                         .Builder(WelcomeActvity.this);
-                String getTNC = getApplicationContext().getResources().getString(R.string.tncContent);
+                String getTNC = getBaseContext().getResources().getString(R.string.tncContent);
                 // Set TNC message
                 builder.setMessage(getTNC);
 
@@ -69,8 +69,6 @@ public class WelcomeActvity extends AppCompatActivity {
                 alertDialog.show();
             }
         });
-
-
         strTNC.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
@@ -84,7 +82,7 @@ public class WelcomeActvity extends AppCompatActivity {
         }
         else{
             checkBoxTNC.setError("Read and accept our terms first!");
-
+            Toast.makeText(this.getBaseContext(),"Read and accept our terms first!",Toast.LENGTH_SHORT).show();
         }
     }
 }
