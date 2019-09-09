@@ -11,7 +11,7 @@ import com.example.rural_healthy_mom_to_be.View.NavigationDrawer;
 import com.example.rural_healthy_mom_to_be.View.WelcomeActvity;
 
 public class MainActivity extends AppCompatActivity {
-    //add comment RR
+    //add comment
     private int SPLASH_TIME = 1500;
 
     @Override
