@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.example.rural_healthy_mom_to_be.Model.LoggedinUser;
 import com.example.rural_healthy_mom_to_be.R;
+import com.example.rural_healthy_mom_to_be.Repository.LinearRegression;
 import com.example.rural_healthy_mom_to_be.Repository.LoggedInUserDb;
 import com.example.rural_healthy_mom_to_be.Repository.RestClient;
 import com.github.mikephil.charting.charts.LineChart;
@@ -49,6 +50,8 @@ public class WeightGraphFragment extends Fragment {
     ArrayList<Entry>lineEntries1 = new ArrayList<>();
     ArrayList<Entry>lineEntries2 = new ArrayList<>();
     ArrayList<Entry>lineEntries3 = new ArrayList<>();
+    ArrayList<Entry>lineEntries4 = new ArrayList<>();
+
 
     float PRE_WEIGHT;
     int curWeek;
@@ -161,9 +164,40 @@ public class WeightGraphFragment extends Fragment {
         dataSets.add(ds3);
     }
 
+    private void calLinearRegFunction(){
+
+        double[] x = {4, 8, 12, 16, 20};
+        double[] y = {69.85, 69.98, 70.01, 70.15, 71.12};
+        LinearRegression reg = new LinearRegression(x,y);
+        for(int i = 0;i <= 40;i++)
+        {
+            double py = i*reg.slope() + reg.intercept();
+            float yy = (float) py;
+            lineEntries4.add(new Entry(i,yy));
+        }
+    }
+
+    private void preUsrWeight(){
+
+        calLinearRegFunction();
+
+        LineDataSet ds4 = new LineDataSet(lineEntries4, "Predication Line");
+        ds4.setDrawValues(true);
+        ds4.setColor(Color.parseColor("#48fa5d"));
+        ds4.setDrawCircles(false);
+//        ds4.setCircleRadius(10f);
+//        ds4.setCircleHoleRadius(5f);
+//        ds4.setCircleColor(Color.parseColor("#e08b4a"));
+        ds4.setLineWidth(4f);
+        ds4.setValueTextSize(10f);
+        ds4.setFormLineWidth(2f);
+        ds4.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
+        ds4.setFormSize(15.f);
+        dataSets.add(ds4);
+    }
+
+
     public class getRange extends AsyncTask<Void, Void, String> {
-
-
         @Override
         protected String doInBackground(Void... params) {
             String response = null;
@@ -240,8 +274,9 @@ public class WeightGraphFragment extends Fragment {
             vWeightHeader.setText(cwt + " kg");
             bmi = PRE_WEIGHT * 10000/(currentHeight*currentHeight);
 
-            lineEntries3.add(new BarEntry(curWeek,currentWeight));
+            lineEntries3.add(new Entry(curWeek,currentWeight));
             setUsrWeight();
+            preUsrWeight();
             chart.notifyDataSetChanged();
             chart.invalidate();
         }
