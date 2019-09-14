@@ -1,15 +1,25 @@
 package com.example.rural_healthy_mom_to_be.View;
+
 import android.arch.persistence.room.Room;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
+import android.graphics.Paint;
+import android.graphics.pdf.PdfDocument;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
-
+import android.os.Environment;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.rural_healthy_mom_to_be.Model.LoggedinUser;
 import com.example.rural_healthy_mom_to_be.R;
@@ -20,26 +30,29 @@ import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
-
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.LargeValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import org.json.JSONException;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import static android.graphics.pdf.PdfDocument.PageInfo;
 
 
 public class WeightGraphFragment extends Fragment {
     View vWeightGraph;
     TextView vWeightHeader;
+    Button btnGenerate;
     LoggedInUserDb loggedInUserdb;
     private LineChart chart;
     private String [] upperRange;
@@ -65,27 +78,27 @@ public class WeightGraphFragment extends Fragment {
             savedInstanceState) {
         vWeightGraph = inflater.inflate(R.layout.weightgraphfrgment, container, false);
         vWeightHeader = vWeightGraph.findViewById(R.id.graphWeight);
+        btnGenerate = vWeightGraph.findViewById(R.id.genReport);
         loggedInUserdb = Room.databaseBuilder(vWeightGraph.getContext(),
                 LoggedInUserDb.class, "LoggedInUserDatabase")
                 .fallbackToDestructiveMigration()
                 .build();
 
+        //read SQLite database
         ReadDatabase readDatabase = new ReadDatabase();
         readDatabase.execute();
-        //get values from dataset
 
-        //use asy to get range
+        //use async to get range
         getRange getRangeVal = new getRange();
         getRangeVal.execute();
 
-
+        //Initialize the chart
         chart = vWeightGraph.findViewById(R.id.weight_line_chart);
         chart.setTouchEnabled(true);
 
         // enable scaling and dragging
         chart.setDragEnabled(true);
         chart.setScaleEnabled(true);
-
         chart.setPinchZoom(true);
 
         // get the legend (only possible after setting data)
@@ -94,16 +107,13 @@ public class WeightGraphFragment extends Fragment {
 
         //draw at background
         chart.setDrawGridBackground(true);
-
         chart.setDrawBorders(true);
-
         chart.setNoDataText("Please wait a few seconds...");
 
         //get X axis
         XAxis xAxis = chart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setGranularity(0.5f);
-//        //replace 3
         xAxis.setLabelCount(10, true);
         xAxis.setAxisMinimum(0f);
         xAxis.setAxisMaximum((float) 40);
@@ -117,7 +127,51 @@ public class WeightGraphFragment extends Fragment {
         //refresh
         chart.invalidate();
 
+        //Generate graph
+        btnGenerate.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+            @Override
+            public void onClick(View v) {
+                createPdf(vWeightHeader.getText().toString());
+            }
+        });
+
         return vWeightGraph;
+    }
+
+    private void createPdf(String text){
+        //Create a new document
+        PdfDocument doc = new PdfDocument();
+
+        //create a page description
+        PageInfo pageInfo = new PdfDocument.PageInfo.Builder(vWeightGraph.getMeasuredWidth(),
+                vWeightGraph.getMeasuredHeight(), 1).create();
+
+        // start a page
+        PdfDocument.Page page = doc.startPage(pageInfo);
+        vWeightGraph.draw(page.getCanvas());
+        doc.finishPage(page);
+
+        //write the document content
+        String directory_path = Environment.getExternalStorageDirectory().getPath() + "/mypdf/";
+        File file = new File(directory_path);
+        if (!file.exists()) {
+            file.mkdirs();
+        }
+
+        String curdate = new SimpleDateFormat("dd-MM-yyyy-HH-mm-ss").format(new Date());
+        String targetPdf = directory_path+"WeightGraph"+ curdate +".pdf";
+        File filePath = new File(targetPdf);
+        try {
+            doc.writeTo(new FileOutputStream(filePath));
+            Toast.makeText(this.getContext(), "The report has been written to "+directory_path, Toast.LENGTH_LONG).show();
+        } catch (IOException e) {
+            Log.e("main", "error "+e.toString());
+            Toast.makeText(this.getContext(), "Something wrong: " + e.toString(),  Toast.LENGTH_LONG).show();
+        }
+        // close the document
+        doc.close();
+
     }
 
     private void setUpperRange(){
@@ -169,7 +223,7 @@ public class WeightGraphFragment extends Fragment {
         double[] x = {4, 8, 12, 16, 20};
         double[] y = {69.85, 69.98, 70.01, 70.15, 71.12};
         LinearRegression reg = new LinearRegression(x,y);
-        for(int i = 0;i <= 40;i++)
+        for(int i = 10;i <= 40;i++)
         {
             double py = i*reg.slope() + reg.intercept();
             float yy = (float) py;
@@ -188,10 +242,10 @@ public class WeightGraphFragment extends Fragment {
 //        ds4.setCircleRadius(10f);
 //        ds4.setCircleHoleRadius(5f);
 //        ds4.setCircleColor(Color.parseColor("#e08b4a"));
-        ds4.setLineWidth(4f);
+        ds4.setLineWidth(2f);
         ds4.setValueTextSize(10f);
         ds4.setFormLineWidth(2f);
-        ds4.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
+        ds4.enableDashedLine(15f,10f,2f);
         ds4.setFormSize(15.f);
         dataSets.add(ds4);
     }
@@ -245,7 +299,7 @@ public class WeightGraphFragment extends Fragment {
                 chart.setData(data);
 
                 //refresh
-                chart.invalidate();
+//                chart.invalidate();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -278,7 +332,6 @@ public class WeightGraphFragment extends Fragment {
             setUsrWeight();
             preUsrWeight();
             chart.notifyDataSetChanged();
-            chart.invalidate();
         }
     }
 
