@@ -63,7 +63,6 @@ public class WeightGraphFragment extends Fragment {
     View vReport;
     View vWeightGraph;
     View vWeightTracker;
-    TextView vWeightHeader;
     Button btnGenerate;
     LoggedInUserDb loggedInUserdb;
     List<HashMap<String, String>> listArray;
@@ -109,7 +108,7 @@ public class WeightGraphFragment extends Fragment {
         vReport = inflater.inflate(R.layout.activity_report, container, false);
         vWeightGraph = inflater.inflate(R.layout.weightgraphfrgment, container,false);
         vWeightTracker = inflater.inflate(R.layout.weighttrackerfragment,container,false);
-        vWeightHeader = vReport.findViewById(R.id.graphWeight);
+
         context = vReport.getContext();
 //        homeHeader = vHomePage.findViewById(R.id.home_header_text);
 
@@ -173,14 +172,14 @@ public class WeightGraphFragment extends Fragment {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View v) {
-                createPdf(vWeightHeader.getText().toString());
+                createPdf();
             }
         });
 
         return vReport;
     }
 
-    private void createPdf(String text){
+    private void createPdf(){
         //Create a new document
         PdfDocument doc = new PdfDocument();
         String curdate = new SimpleDateFormat("EEE dd-MMM-yyyy hh-mm aaa").format(new Date());
@@ -482,7 +481,6 @@ public class WeightGraphFragment extends Fragment {
            curWeek = details.getCurrentWeek();
            userName = details.getUsername();
            String cwt = String.valueOf(currentWeight);
-            vWeightHeader.setText(cwt + " kg");
             bmi = PRE_WEIGHT * 10000/(currentHeight*currentHeight);
 
             lineEntries3.add(new Entry(curWeek,currentWeight));

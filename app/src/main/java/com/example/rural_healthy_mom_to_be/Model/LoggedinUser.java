@@ -32,7 +32,7 @@ public class LoggedinUser {
         this.BMIClass = BMIClass;
         this.heightInCm = heightInCm;
         this.weightBeforePregnancy = weightBeforePregnancy;
-        WeekOfRegister = weekOfRegister;
+        this.WeekOfRegister = weekOfRegister;
         this.currentWeek = currentWeek;
         this.currentWeight = currentWeight;
     }
@@ -42,7 +42,7 @@ public class LoggedinUser {
         this.BMIClass = BMIClass;
         this.heightInCm = heightInCm;
         this.weightBeforePregnancy = weightBeforePregnancy;
-        WeekOfRegister = weekOfRegister;
+        this.WeekOfRegister = weekOfRegister;
         this.currentWeek = currentWeek;
         this.currentWeight = currentWeight;
     }
