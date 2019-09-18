@@ -8,10 +8,20 @@
     android:layout_height="match_parent"
     android:background="#F2E5D0">
 
+
     <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/cardViewHeading"
             android:layout_width="wrap_content"
             android:layout_height="143dp"
+
+
+
+        <ImageView
+            android:id="@+id/dish_image"
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:adjustViewBounds="true"
+
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
@@ -22,6 +32,7 @@
             android:layout_marginTop="150dp"
             android:layout_marginEnd="51dp"
             android:layout_marginRight="51dp"
+
         android:src="@drawable/ic_launcher_round" />
     <TextView
         android:layout_width="wrap_content"
@@ -33,11 +44,22 @@
         android:textStyle="bold"
         android:text="@string/app_name"/>
 
+            android:src="@mipmap/ic_launcher_round" />
+<!--    <ImageView-->
+<!--        android:id="@+id/imageViewWelcome"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="359dp"-->
+<!--        android:layout_marginLeft="@android:dimen/app_icon_size"-->
+<!--        android:layout_marginTop="@android:dimen/app_icon_size"-->
+<!--        android:layout_marginRight="@android:dimen/app_icon_size"-->
+<!--        android:src="@drawable/healthymaternity" />-->
+
+
     <Button
         android:id="@+id/buttonWelcome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/cardViewHeading"
+        android:layout_below="@id/dish_image"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="@android:dimen/thumbnail_width"
         android:layout_marginTop="76dp"

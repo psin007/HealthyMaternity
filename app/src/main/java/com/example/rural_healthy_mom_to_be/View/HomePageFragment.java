@@ -72,6 +72,7 @@ public class HomePageFragment  extends Fragment {
         return vHomePage;
     }
 
+
     public void editCurrentWeight(View view) {
         Log.d("editCurrentWeight","editWeight");
         final EditText editWeight = new EditText(this.getActivity());
