@@ -41,7 +41,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     tools:context=".RegisterActivity"
-                    android:layout_marginLeft="24dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_marginRight="24dp"
                     android:orientation="horizontal">
                     <TextView
@@ -66,12 +66,11 @@
                         <TextView
                             android:id="@+id/usertvValue"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:padding="@dimen/nav_header_vertical_spacing"
                             android:text="mary"
-                            android:textSize="@dimen/medium_text_size"
                             android:textColor="#000"
-                            />
+                            android:textSize="@dimen/medium_text_size" />
 
 
                     </LinearLayout>
@@ -83,7 +82,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     tools:context=".RegisterActivity"
-    android:layout_marginLeft="24dp"
+    android:layout_marginLeft="10dp"
     android:layout_marginRight="24dp"
     android:orientation="horizontal">
     <TextView
@@ -114,11 +113,13 @@
             android:textSize="@dimen/medium_text_size"
             android:textColor="#000"
             />
+
         <ImageView
             android:id="@+id/editCurrentWeight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_edit_black_24dp"/>
+            android:src="@drawable/ic_edit_black_24dp"
+            android:onClick="alertChangeHeight"/>
     </LinearLayout>
 
 
@@ -127,7 +128,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     tools:context=".RegisterActivity"
-                    android:layout_marginLeft="24dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_marginRight="24dp"
                     android:orientation="horizontal">
                     <TextView
@@ -136,7 +137,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
                         android:textSize="18sp"
-                        android:text="Pre-pregnancy weight(KG): "
+                        android:text="Pre-pregnancy weight(KG):"
                         android:textColor="#000000"
                         />
                     <LinearLayout
@@ -162,7 +163,8 @@
                             android:id="@+id/imageprePregWeightValue"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/ic_edit_black_24dp"/>
+                            android:src="@drawable/ic_edit_black_24dp"
+                            android:onClick="dialogChangePreWeight"/>
                     </LinearLayout>
 
 
