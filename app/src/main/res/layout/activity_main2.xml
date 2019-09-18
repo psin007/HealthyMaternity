@@ -4,19 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="#F2E5D0">
 
-    <ImageView
+
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imageView2"
-        android:layout_width="161dp"
-        android:layout_height="154dp"
+        android:layout_width="wrap_content"
+        android:layout_height="143dp"
         android:layout_centerInParent="true"
         android:layout_marginTop="192dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/ic_launcher_round"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        android:src="@drawable/ic_launcher_round" />
 
     <TextView
         android:id="@+id/textView2"

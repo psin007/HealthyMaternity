@@ -14,7 +14,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/registerpageback"
+    android:background="#F2E5D0"
 
     >
 
@@ -24,7 +24,6 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="66dp"
         android:background="@color/colorPrimaryDark">
 
         <LinearLayout
@@ -43,14 +42,7 @@
                 android:layout_width="96dp"
                 android:layout_height="96dp"
                 android:src="@drawable/ic_launcher_round" />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
-                android:id="@+id/page"
-                android:text="Page 1/2"
-                android:gravity="center"
-                />
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -115,7 +107,7 @@
                     android:layout_below="@id/etHeight"
                     android:layout_marginTop="20dp"
                     android:textSize="18sp"
-                    android:text="Your weight before pregnancy (KG)?"
+                    android:text="Your pre-pregnancy weight(KG)?"
                     android:textColor="#000000"
                     />
 
@@ -128,12 +120,58 @@
                     android:hint="85"
                     android:background="@drawable/border"
                     android:layout_marginTop="8dp"/>
+
+                <TextView
+                    android:id="@+id/tv_curweight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:textSize="18sp"
+                    android:layout_below="@+id/etWeightBeforePreg"
+                    android:text="Your current weight(KG)?"
+                    android:textColor="#000000"
+                    />
+
+                <EditText
+                    android:id="@+id/etCurWeight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_curweight"
+                    android:inputType="numberDecimal"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/border"
+                    android:hint="88" />
+
+                <TextView
+                    android:id="@+id/tv_curweek"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/etCurWeight"
+                    android:layout_marginTop="20dp"
+                    android:textSize="18sp"
+                    android:text="Your current week of pregnancy?"
+                    android:textColor="#000000"
+                    />
+
+                <EditText
+                    android:id="@+id/et_curweek"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:layout_below="@id/tv_curweek"
+                    android:hint="3 "
+                    android:background="@drawable/border"
+                    android:layout_marginTop="8dp"/>
+
+
+
+
                 <Button
                     android:id="@+id/btNext"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_below="@+id/etWeightBeforePreg"
+                    android:layout_below="@+id/et_curweek"
                     android:layout_marginTop="20dp"
                     android:background="@color/colorPrimary"
                     android:onClick="nextForm"

@@ -39,7 +39,9 @@
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
     <string name="weight_before_pregnancy_kg">Your weight before \n Pregnancy (KG):</string>
-    <string name="current_weight_kg">Your current Weight \n(KG):</string>
+    <string name="current_weight_kg">Current Weight (KG):</string>
+    <string name="idealrange">Ideal Weight Range:</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

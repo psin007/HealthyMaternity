@@ -12,8 +12,6 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDzVi7Qme8Mpbwyn7qSVq7jrUBi8G-ryAM" />
-        <activity android:name=".View.SecondPageForm"
-            android:label="Registration Form" />
         <!-- ToDo: RR made mainactivity default activity -->
         <activity android:name=".MainActivity">
             <intent-filter>

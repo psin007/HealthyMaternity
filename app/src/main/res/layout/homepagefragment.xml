@@ -51,19 +51,35 @@
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/welcome_message"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/home_header_image"
-        android:padding="@dimen/activity_horizontal_margin"
-        android:textSize="@dimen/medium_text_size"
-        android:textStyle="bold"
-        android:textAlignment="center"
-        android:textColor="@color/sub_text_color"
-        android:text="Hi Wonder Woman,\n Welcome to healthy Maternity." />
 
+        <!--iter2-->
+
+    <LinearLayout
+        android:id="@+id/week_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/home_header_image"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/activity_horizontal_margin">
+
+
+        <android.support.v7.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_pregnant_woman_black_24dp"/>
+        <TextView
+            android:id="@+id/weekladbel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="WEEK 3"
+            android:textStyle="bold"
+            android:textSize="@dimen/big_text_size"
+            android:textColor="@color/sub_text_color"/>
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/home_weight_section"
@@ -71,51 +87,26 @@
         android:orientation="horizontal"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/welcome_message"
+        app:layout_constraintTop_toBottomOf="@+id/week_message"
         android:weightSum="2"
         android:layout_height="wrap_content">
 
-        <android.support.v7.widget.CardView
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:background="@drawable/dotted_border"
-            android:layout_height="wrap_content">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:gravity="center_horizontal">
-                <TextView
-                    android:id="@+id/hint_before_preg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/nav_header_vertical_spacing"
-                    android:text="@string/weight_before_pregnancy_kg"
-                    android:textAlignment="center" />
-                <TextView
-                    android:id="@+id/weight_before_preg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/nav_header_vertical_spacing"
-                    android:text="65"
-                    android:textSize="@dimen/medium_text_size"
-                    android:textColor="#000"
-                    android:textAlignment="center" />
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
-        <android.support.v7.widget.CardView
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content">
-            <LinearLayout
 
+        <android.support.v7.widget.CardView
+            android:layout_marginRight="32dp"
+            android:layout_marginLeft="32dp"
+          android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            >
+            <LinearLayout
+                android:id="@+id/topCard"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center_horizontal"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:background="#F2E5D0"
+                android:onClick="editCurrentWeight">
                 <TextView
                     android:id="@+id/hint_current_preg"
                     android:padding="@dimen/nav_header_vertical_spacing"
@@ -150,78 +141,142 @@
             </LinearLayout>
         </android.support.v7.widget.CardView>
 
+
+
     </LinearLayout>
     <LinearLayout
+        android:id="@+id/idealWeight"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:orientation="horizontal"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        app:layout_constraintTop_toBottomOf="@+id/home_weight_section">
+        app:layout_constraintTop_toBottomOf="@+id/home_weight_section"
+        android:weightSum="2"
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/idealweightRangeLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/nav_header_vertical_spacing"
-            android:text="Your ideal weight range this week"
-            android:textSize="@dimen/medium_text_size"
-            android:textColor="#000"
-            android:textAlignment="center"
-            />
-        <LinearLayout
 
-            android:orientation="horizontal"
+        <android.support.v7.widget.CardView
+            android:layout_marginRight="32dp"
+            android:layout_marginLeft="32dp"
             android:layout_width="match_parent"
-            android:gravity="center"
-            android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/min_ideal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/nav_header_vertical_spacing"
-                android:text="65 KG"
-                android:textSize="@dimen/medium_text_size"
-                android:textColor="#000"
-                android:textAlignment="center" />
-            <android.support.v7.widget.AppCompatImageView
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:src="@drawable/ic_keyboard_arrow_left_black_24dp"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            >
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="vertical">
-                <android.support.v7.widget.AppCompatImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_pregnant_woman_black_24dp"/>
+                android:id="@+id/secondCard"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:background="#F2E5D0"
+                android:onClick="alertIdealMessage"
+                >
                 <TextView
-                    android:id="@+id/weeklabel"
+                    android:id="@+id/idealWeightRange"
+                    android:padding="@dimen/nav_header_vertical_spacing"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Week 3"
-                    android:textColor="@color/sub_text_color"/>
+                    android:textAlignment="center"
+                    android:text="@string/idealrange"
+                    />
+                <LinearLayout
+
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/min_ideal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/nav_header_vertical_spacing"
+                        android:text="65 KG"
+                        android:textSize="@dimen/medium_text_size"
+                        android:textColor="#000"
+                        android:textAlignment="center" />
+                    <TextView
+                        android:id="@+id/dash"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/nav_header_vertical_spacing"
+                        android:text="-"
+                        android:textSize="@dimen/medium_text_size"
+                        android:textColor="#000"
+                        android:textAlignment="center" />
+                    <TextView
+                        android:id="@+id/max_ideal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/nav_header_vertical_spacing"
+                        android:text="67 KG"
+                        android:textSize="@dimen/medium_text_size"
+                        android:textColor="#000"
+                        android:textAlignment="center" />
+
+                </LinearLayout>
 
             </LinearLayout>
-            <android.support.v7.widget.AppCompatImageView
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:src="@drawable/ic_keyboard_arrow_left_black_24dp"/>
-            <TextView
-                android:id="@+id/max_ideal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/nav_header_vertical_spacing"
-                android:text="67 KG"
-                android:textSize="@dimen/medium_text_size"
-                android:textColor="#000"
-                android:textAlignment="center" />
-
-        </LinearLayout>
-
+        </android.support.v7.widget.CardView>
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/msgHome"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idealWeight"
+        android:weightSum="2"
+        android:layout_height="wrap_content"
+        >
+
+
+        <android.support.v7.widget.CardView
+            android:layout_marginRight="32dp"
+            android:layout_marginLeft="32dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+
+            >
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:background="#F2E5D0"
+                android:onClick="messageDialog">
+
+                <LinearLayout
+
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp">
+
+                    <android.support.v7.widget.AppCompatImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="48dp"
+                        android:layout_marginLeft="14dp"
+                        android:src="@drawable/ic_thumb_up_black_24dp"/>
+                    <TextView
+                        android:id="@+id/msg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/nav_header_vertical_spacing"
+                        android:text="Great job!! Just a little over the recommended weight range!"
+                        android:textSize="18dp"
+                        android:textColor="#000"
+                        android:textAlignment="center" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
+
+
 </android.support.constraint.ConstraintLayout>

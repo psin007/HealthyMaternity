@@ -64,6 +64,20 @@ public class NavigationDrawer extends AppCompatActivity
          }
     }
 
+    public void alertIdealMessage(View view){
+        HomePageFragment homePageFragment = (HomePageFragment)getSupportFragmentManager().findFragmentByTag("HomePageFragment");
+        if(homePageFragment!=null){
+            homePageFragment.alertIdealMessage(view);
+        }
+    }
+
+
+    public void messageDialog(View view){
+        HomePageFragment homePageFragment = (HomePageFragment)getSupportFragmentManager().findFragmentByTag("HomePageFragment");
+        if(homePageFragment!=null){
+            homePageFragment.messageDialog(view);
+        }
+    }
 
 
     @Override
@@ -120,10 +134,15 @@ public class NavigationDrawer extends AppCompatActivity
                         nextFragment = new NearbyServicesFragment();
                         getSupportActionBar().setTitle("Nearby Services");
                 }
+
+
                 }
 
                 break;
-
+            case R.id.nav_myProfile:
+                nextFragment = new Profile();
+                getSupportActionBar().setTitle("My Profile");
+                break;
         }
         if(nextFragment != null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
