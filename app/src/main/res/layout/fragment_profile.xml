@@ -16,8 +16,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="60dp"
-            android:layout_marginBottom="60dp"
+            android:layout_marginTop="160dp"
+            android:layout_marginBottom="160dp"
             android:layout_marginRight="20dp"
             android:background="@color/colorPrimaryDark">
 
@@ -33,7 +33,7 @@
                     android:id="@+id/icon_image"
                     android:layout_width="96dp"
                     android:layout_height="96dp"
-                    android:layout_marginTop="@dimen/fab_margin"
+                    android:layout_marginTop="40dp"
                     android:src="@drawable/ic_launcher_round" />
 
 
@@ -50,7 +50,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
                         android:textSize="18sp"
-                        android:text="Your username: "
+                        android:text="Username: "
                         android:textColor="#000000"
                         />
                     <LinearLayout
@@ -92,7 +92,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:textSize="18sp"
-        android:text="Your Height(CM): "
+        android:text="Height(CM): "
         android:textColor="#000000"
         />
     <LinearLayout
@@ -167,11 +167,8 @@
 
 
                 </LinearLayout>
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Done"
-                    android:layout_marginTop="32dp"></Button>
+
+
 
 
 

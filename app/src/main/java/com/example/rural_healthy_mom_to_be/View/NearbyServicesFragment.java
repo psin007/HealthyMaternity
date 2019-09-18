@@ -357,8 +357,6 @@ public class NearbyServicesFragment extends Fragment implements OnMapReadyCallba
         List<String> list = new ArrayList<String>();
         list.add("Search for a service here");
         list.add("Hospitals");
-        list.add("Fertility centers");
-        list.add("Obstetrician-gynecologist");
         final Spinner services = (Spinner) vmyMaps.findViewById(R.id.services_spinner);
         final ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String> (this.getActivity(),android.R.layout.simple_spinner_item,list);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
