@@ -2,8 +2,10 @@ package com.example.rural_healthy_mom_to_be.View;
 
 import android.Manifest;
 import android.arch.persistence.room.Room;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
@@ -18,11 +20,14 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,21 +55,31 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import static android.graphics.pdf.PdfDocument.PageInfo;
 
 
 public class WeightGraphFragment extends Fragment {
+    View vReport;
     View vWeightGraph;
+    View vWeightTracker;
     TextView vWeightHeader;
     Button btnGenerate;
     LoggedInUserDb loggedInUserdb;
+    List<HashMap<String, String>> listArray;
+    SimpleAdapter myListAdapter;
+    ListView weightLV;
     private LineChart chart;
     private String [] upperRange;
     private String [] lowerRange;
+    private String userName;
     private float bmi;
     LoggedinUser currentUser;
+    HashMap<String,String> map;
+    Context context;
+    TextView tvTrackerCurrentWeight;
 
     ArrayList<Entry>lineEntries1 = new ArrayList<>();
     ArrayList<Entry>lineEntries2 = new ArrayList<>();
@@ -93,10 +108,19 @@ public class WeightGraphFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
             savedInstanceState) {
-        vWeightGraph = inflater.inflate(R.layout.weightgraphfrgment, container, false);
-        vWeightHeader = vWeightGraph.findViewById(R.id.graphWeight);
-        btnGenerate = vWeightGraph.findViewById(R.id.genReport);
-        loggedInUserdb = Room.databaseBuilder(vWeightGraph.getContext(),
+        vReport = inflater.inflate(R.layout.activity_report, container, false);
+        vWeightGraph = inflater.inflate(R.layout.weightgraphfrgment, container,false);
+        vWeightTracker = inflater.inflate(R.layout.weighttrackerfragment,container,false);
+        vWeightHeader = vReport.findViewById(R.id.graphWeight);
+        context = vReport.getContext();
+//        homeHeader = vHomePage.findViewById(R.id.home_header_text);
+
+        weightLV = vReport.findViewById(R.id.listView);
+        listArray = new ArrayList<HashMap<String, String>>();
+
+        tvTrackerCurrentWeight = vReport.findViewById(R.id.trackerWeight);
+        btnGenerate = vReport.findViewById(R.id.genReport);
+        loggedInUserdb = Room.databaseBuilder(vReport.getContext(),
                 LoggedInUserDb.class, "LoggedInUserDatabase")
                 .fallbackToDestructiveMigration()
                 .build();
@@ -112,7 +136,7 @@ public class WeightGraphFragment extends Fragment {
         getRangeVal.execute();
 
         //Initialize the chart
-        chart = vWeightGraph.findViewById(R.id.weight_line_chart);
+        chart = vReport.findViewById(R.id.weight_line_chart);
         chart.setTouchEnabled(true);
 
         // enable scaling and dragging
@@ -155,31 +179,54 @@ public class WeightGraphFragment extends Fragment {
             }
         });
 
-        return vWeightGraph;
+        return vReport;
     }
 
     private void createPdf(String text){
         //Create a new document
         PdfDocument doc = new PdfDocument();
+        String curdate = new SimpleDateFormat("EEE dd-MMM-yyyy hh-mm aaa").format(new Date());
+
+
+//        //create a page description
+//        PageInfo pageInfo = new PdfDocument.PageInfo.Builder(vReport.getMeasuredWidth(),
+//                vReport.getMeasuredHeight(), 1).create();
 
         //create a page description
-        PageInfo pageInfo = new PdfDocument.PageInfo.Builder(vWeightGraph.getMeasuredWidth(),
-                vWeightGraph.getMeasuredHeight(), 1).create();
+        PageInfo pageInfo = new PdfDocument.PageInfo.Builder(vReport.getMeasuredWidth(),
+                vReport.getMeasuredHeight(), 1).create();
 
         // start a page
+        PdfDocument.Page titlePage = doc.startPage(pageInfo);
+        Canvas canvas = titlePage.getCanvas();
+        int titleBaseLine = 72;
+        int leftMargin = 54;
+        Paint paint = new Paint();
+        paint.setColor(Color.BLACK);
+        paint.setTextSize(80);
+        canvas.drawText("The Weight Log Report",leftMargin,titleBaseLine,paint);
+        paint.setTextSize(60);
+        canvas.drawText("User name: " + userName, leftMargin,titleBaseLine+80, paint);
+        paint.setTextSize(50);
+        canvas.drawText("Generated date&time: " + curdate, leftMargin,titleBaseLine+160, paint);
+        doc.finishPage(titlePage);
+
         PdfDocument.Page page = doc.startPage(pageInfo);
-        vWeightGraph.draw(page.getCanvas());
+        vReport.draw(page.getCanvas());
         doc.finishPage(page);
 
+//        PdfDocument.Page page2 = doc.startPage(pageInfo);
+//        vReport.draw(page2.getCanvas());
+//        doc.finishPage(page2);
+
         //write the document content
-        String directory_path = Environment.getExternalStorageDirectory().getPath() + "/mypdf/";
+        String directory_path = Environment.getExternalStorageDirectory().getPath() + "/MyWeightReport/";
         File file = new File(directory_path);
         if (!file.exists()) {
             file.mkdirs();
         }
 
-        String curdate = new SimpleDateFormat("dd-MM-yyyy-HH-mm-ss").format(new Date());
-        String targetPdf = directory_path+"WeightGraph"+ curdate +".pdf";
+        String targetPdf = directory_path+"WeightGraph "+ curdate +".pdf";
         File filePath = new File(targetPdf);
         try {
             doc.writeTo(new FileOutputStream(filePath));
@@ -193,6 +240,22 @@ public class WeightGraphFragment extends Fragment {
 
     }
 
+    public static Bitmap drawToBitmap(Context context,final int layoutResId,
+                                      final int width,final int height)
+    {
+        final Bitmap bmp = Bitmap.createBitmap(width,height,Bitmap.Config.ARGB_8888);
+        final Canvas canvas = new Canvas(bmp);
+        final LayoutInflater inflater =
+                (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View layout = inflater.inflate(layoutResId,null);
+        layout.setDrawingCacheEnabled(true);
+        layout.measure(
+                View.MeasureSpec.makeMeasureSpec(canvas.getWidth(), View.MeasureSpec.EXACTLY),
+                View.MeasureSpec.makeMeasureSpec(canvas.getHeight(), View.MeasureSpec.EXACTLY));
+        layout.layout(0,0,layout.getMeasuredWidth(),layout.getMeasuredHeight());
+        canvas.drawBitmap(layout.getDrawingCache(),0,0,new Paint());
+        return bmp;
+    }
     /**
      * Checks the dynamically-controlled permissions and requests missing permissions from end user.
      */
@@ -296,24 +359,24 @@ public class WeightGraphFragment extends Fragment {
         }
     }
 
-    private void preUsrWeight(){
-
-        calLinearRegFunction();
-
-        LineDataSet ds4 = new LineDataSet(lineEntries4, "Predication Line");
-        ds4.setDrawValues(true);
-        ds4.setColor(Color.parseColor("#48fa5d"));
-        ds4.setDrawCircles(false);
-//        ds4.setCircleRadius(10f);
-//        ds4.setCircleHoleRadius(5f);
-//        ds4.setCircleColor(Color.parseColor("#e08b4a"));
-        ds4.setLineWidth(2f);
-        ds4.setValueTextSize(10f);
-        ds4.setFormLineWidth(2f);
-        ds4.enableDashedLine(15f,10f,2f);
-        ds4.setFormSize(15.f);
-        dataSets.add(ds4);
-    }
+//    private void preUsrWeight(){
+//
+//        calLinearRegFunction();
+//
+//        LineDataSet ds4 = new LineDataSet(lineEntries4, "Predication Line");
+//        ds4.setDrawValues(true);
+//        ds4.setColor(Color.parseColor("#48fa5d"));
+//        ds4.setDrawCircles(false);
+////        ds4.setCircleRadius(10f);
+////        ds4.setCircleHoleRadius(5f);
+////        ds4.setCircleColor(Color.parseColor("#e08b4a"));
+//        ds4.setLineWidth(2f);
+//        ds4.setValueTextSize(10f);
+//        ds4.setFormLineWidth(2f);
+//        ds4.enableDashedLine(15f,10f,2f);
+//        ds4.setFormSize(15.f);
+//        dataSets.add(ds4);
+//    }
 
 
     public class getRange extends AsyncTask<Void, Void, String> {
@@ -376,8 +439,6 @@ public class WeightGraphFragment extends Fragment {
     }
 
     private class ReadDatabase extends AsyncTask<Void, Void, LoggedinUser> {
-
-
         @Override
         protected LoggedinUser doInBackground(Void... voids) {
             List<LoggedinUser> userList = loggedInUserdb.loggedInUserDao().getAll();
@@ -385,17 +446,50 @@ public class WeightGraphFragment extends Fragment {
             return userList.get(0);
         }
         protected void onPostExecute(LoggedinUser details) {
+//            //pooja's code
+//            tvTrackerCurrentWeight.setText(currentUser.getCurrentWeight()+" KG");
+//            map = new HashMap<String,String>();
+//            HashMap mapHead = new HashMap<String,String>();
+//
+//            String[] colHEAD = new String[] {"Week","Weight","Weight in range"};
+//            int[] dataCell = new int[] {R.id.weekLV,R.id.weightLV,R.id.InRangeLV};
+//            mapHead.put("Week","Week");
+//            mapHead.put("Weight","   Weight");
+//            mapHead.put("Weight in range","   Weight in range /week");
+//
+//            map.put("Week","Week " + currentUser.getCurrentWeek()+"");
+//            map.put("Weight",currentUser.getCurrentWeight()+" KG");
+//
+//            //TODO all of it needs to be redone
+//            if(currentUser.getCurrentWeight()> HomePageFragment.maxWeightValue){
+//                map.put("Weight in range","   Higher ");
+//            }
+//            else if (currentUser.getCurrentWeight() < HomePageFragment.minWeightValue){
+//                map.put("Weight in range","   Lower ");
+//
+//            }
+//
+//            else{
+//                map.put("Weight in range","In range");
+//            }
+//            listArray.add(mapHead);
+//            listArray.add(map);
+//            myListAdapter = new SimpleAdapter(context,listArray,R.layout.list_view,colHEAD,dataCell);
+//            weightLV.setAdapter(myListAdapter);
+
+            //my code
            currentWeight = (float)details.getCurrentWeight();
            currentHeight = (float)details.getHeightInCm();
            PRE_WEIGHT = (float)details.getWeightBeforePregnancy();
            curWeek = details.getCurrentWeek();
+           userName = details.getUsername();
            String cwt = String.valueOf(currentWeight);
             vWeightHeader.setText(cwt + " kg");
             bmi = PRE_WEIGHT * 10000/(currentHeight*currentHeight);
 
             lineEntries3.add(new Entry(curWeek,currentWeight));
             setUsrWeight();
-            preUsrWeight();
+            //preUsrWeight();
             chart.notifyDataSetChanged();
         }
     }
