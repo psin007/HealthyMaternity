@@ -1,11 +1,9 @@
 package com.example.rural_healthy_mom_to_be.View;
-
 import android.Manifest;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
