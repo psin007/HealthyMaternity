@@ -29,8 +29,9 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder, int position) {
         final Hospital myListData = listdata[position];
         holder.name.setText(listdata[position].getHospitalName());
-        holder.address.setText(listdata[position].getHosAddress());
-        holder.distance.setText(listdata[position].getDistanceFromCur()+"");
+        holder.address.setText("Address: "+listdata[position].getHosAddress());
+
+        holder.distance.setText("Distance from current location: "+String.format("%.1f",listdata[position].getDistanceFromCur())+"");
 //        holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {

@@ -135,15 +135,16 @@ public class NearbyServicesFragment extends Fragment implements OnMapReadyCallba
                     radius = 40;
                 }
                 switch(mainSpinner.getItemAtPosition(position).toString()){
-                    case "Search for a service here":break;
+                    case "Search for a service here":
+                        break;
                     case "Hospitals":
                         clearData();
                         searchHospitals();
                         break;
-                    case "Fertility centers": searchFertilityCentres();
-                        break;
-                    case "Obstetrician-gynaecologist": searchObstetricianGynaecologist();
-                        break;
+//                    case "Fertility centers": searchFertilityCentres();
+//                        break;
+//                    case "Obstetrician-gynaecologist": searchObstetricianGynaecologist();
+//                        break;
                 }
             }
 

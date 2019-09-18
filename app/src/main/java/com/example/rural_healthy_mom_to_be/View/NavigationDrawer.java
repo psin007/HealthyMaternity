@@ -79,6 +79,18 @@ public class NavigationDrawer extends AppCompatActivity
         }
     }
 
+    public void alertChangeHeight(View view){
+        Profile profile = (Profile) getSupportFragmentManager().findFragmentByTag("Profile");
+        if(profile!=null){
+            profile.alertChangeHeight(view);
+        }
+    }
+    public void dialogChangePreWeight(View view){
+        Profile profile = (Profile) getSupportFragmentManager().findFragmentByTag("Profile");
+        if(profile!=null){
+            profile.dialogChangePreWeight(view);
+        }
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
@@ -142,6 +154,7 @@ public class NavigationDrawer extends AppCompatActivity
             case R.id.nav_myProfile:
                 nextFragment = new Profile();
                 getSupportActionBar().setTitle("My Profile");
+                tag="Profile";
                 break;
         }
         if(nextFragment != null) {
