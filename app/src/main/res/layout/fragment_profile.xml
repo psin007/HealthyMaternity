@@ -1,14 +1,182 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".View.Profile">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/fragment_profile"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical"
+        android:background="#F2E5D0"
 
-</FrameLayout>
+        >
+
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginBottom="60dp"
+            android:layout_marginRight="20dp"
+            android:background="@color/colorPrimaryDark">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/icon_image"
+                    android:layout_width="96dp"
+                    android:layout_height="96dp"
+                    android:layout_marginTop="@dimen/fab_margin"
+                    android:src="@drawable/ic_launcher_round" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:context=".RegisterActivity"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="24dp"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/tvUser"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:textSize="18sp"
+                        android:text="Your username: "
+                        android:textColor="#000000"
+                        />
+                    <LinearLayout
+                        android:id="@+id/currentWeighusertLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:baselineAligned="true"
+                        android:layout_marginTop="10dp"
+                        >
+
+                        <TextView
+                            android:id="@+id/usertvValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/nav_header_vertical_spacing"
+                            android:text="mary"
+                            android:textSize="@dimen/medium_text_size"
+                            android:textColor="#000"
+                            />
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".RegisterActivity"
+    android:layout_marginLeft="24dp"
+    android:layout_marginRight="24dp"
+    android:orientation="horizontal">
+    <TextView
+        android:id="@+id/tvHeightShoww"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textSize="18sp"
+        android:text="Your Height(CM): "
+        android:textColor="#000000"
+        />
+    <LinearLayout
+        android:id="@+id/currentWeightLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:baselineAligned="true"
+        android:layout_marginTop="10dp"
+        >
+
+        <TextView
+            android:id="@+id/weight_current"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/nav_header_vertical_spacing"
+            android:text="165"
+            android:textSize="@dimen/medium_text_size"
+            android:textColor="#000"
+            />
+        <ImageView
+            android:id="@+id/editCurrentWeight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_edit_black_24dp"/>
+    </LinearLayout>
+
+
+</LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:context=".RegisterActivity"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="24dp"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/tvprePregWeight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:textSize="18sp"
+                        android:text="Pre-pregnancy weight(KG): "
+                        android:textColor="#000000"
+                        />
+                    <LinearLayout
+                        android:id="@+id/tvprePregWeightValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:baselineAligned="true"
+                        android:layout_marginTop="10dp"
+                        >
+
+                        <TextView
+                            android:id="@+id/etprePregWeightValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/nav_header_vertical_spacing"
+                            android:text="65"
+                            android:textSize="@dimen/medium_text_size"
+                            android:textColor="#000"
+                            />
+                        <ImageView
+                            android:id="@+id/imageprePregWeightValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_edit_black_24dp"/>
+                    </LinearLayout>
+
+
+                </LinearLayout>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Done"
+                    android:layout_marginTop="32dp"></Button>
+
+
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+    </LinearLayout>

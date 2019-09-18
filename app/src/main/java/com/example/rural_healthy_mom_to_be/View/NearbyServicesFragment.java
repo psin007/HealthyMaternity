@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -14,18 +15,22 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.rural_healthy_mom_to_be.Model.FertilityCentre;
 import com.example.rural_healthy_mom_to_be.Model.Hospital;
+import com.example.rural_healthy_mom_to_be.Model.HospitalAdapter;
 import com.example.rural_healthy_mom_to_be.Model.ObsGy;
 import com.example.rural_healthy_mom_to_be.R;
 import com.example.rural_healthy_mom_to_be.Repository.FertilityCenterAPI;
@@ -61,27 +66,32 @@ public class NearbyServicesFragment extends Fragment implements OnMapReadyCallba
     LocationListener locationListener;
     private Spinner mainSpinner;
     ArrayList<Hospital> hospitals;
+    Button mapButton,listButton;
     EditText etRadius;
     double radius;
     Hospital hospital;
     double curlongitude;
     double curlatitude;
     double dist;
+    RecyclerView placeList;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         vmyMaps = inflater.inflate(R.layout.fragment_nearby_services, container, false);
         mainSpinner = vmyMaps.findViewById(R.id.services_spinner);
         etRadius = (EditText)vmyMaps.findViewById(R.id.etRadius);
+        placeList = vmyMaps.findViewById(R.id.recyclerView);
+        mapButton = vmyMaps.findViewById(R.id.map_button);
+        listButton=vmyMaps.findViewById(R.id.list_button);
         if(etRadius.getText().toString().length() != 0){
-                radius = (Double.parseDouble(etRadius.getText().toString()));
+            radius = (Double.parseDouble(etRadius.getText().toString()));
         }
         hospitals = new ArrayList<Hospital>();
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                 curlatitude = location.getLatitude();
+                curlatitude = location.getLatitude();
                 //get the longitude
-                 curlongitude = location.getLongitude();
+                curlongitude = location.getLongitude();
                 // instantiate the class Latlng
                 LatLng latLng = new LatLng(curlatitude, curlongitude);
                 Log.d("latitude","latitude");
@@ -112,7 +122,7 @@ public class NearbyServicesFragment extends Fragment implements OnMapReadyCallba
         fillSpinnerData(vmyMaps);
         locationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
 
-        SupportMapFragment maps = (SupportMapFragment)(getChildFragmentManager().findFragmentById(R.id.map));
+        final SupportMapFragment maps = (SupportMapFragment)(getChildFragmentManager().findFragmentById(R.id.map));
         maps.getMapAsync(this);
         mainSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -126,7 +136,9 @@ public class NearbyServicesFragment extends Fragment implements OnMapReadyCallba
                 }
                 switch(mainSpinner.getItemAtPosition(position).toString()){
                     case "Search for a service here":break;
-                    case "Hospitals": searchHospitals();
+                    case "Hospitals":
+                        clearData();
+                        searchHospitals();
                         break;
                     case "Fertility centers": searchFertilityCentres();
                         break;
@@ -138,6 +150,23 @@ public class NearbyServicesFragment extends Fragment implements OnMapReadyCallba
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
+            }
+        });
+
+        mapButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                placeList.setVisibility(View.GONE);
+                mapButton.setBackgroundResource(R.color.colorAccent);
+                listButton.setBackgroundColor(Color.parseColor("#b5651d"));
+            }
+        });
+        listButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                placeList.setVisibility(View.VISIBLE);
+                listButton.setBackgroundResource(R.color.colorAccent);
+                mapButton.setBackgroundColor(Color.parseColor("#b5651d"));
             }
         });
         return vmyMaps;
@@ -179,8 +208,14 @@ public class NearbyServicesFragment extends Fragment implements OnMapReadyCallba
 
 
     private void searchHospitals() {
+
         GetHospitalData getHospitalData = new GetHospitalData();
         getHospitalData.execute();
+    }
+
+    private void clearData() {
+        hospitals.removeAll(hospitals);
+        myMap.clear();
     }
 
     private void searchFertilityCentres() {
@@ -237,7 +272,7 @@ public class NearbyServicesFragment extends Fragment implements OnMapReadyCallba
                 jsonarray = new JSONArray(result);
                 for(int i =0;i<jsonarray.length();i++){
                     JSONObject jsonobject = jsonarray.getJSONObject(i);
-                   // Log.d("jsonobject",jsonobject.toString());
+                    // Log.d("jsonobject",jsonobject.toString());
 
                     String name = jsonobject.getString("Hospital name");
                     String address = jsonobject.getString("Full_address");
@@ -258,6 +293,7 @@ public class NearbyServicesFragment extends Fragment implements OnMapReadyCallba
 
 
                 showMarker();
+                showList();
 
             }
             catch (JSONException e) {
@@ -265,9 +301,17 @@ public class NearbyServicesFragment extends Fragment implements OnMapReadyCallba
             }
         }
     }
+
+    private void showList() {
+        HospitalAdapter adapter = new HospitalAdapter(hospitals.toArray(new Hospital[hospitals.size()]));
+        placeList.setHasFixedSize(true);
+        placeList.setLayoutManager(new LinearLayoutManager(getContext()));
+        placeList.setAdapter(adapter);
+    }
+
     private boolean distanceLessThanRadius(double lat1, double lon1, double lat2, double lon2) {
         double theta = lon1 - lon2;
-         dist = Math.sin(deg2rad(lat1))
+        dist = Math.sin(deg2rad(lat1))
                 * Math.sin(deg2rad(lat2))
                 + Math.cos(deg2rad(lat1))
                 * Math.cos(deg2rad(lat2))
@@ -301,10 +345,10 @@ public class NearbyServicesFragment extends Fragment implements OnMapReadyCallba
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
-            myMap = googleMap;
-            myMap.getUiSettings().setMyLocationButtonEnabled(true);
-            myMap.setMyLocationEnabled(true);
-            updateLocation();
+        myMap = googleMap;
+        myMap.getUiSettings().setMyLocationButtonEnabled(true);
+        myMap.setMyLocationEnabled(true);
+        updateLocation();
 
 
     }
