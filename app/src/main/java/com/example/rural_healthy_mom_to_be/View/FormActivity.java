@@ -1,15 +1,23 @@
 package com.example.rural_healthy_mom_to_be.View;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.arch.persistence.room.Room;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.rural_healthy_mom_to_be.Model.LoggedinUser;
 import com.example.rural_healthy_mom_to_be.R;
@@ -42,7 +50,7 @@ public class FormActivity extends AppCompatActivity {
                 .fallbackToDestructiveMigration()
                 .build();
         //ToDo: RR added the above lines
-  }
+    }
 
     public void nextForm(View view){
         int flag = 0;
@@ -83,7 +91,7 @@ public class FormActivity extends AppCompatActivity {
         else{
             prePregnancyWeight = etWeightBeforePreg.getText().toString();
         }
-        etCurrentWeight = (EditText)findViewById(R.id.etCurrentWeight);
+        etCurrentWeight = (EditText)findViewById(R.id.etCurWeight);
 
         //If etCurrentWeight is empty
         if(etCurrentWeight.getText().toString().isEmpty()){
@@ -101,7 +109,7 @@ public class FormActivity extends AppCompatActivity {
 
 
 
-        etWeeksPregnant = (EditText)findViewById(R.id.etWeeksPregnant);
+        etWeeksPregnant = (EditText)findViewById(R.id.et_curweek);
         //If etWeeksPregnant is empty
         if(etWeeksPregnant.getText().toString().isEmpty()){
             etWeeksPregnant.setError("This field is mandatory!");
@@ -119,8 +127,8 @@ public class FormActivity extends AppCompatActivity {
         }
     }
     protected void checkIfUserExist(){
-            CheckUserInDb checkUserInDb = new CheckUserInDb();
-            checkUserInDb.execute();
+        CheckUserInDb checkUserInDb = new CheckUserInDb();
+        checkUserInDb.execute();
     }
 
 
@@ -129,7 +137,7 @@ public class FormActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(Void... params) {
             LoggedinUser loggedinUser = null;
-             loggedinUser = loggedInUserdb.loggedInUserDao().findByUsername(username); //To do - bug in this line
+            loggedinUser = loggedInUserdb.loggedInUserDao().findByUsername(username); //To do - bug in this line
 
             if(loggedinUser!=null) { //username already exists
                 return "exists";
@@ -144,8 +152,8 @@ public class FormActivity extends AppCompatActivity {
                 etUserName.setError("Username already exists!");
             }
             else{
-                    putValuesInSharedPreference();
-                    //ToDo: RR Removed these lines as it is better to redirect once the data is stored.
+                putValuesInSharedPreference();
+                //ToDo: RR Removed these lines as it is better to redirect once the data is stored.
 //                    Intent intent = new Intent(FormActivity.this, NavigationDrawer.class);
 //                    startActivity(intent);
 
@@ -208,9 +216,6 @@ public class FormActivity extends AppCompatActivity {
             finish();
         }
     }
-    //ToDo: RR added the above asynctask
-
-
 }
 
 

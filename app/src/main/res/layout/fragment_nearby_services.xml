@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/tvradius"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Radius of search(KM)  "
+        android:textSize="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="22dp"
+        android:textColor="#000000"/>
+    <EditText
+        android:id="@+id/etRadius"
+        android:layout_toRightOf="@+id/tvradius"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:hint="10"
+        android:layout_marginTop="8dp"
+        android:padding="16dp"
+        android:layout_alignBaseline="@+id/tvradius"/>
+    <Spinner
+        android:id="@+id/services_spinner"
+        android:layout_margin="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etRadius"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="25dp"
+        android:textSize="18sp"
+        android:textColor="#000000"
+        />
+
+    <fragment
+        android:id="@+id/map"
+        android:layout_below="@+id/services_spinner"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/button_layout"
+
+        />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_below="@+id/services_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <LinearLayout
+        android:id="@+id/button_layout"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:weightSum="2"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/list_button"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
+            android:textColor="#fff"
+            android:text="list"/>
+        <Button
+            android:id="@+id/map_button"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="#b5651d"
+            android:textColor="#fff"
+            android:text="map"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

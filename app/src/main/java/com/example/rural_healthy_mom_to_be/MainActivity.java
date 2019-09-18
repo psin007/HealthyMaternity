@@ -20,7 +20,7 @@ import com.example.rural_healthy_mom_to_be.View.NavigationDrawer;
 import com.example.rural_healthy_mom_to_be.View.WelcomeActvity;
 
 public class MainActivity extends AppCompatActivity {
-    //add comment
+
     private int SPLASH_TIME = 1500;
     /**
      * permissions request code
@@ -54,20 +54,18 @@ public class MainActivity extends AppCompatActivity {
                     if(loggedIn.equals("yes")){
                         Intent intent = new Intent(MainActivity.this, NavigationDrawer.class);
                         startActivity(intent);
-                        //ToDo: RR added this line to remove the MainActivity from back stack.
                         finish();
                     }
                     else{
                         Intent intent = new Intent(MainActivity.this, WelcomeActvity.class);
                         startActivity(intent);
-                        //ToDo: RR added this line to remove the MainActivity from back stack.
                         finish();
                     }
-
                 }
             }
         };
         timer.start();
+
 
 //        SharedPreferences loggedUser = getApplicationContext().getSharedPreferences("loggedUser", Context.MODE_PRIVATE);
 //        String loggedIn = loggedUser.getString("loggedIn","no");
@@ -129,5 +127,6 @@ public class MainActivity extends AppCompatActivity {
                 //initialize();
                 break;
         }
+
     }
 }

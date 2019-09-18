@@ -1,8 +1,12 @@
 package com.example.rural_healthy_mom_to_be.View;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
@@ -21,7 +25,7 @@ import com.example.rural_healthy_mom_to_be.R;
 
 public class NavigationDrawer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,HomePageFragment.FragmentInteracion {
-
+    static public final int REQUEST_LOCATION = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +51,11 @@ public class NavigationDrawer extends AppCompatActivity
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().add(R.id.content_frame, new HomePageFragment(),"HomePageFragment").commit();
 
+
+        //map
+
     }
+
     public void editCurrentWeight(View view){
          Log.d("edit","edit");
          HomePageFragment homePageFragment = (HomePageFragment)getSupportFragmentManager().findFragmentByTag("HomePageFragment");
@@ -55,6 +63,49 @@ public class NavigationDrawer extends AppCompatActivity
              homePageFragment.editCurrentWeight(view);
          }
     }
+
+    public void alertIdealMessage(View view){
+        HomePageFragment homePageFragment = (HomePageFragment)getSupportFragmentManager().findFragmentByTag("HomePageFragment");
+        if(homePageFragment!=null){
+            homePageFragment.alertIdealMessage(view);
+        }
+    }
+
+
+    public void messageDialog(View view){
+        HomePageFragment homePageFragment = (HomePageFragment)getSupportFragmentManager().findFragmentByTag("HomePageFragment");
+        if(homePageFragment!=null){
+            homePageFragment.messageDialog(view);
+        }
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String[] permissions,
+                                           int[] grantResults) {
+        if (requestCode == REQUEST_LOCATION) {
+            if(grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                startMap();
+            } else {
+                // Permission was denied or request was cancelled
+            }
+        }
+    }
+
+    private void startMap() {
+        Fragment nextFragment = null;
+        String tag = "";
+
+        nextFragment = new NearbyServicesFragment();
+        getSupportActionBar().setTitle("Nearby Services");
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.content_frame, nextFragment,tag).commit();
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+    }
+
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -75,11 +126,31 @@ public class NavigationDrawer extends AppCompatActivity
                 getSupportActionBar().setTitle("Weight Graph");
                 break;
 
+            case R.id.nav_nearbyservices:
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},REQUEST_LOCATION);
+                    } else {
+                        nextFragment = new NearbyServicesFragment();
+                        getSupportActionBar().setTitle("Nearby Services");
+                }
+
+
+                }
+
+                break;
+            case R.id.nav_myProfile:
+                nextFragment = new Profile();
+                getSupportActionBar().setTitle("My Profile");
+                break;
         }
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.content_frame, nextFragment,tag).commit();
+        if(nextFragment != null) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.content_frame, nextFragment, tag).commit();
+        }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+
         return true;
     }
 

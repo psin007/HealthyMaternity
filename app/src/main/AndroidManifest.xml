@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.rural_healthy_mom_to_be">
 
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -14,7 +15,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <!--ToDo: RR made mainactivity default activity-->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDzVi7Qme8Mpbwyn7qSVq7jrUBi8G-ryAM" />
+        <!-- ToDo: RR made mainactivity default activity -->
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,10 +30,16 @@
             android:name=".View.NavigationDrawer"
             android:label="@string/title_activity_homepage"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".View.FormActivity" />
-        <activity android:name=".View.WelcomeActvity">
-
-        </activity>
+        <activity android:name=".View.FormActivity"
+            android:label="Registration Form" />
+        <activity android:name=".View.WelcomeActvity"></activity>
     </application>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+
+
 
 </manifest>
