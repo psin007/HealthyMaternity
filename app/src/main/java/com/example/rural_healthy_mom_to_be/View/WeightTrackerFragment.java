@@ -89,6 +89,7 @@ public class WeightTrackerFragment extends Fragment {
         LinearLayout layout = new LinearLayout(context);
         layout.setOrientation(LinearLayout.VERTICAL);
 
+
         final EditText addWeek = new EditText(context);
         addWeek.setInputType(InputType.TYPE_CLASS_NUMBER);
         addWeek.setHint("Enter a new week");
@@ -99,12 +100,37 @@ public class WeightTrackerFragment extends Fragment {
         addWeight.setHint("Enter a new weight value");
         layout.addView(addWeight);
         alert.setView(layout);
-        alert.setCancelable(true);
+        alert.setCancelable(false);
         alert.setPositiveButton("SAVE", new DialogInterface.OnClickListener() {
+            int flag = 0;
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                InsertRecord insertRecord = new InsertRecord();
-                insertRecord.execute(addWeek.getText().toString() ,addWeight.getText().toString());
+                if(addWeek.getText().toString().isEmpty())
+                {
+                    Toast.makeText(context,"The fields can not be empty",Toast.LENGTH_LONG).show();
+                    flag = 1;
+                }
+                else if(addWeight.getText().toString().isEmpty())
+                {
+                    Toast.makeText(context,"The fields can not be empty",Toast.LENGTH_LONG).show();
+                    flag = 1;
+                }
+                else if(Integer.valueOf(addWeek.getText().toString())>currentUser.getCurrentWeek()||
+                        Integer.valueOf(addWeek.getText().toString())<0)
+                {
+                    Toast.makeText(context,"Please input valid week (from 0 to current week)",Toast.LENGTH_LONG).show();
+                    flag = 1;
+                }
+                else if(Integer.valueOf(addWeight.getText().toString())>250||
+                        Integer.valueOf(addWeight.getText().toString())<25)
+                {
+                    Toast.makeText(context,"Please input the weight within valid range (from 25-250kg)",Toast.LENGTH_LONG).show();
+                    flag = 1;
+                }
+                else {
+                    InsertRecord insertRecord = new InsertRecord();
+                    insertRecord.execute(addWeek.getText().toString(), addWeight.getText().toString());
+                }
             }
         });
         alert.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
@@ -158,6 +184,8 @@ public class WeightTrackerFragment extends Fragment {
             protected void onPostExecute(String week){
                 Snackbar.make(getView(), "Record for week "+week+" has been updated", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                ReadDatabase readDatabase = new ReadDatabase();
+                readDatabase.execute();
             }
         }
 
