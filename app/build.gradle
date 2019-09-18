@@ -43,5 +43,11 @@ dependencies {
 
     //add 3rd party dependencies
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
-}
 
+    //for circularImageview
+    implementation 'de.hdodenhof:circleimageview:2.1.0'      // use this or use the latest compile version. In case u get bug.
+//maps
+    implementation 'com.google.android.gms:play-services-maps:16.1.0'
+    implementation 'com.google.android.gms:play-services-places:16.0.0'
+
+}

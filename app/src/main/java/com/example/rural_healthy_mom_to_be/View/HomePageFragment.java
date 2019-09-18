@@ -70,7 +70,6 @@ public class HomePageFragment  extends Fragment {
     }
 
     public void editCurrentWeight(View view) {
-        Log.d("editCurrentWeight","editWeight");
         final EditText editWeight = new EditText(this.getActivity());
         editWeight.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
 
