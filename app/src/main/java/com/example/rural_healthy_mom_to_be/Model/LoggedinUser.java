@@ -1,5 +1,6 @@
 package com.example.rural_healthy_mom_to_be.Model;
 
+import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
@@ -7,12 +8,19 @@ import android.arch.persistence.room.PrimaryKey;
 public class LoggedinUser {
     @PrimaryKey(autoGenerate = true)
     public int userid;
+    @ColumnInfo(name = "username")
     public String username;
+    @ColumnInfo(name = "BMIClass")
     public String BMIClass;
+    @ColumnInfo(name = "heightInCm")
     public double heightInCm;
+    @ColumnInfo(name = "weightBeforePregnancy")
     public double weightBeforePregnancy;
+    @ColumnInfo(name = "WeekOfRegister")
     public int WeekOfRegister;
+    @ColumnInfo(name = "currentWeek")
     public int currentWeek;
+    @ColumnInfo(name = "currentWeight")
     public double currentWeight;
 
     public double getCurrentWeight() {

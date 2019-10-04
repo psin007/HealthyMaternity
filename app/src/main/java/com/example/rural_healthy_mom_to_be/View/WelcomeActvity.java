@@ -82,7 +82,7 @@ public class WelcomeActvity extends AppCompatActivity {
         }
         else{
             checkBoxTNC.setError("Read and accept our terms first!");
-            Toast.makeText(this.getBaseContext(),"Read and accept our terms first!",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this.getBaseContext(),"Read and accept our terms first!",Toast.LENGTH_LONG).show();
         }
     }
 }

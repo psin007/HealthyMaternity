@@ -52,6 +52,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -66,6 +67,7 @@ public class WeightGraphFragment extends Fragment {
     Button btnGenerate;
     LoggedInUserDb loggedInUserdb;
     List<HashMap<String, String>> listArray;
+    List<LoggedinUser> userList;
     SimpleAdapter myListAdapter;
     ListView weightLV;
     private LineChart chart;
@@ -113,7 +115,7 @@ public class WeightGraphFragment extends Fragment {
 //        homeHeader = vHomePage.findViewById(R.id.home_header_text);
 
         weightLV = vReport.findViewById(R.id.listView);
-        listArray = new ArrayList<HashMap<String, String>>();
+        listArray = new ArrayList<>();
 
         tvTrackerCurrentWeight = vReport.findViewById(R.id.trackerWeight);
         btnGenerate = vReport.findViewById(R.id.genReport);
@@ -134,7 +136,7 @@ public class WeightGraphFragment extends Fragment {
 
         //Initialize the chart
         chart = vReport.findViewById(R.id.weight_line_chart);
-        chart.setTouchEnabled(true);
+        //chart.setTouchEnabled(false);
 
         // enable scaling and dragging
         chart.setDragEnabled(true);
@@ -146,6 +148,7 @@ public class WeightGraphFragment extends Fragment {
         l.setEnabled(true);
 
         //draw at background
+        chart.setBackgroundColor(Color.WHITE);
         chart.setDrawGridBackground(true);
         chart.setDrawBorders(true);
         chart.setNoDataText("Please wait a few seconds...");
@@ -332,11 +335,11 @@ public class WeightGraphFragment extends Fragment {
         ds3.setDrawValues(true);
         ds3.setColor(Color.parseColor("#e08b4a"));
         ds3.setDrawCircles(true);
-        ds3.setCircleRadius(10f);
-        ds3.setCircleHoleRadius(5f);
+        ds3.setCircleRadius(5f);
+        ds3.setCircleHoleRadius(2.5f);
         ds3.setCircleColor(Color.parseColor("#e08b4a"));
-        ds3.setLineWidth(4f);
-        ds3.setValueTextSize(10f);
+        ds3.setLineWidth(2f);
+        ds3.setValueTextSize(7f);
         ds3.setFormLineWidth(2f);
         ds3.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
         ds3.setFormSize(15.f);
@@ -438,7 +441,7 @@ public class WeightGraphFragment extends Fragment {
     private class ReadDatabase extends AsyncTask<Void, Void, LoggedinUser> {
         @Override
         protected LoggedinUser doInBackground(Void... voids) {
-            List<LoggedinUser> userList = loggedInUserdb.loggedInUserDao().getAll();
+            userList = loggedInUserdb.loggedInUserDao().getAll();
             currentUser = userList.get(0);
             return userList.get(0);
         }
@@ -483,11 +486,33 @@ public class WeightGraphFragment extends Fragment {
            String cwt = String.valueOf(currentWeight);
             bmi = PRE_WEIGHT * 10000/(currentHeight*currentHeight);
 
-            lineEntries3.add(new Entry(curWeek,currentWeight));
+            bubbleSort();
+
             setUsrWeight();
             //preUsrWeight();
             chart.notifyDataSetChanged();
+            chart.invalidate();
         }
+    }
+
+    public void bubbleSort()
+    {
+        int i,j;
+        int n = userList.size();
+        for(i=0;i<n-1;i++)
+            for(j=0;j<n-i-1;j++)
+            {
+                if(userList.get(j).getCurrentWeek()>userList.get(j+1).getCurrentWeek())
+                {
+                    Collections.swap(userList,j,(j+1));
+                }
+            }
+
+        for(LoggedinUser newUser : userList)
+        {
+            lineEntries3.add(new Entry(newUser.getCurrentWeek(),(float) newUser.getCurrentWeight()));
+        }
+
     }
 
 }

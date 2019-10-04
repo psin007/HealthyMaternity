@@ -121,8 +121,8 @@ public class WeightTrackerFragment extends Fragment {
                     Toast.makeText(context,"Please input valid week (from 0 to current week)",Toast.LENGTH_LONG).show();
                     flag = 1;
                 }
-                else if(Integer.valueOf(addWeight.getText().toString())>250||
-                        Integer.valueOf(addWeight.getText().toString())<25)
+                else if(Integer.valueOf(addWeight.getText().toString())>300||
+                        Integer.valueOf(addWeight.getText().toString())<15)
                 {
                     Toast.makeText(context,"Please input the weight within valid range (from 25-250kg)",Toast.LENGTH_LONG).show();
                     flag = 1;

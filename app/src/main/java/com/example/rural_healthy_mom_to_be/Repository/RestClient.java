@@ -14,7 +14,7 @@ import java.util.Scanner;
 public class RestClient {
     protected static String address;
 
-    private static final String BASE_URL = "https://jitsq13t2f.execute-api.ap-southeast-2.amazonaws.com/v1/getWeightGain";
+    private static final String BASE_URL = RestClientAddress.address;
 
     public static String [] getWeightGainForUnderWeight(String limit) throws JSONException {
         //initialise
