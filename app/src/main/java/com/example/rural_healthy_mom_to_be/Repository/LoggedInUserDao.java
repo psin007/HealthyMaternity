@@ -38,5 +38,4 @@ public interface LoggedInUserDao {
 
     @Query("DELETE FROM LoggedinUser")
     void deleteAll();
-
 }

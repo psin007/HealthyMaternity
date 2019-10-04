@@ -6,10 +6,12 @@ import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
 import com.example.rural_healthy_mom_to_be.Model.LoggedinUser;
+import com.example.rural_healthy_mom_to_be.Model.Weight;
 
-@Database(entities = {LoggedinUser.class}, version = 2, exportSchema = false)
+@Database(entities = {LoggedinUser.class, Weight.class}, version = 3, exportSchema = false)
 public abstract class LoggedInUserDb extends RoomDatabase {
     public abstract LoggedInUserDao loggedInUserDao();
+    public abstract WeightDao weightDao();
     private static volatile LoggedInUserDb INSTANCE;
     static LoggedInUserDb getDatabase(final Context context) {
         if (INSTANCE == null) {

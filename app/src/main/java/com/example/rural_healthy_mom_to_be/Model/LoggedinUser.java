@@ -23,6 +23,8 @@ public class LoggedinUser {
     @ColumnInfo(name = "currentWeight")
     public double currentWeight;
 
+
+
     public double getCurrentWeight() {
         return currentWeight;
     }
