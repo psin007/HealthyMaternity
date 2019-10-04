@@ -30,10 +30,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.rural_healthy_mom_to_be.Model.LoggedinUser;
+import com.example.rural_healthy_mom_to_be.Model.Weight;
 import com.example.rural_healthy_mom_to_be.R;
 import com.example.rural_healthy_mom_to_be.Repository.LinearRegression;
 import com.example.rural_healthy_mom_to_be.Repository.LoggedInUserDb;
 import com.example.rural_healthy_mom_to_be.Repository.RestClient;
+import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
@@ -68,7 +70,7 @@ public class WeightGraphFragment extends Fragment {
     LoggedInUserDb loggedInUserdb;
     List<HashMap<String, String>> listArray;
     List<LoggedinUser> userList;
-    SimpleAdapter myListAdapter;
+    List<Weight> weightList;
     ListView weightLV;
     private LineChart chart;
     private String [] upperRange;
@@ -98,7 +100,6 @@ public class WeightGraphFragment extends Fragment {
 
 
     float PRE_WEIGHT;
-    int curWeek;
     float currentWeight;
     float currentHeight;
 
@@ -166,7 +167,7 @@ public class WeightGraphFragment extends Fragment {
         description.setText("Expected Weight Each Week");
         description.setEnabled(true);
         chart.setDescription(description);
-        chart.animateXY(500,500);
+        chart.animateX(2500, Easing.EaseInExpo);
         //refresh
         chart.invalidate();
 
@@ -307,8 +308,10 @@ public class WeightGraphFragment extends Fragment {
 
         ds1.setDrawValues(false);
         ds1.setColor(Color.parseColor("#F15A4A"));
+        ds1.enableDashedLine(10f, 5f, 0f);
+        ds1.enableDashedHighlightLine(10f, 5f, 0f);
         ds1.setDrawCircles(false);
-        ds1.setLineWidth(4f);
+        ds1.setLineWidth(2f);
         ds1.setValueTextSize(10f);
         ds1.setFormLineWidth(2f);
         ds1.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
@@ -321,8 +324,10 @@ public class WeightGraphFragment extends Fragment {
 
         ds2.setDrawValues(false);
         ds2.setColor(Color.parseColor("#495af2"));
+        ds2.enableDashedLine(10f, 5f, 0f);
+        ds2.enableDashedHighlightLine(10f, 5f, 0f);
         ds2.setDrawCircles(false);
-        ds2.setLineWidth(4f);
+        ds2.setLineWidth(2f);
         ds2.setValueTextSize(10f);
         ds2.setFormLineWidth(2f);
         ds2.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
@@ -442,49 +447,19 @@ public class WeightGraphFragment extends Fragment {
         @Override
         protected LoggedinUser doInBackground(Void... voids) {
             userList = loggedInUserdb.loggedInUserDao().getAll();
+            weightList = loggedInUserdb.weightDao().getAll();
             currentUser = userList.get(0);
             return userList.get(0);
         }
         protected void onPostExecute(LoggedinUser details) {
-//            //pooja's code
-//            tvTrackerCurrentWeight.setText(currentUser.getCurrentWeight()+" KG");
-//            map = new HashMap<String,String>();
-//            HashMap mapHead = new HashMap<String,String>();
-//
-//            String[] colHEAD = new String[] {"Week","Weight","Weight in range"};
-//            int[] dataCell = new int[] {R.id.weekLV,R.id.weightLV,R.id.InRangeLV};
-//            mapHead.put("Week","Week");
-//            mapHead.put("Weight","   Weight");
-//            mapHead.put("Weight in range","   Weight in range /week");
-//
-//            map.put("Week","Week " + currentUser.getCurrentWeek()+"");
-//            map.put("Weight",currentUser.getCurrentWeight()+" KG");
-//
-//            //TODO all of it needs to be redone
-//            if(currentUser.getCurrentWeight()> HomePageFragment.maxWeightValue){
-//                map.put("Weight in range","   Higher ");
-//            }
-//            else if (currentUser.getCurrentWeight() < HomePageFragment.minWeightValue){
-//                map.put("Weight in range","   Lower ");
-//
-//            }
-//
-//            else{
-//                map.put("Weight in range","In range");
-//            }
-//            listArray.add(mapHead);
-//            listArray.add(map);
-//            myListAdapter = new SimpleAdapter(context,listArray,R.layout.list_view,colHEAD,dataCell);
-//            weightLV.setAdapter(myListAdapter);
 
             //my code
            currentWeight = (float)details.getCurrentWeight();
            currentHeight = (float)details.getHeightInCm();
            PRE_WEIGHT = (float)details.getWeightBeforePregnancy();
-           curWeek = details.getCurrentWeek();
            userName = details.getUsername();
            String cwt = String.valueOf(currentWeight);
-            bmi = PRE_WEIGHT * 10000/(currentHeight*currentHeight);
+           bmi = PRE_WEIGHT * 10000/(currentHeight*currentHeight);
 
             bubbleSort();
 
@@ -498,19 +473,19 @@ public class WeightGraphFragment extends Fragment {
     public void bubbleSort()
     {
         int i,j;
-        int n = userList.size();
+        int n = weightList.size();
         for(i=0;i<n-1;i++)
             for(j=0;j<n-i-1;j++)
             {
-                if(userList.get(j).getCurrentWeek()>userList.get(j+1).getCurrentWeek())
+                if(weightList.get(j).getWeek()>weightList.get(j+1).getWeek())
                 {
-                    Collections.swap(userList,j,(j+1));
+                    Collections.swap(weightList,j,(j+1));
                 }
             }
 
-        for(LoggedinUser newUser : userList)
+        for(Weight newUser : weightList)
         {
-            lineEntries3.add(new Entry(newUser.getCurrentWeek(),(float) newUser.getCurrentWeight()));
+            lineEntries3.add(new Entry(newUser.getWeek(),newUser.getWeight().floatValue()));
         }
 
     }

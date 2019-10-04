@@ -165,8 +165,6 @@ public class HomePageFragment  extends Fragment {
 
 
     private class ReadDatabase extends AsyncTask<Void, Void, LoggedinUser> {
-
-
         @Override
         protected LoggedinUser doInBackground(Void... voids) {
             List<LoggedinUser> userList = loggedInUserdb.loggedInUserDao().getAll();

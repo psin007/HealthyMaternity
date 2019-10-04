@@ -17,13 +17,18 @@ public class Weight {
     @ColumnInfo(name = "uid")
     public int uid;
     @ColumnInfo(name = "weight")
-    public int weight;
+    public Double weight;
     @ColumnInfo(name = "week")
     public int week;
 
     public Weight() {
     }
 
+    public Weight(int uid, Double weight, int week) {
+        this.uid = uid;
+        this.weight = weight;
+        this.week = week;
+    }
 
     public int getWid() {
         return wid;
@@ -41,11 +46,11 @@ public class Weight {
         this.uid = uid;
     }
 
-    public int getWeight() {
+    public Double getWeight() {
         return weight;
     }
 
-    public void setWeight(int weight) {
+    public void setWeight(Double weight) {
         this.weight = weight;
     }
 

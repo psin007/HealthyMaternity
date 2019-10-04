@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.rural_healthy_mom_to_be.Model.LoggedinUser;
+import com.example.rural_healthy_mom_to_be.Model.Weight;
 import com.example.rural_healthy_mom_to_be.R;
 import com.example.rural_healthy_mom_to_be.Repository.LoggedInUserDb;
 
@@ -165,6 +166,7 @@ public class FormActivity extends AppCompatActivity {
             SharedPreferences.Editor loggedUsered = loggedUser.edit();
             //ToDo: DO we really need to save this data other than loggedIn in our shared preference?
 
+
             loggedUsered.putString("username",username);
             loggedUsered.putString("userHeight",height);
             loggedUsered.putString("prePregnancyWeight",prePregnancyWeight);
@@ -206,6 +208,10 @@ public class FormActivity extends AppCompatActivity {
             LoggedinUser loggedinUser = new LoggedinUser(username, BMIClass, Double.valueOf(height),Double.valueOf(prePregnancyWeight), Integer.parseInt(weeksPregnant), Integer.parseInt(weeksPregnant), Double.valueOf(currentWeight));
             //ToDo: check the return value for ensuring that the insert is succesfull or not.
             long id = loggedInUserdb.loggedInUserDao().insert(loggedinUser);
+
+            loggedInUserdb.weightDao().deleteAll();
+            Weight newWeight = new Weight((int)id,Double.valueOf(currentWeight),Integer.parseInt(weeksPregnant));
+            loggedInUserdb.weightDao().insert(newWeight);
             return id+"";
         }
 

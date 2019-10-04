@@ -24,12 +24,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.rural_healthy_mom_to_be.Model.LoggedinUser;
+import com.example.rural_healthy_mom_to_be.Model.Weight;
 import com.example.rural_healthy_mom_to_be.R;
 import com.example.rural_healthy_mom_to_be.Repository.LoggedInUserDb;
+import com.github.mikephil.charting.data.Entry;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -39,6 +42,7 @@ public class WeightTrackerFragment extends Fragment {
     ListView weightLV;
     LoggedInUserDb loggedInUserdb;
     List<LoggedinUser> userList;
+    List<Weight> weightList;
     LoggedinUser currentUser;
     HashMap<String,String> map;
     Context context;
@@ -174,10 +178,8 @@ public class WeightTrackerFragment extends Fragment {
         @Override protected String doInBackground(String... params) {
             int week = Integer.valueOf(params[0]);
             double weight = (double) Double.valueOf(params[1]);
-            LoggedinUser newRecord = new LoggedinUser(currentUser.getUsername(), currentUser.getBMIClass()
-                    , currentUser.getHeightInCm(), currentUser.getWeightBeforePregnancy(), currentUser.getWeekOfRegister(),
-                    week, weight);
-            loggedInUserdb.loggedInUserDao().insert(newRecord);
+            Weight newRecord = new Weight(currentUser.getUserid(),weight,week);
+            loggedInUserdb.weightDao().insert(newRecord);
 
             return params[0];
         }
@@ -193,6 +195,7 @@ public class WeightTrackerFragment extends Fragment {
     private class ReadDatabase extends AsyncTask<Void, Void, LoggedinUser> {
         @Override
         protected LoggedinUser doInBackground(Void... voids) {
+            weightList = loggedInUserdb.weightDao().getAll();
             userList = loggedInUserdb.loggedInUserDao().getAll();
             currentUser = userList.get(0);
             return userList.get(0);
@@ -205,23 +208,25 @@ public class WeightTrackerFragment extends Fragment {
             String[] colHEAD = new String[] {"Week","Weight","Weight in range"};
             int[] dataCell = new int[] {R.id.weekLV,R.id.weightLV,R.id.InRangeLV};
             listArray = new ArrayList<HashMap<String, String>>();
-//            mapHead.put("Week","Week");
-//            mapHead.put("Weight","   Weight");
-//            mapHead.put("Weight in range","   Weight in range /week");
-//            listArray.add(mapHead);
+            mapHead.put("Week","Week");
+            mapHead.put("Weight","   Weight");
+            mapHead.put("Weight in range","   Weight in range /week");
+            listArray.add(mapHead);
 
             myListAdapter = new SimpleAdapter(context,listArray,R.layout.list_view,colHEAD,dataCell);
             weightLV.setAdapter(myListAdapter);
 
-            for(LoggedinUser luser:userList) {
+            //sort out the list
+            bubbleSort();
+            for(Weight weight:weightList) {
                 map = new HashMap<String, String>();
-                map.put("Week", "Week " + luser.getCurrentWeek() + "");
-                map.put("Weight", luser.getCurrentWeight() + " KG");
+                map.put("Week", "Week " + weight.getWeek() + "");
+                map.put("Weight", weight.getWeight() + " KG");
 
                 //TODO all of it needs to be redone
-                if (luser.getCurrentWeight() > HomePageFragment.maxWeightValue) {
+                if (weight.getWeight() > HomePageFragment.maxWeightValue) {
                     map.put("Weight in range", "   Higher ");
-                } else if (luser.getCurrentWeight() < HomePageFragment.minWeightValue) {
+                } else if (weight.getWeight() < HomePageFragment.minWeightValue) {
                     map.put("Weight in range", "   Lower ");
                 } else {
                     map.put("Weight in range", "In range");
@@ -251,5 +256,18 @@ public class WeightTrackerFragment extends Fragment {
     }
 
 
+    public void bubbleSort()
+    {
+        int i,j;
+        int n = weightList.size();
+        for(i=0;i<n-1;i++)
+            for(j=0;j<n-i-1;j++)
+            {
+                if(weightList.get(j).getWeek()>weightList.get(j+1).getWeek())
+                {
+                    Collections.swap(weightList,j,(j+1));
+                }
+            }
+    }
 
 }
