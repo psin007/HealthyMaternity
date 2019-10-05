@@ -119,14 +119,14 @@ public class WeightTrackerFragment extends Fragment {
                     Toast.makeText(context,"The fields can not be empty",Toast.LENGTH_LONG).show();
                     flag = 1;
                 }
-                else if(Integer.valueOf(addWeek.getText().toString())>currentUser.getCurrentWeek()||
+                else if(Integer.valueOf(addWeek.getText().toString())>=currentUser.getCurrentWeek()||
                         Integer.valueOf(addWeek.getText().toString())<0)
                 {
                     Toast.makeText(context,"Please input valid week (from 0 to current week)",Toast.LENGTH_LONG).show();
                     flag = 1;
                 }
-                else if(Integer.valueOf(addWeight.getText().toString())>300||
-                        Integer.valueOf(addWeight.getText().toString())<15)
+                else if(Double.valueOf(addWeight.getText().toString())>300||
+                        Double.valueOf(addWeight.getText().toString())<15)
                 {
                     Toast.makeText(context,"Please input the weight within valid range (from 25-250kg)",Toast.LENGTH_LONG).show();
                     flag = 1;
@@ -198,6 +198,13 @@ public class WeightTrackerFragment extends Fragment {
             weightList = loggedInUserdb.weightDao().getAll();
             userList = loggedInUserdb.loggedInUserDao().getAll();
             currentUser = userList.get(0);
+            //sort out the list
+            bubbleSort();
+            loggedInUserdb.weightDao().deleteAll();
+            for(Weight weight:weightList)
+            {
+                loggedInUserdb.weightDao().insert(weight);
+            }
             return userList.get(0);
         }
         protected void onPostExecute(LoggedinUser details) {
@@ -216,8 +223,7 @@ public class WeightTrackerFragment extends Fragment {
             myListAdapter = new SimpleAdapter(context,listArray,R.layout.list_view,colHEAD,dataCell);
             weightLV.setAdapter(myListAdapter);
 
-            //sort out the list
-            bubbleSort();
+
             for(Weight weight:weightList) {
                 map = new HashMap<String, String>();
                 map.put("Week", "Week " + weight.getWeek() + "");
@@ -241,10 +247,10 @@ public class WeightTrackerFragment extends Fragment {
     private class UpdateUserInfo extends AsyncTask<Double,Void,String>{
         @Override protected String doInBackground(Double... params){
             double pos1 = (double) params[1];
-            int pos = (int) pos1;
-            LoggedinUser currentUser1 = userList.get(pos);
-            currentUser1.setCurrentWeight(params[0]);
-            loggedInUserdb.loggedInUserDao().updateUsers();
+            int pos = (int) pos1 - 1;
+            Weight weight = weightList.get(pos);
+            weight.setWeight(params[0]);
+            loggedInUserdb.weightDao().updateUsers();
             myListAdapter.notifyDataSetChanged();
             return "";
         }

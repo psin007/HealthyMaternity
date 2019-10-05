@@ -2,6 +2,7 @@ package com.example.rural_healthy_mom_to_be.View;
 import android.Manifest;
 import android.arch.persistence.room.Room;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -9,15 +10,18 @@ import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.pdf.PdfDocument;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -113,8 +117,6 @@ public class WeightGraphFragment extends Fragment {
         vWeightTracker = inflater.inflate(R.layout.weighttrackerfragment,container,false);
 
         context = vReport.getContext();
-//        homeHeader = vHomePage.findViewById(R.id.home_header_text);
-
         weightLV = vReport.findViewById(R.id.listView);
         listArray = new ArrayList<>();
 
@@ -150,8 +152,8 @@ public class WeightGraphFragment extends Fragment {
 
         //draw at background
         chart.setBackgroundColor(Color.WHITE);
-        chart.setDrawGridBackground(true);
-        chart.setDrawBorders(true);
+        chart.setDrawGridBackground(false);
+        chart.setDrawBorders(false);
         chart.setNoDataText("Please wait a few seconds...");
 
         //get X axis
@@ -168,6 +170,7 @@ public class WeightGraphFragment extends Fragment {
         description.setEnabled(true);
         chart.setDescription(description);
         chart.animateX(2500, Easing.EaseInExpo);
+        chart.getAxisRight().setEnabled(false);
         //refresh
         chart.invalidate();
 
@@ -188,11 +191,6 @@ public class WeightGraphFragment extends Fragment {
         PdfDocument doc = new PdfDocument();
         String curdate = new SimpleDateFormat("EEE dd-MMM-yyyy hh-mm aaa").format(new Date());
 
-
-//        //create a page description
-//        PageInfo pageInfo = new PdfDocument.PageInfo.Builder(vReport.getMeasuredWidth(),
-//                vReport.getMeasuredHeight(), 1).create();
-
         //create a page description
         PageInfo pageInfo = new PdfDocument.PageInfo.Builder(vReport.getMeasuredWidth(),
                 vReport.getMeasuredHeight(), 1).create();
@@ -202,6 +200,7 @@ public class WeightGraphFragment extends Fragment {
         Canvas canvas = titlePage.getCanvas();
         int titleBaseLine = 72;
         int leftMargin = 54;
+        int rowLine = 900;
         Paint paint = new Paint();
         paint.setColor(Color.BLACK);
         paint.setTextSize(80);
@@ -210,15 +209,54 @@ public class WeightGraphFragment extends Fragment {
         canvas.drawText("User name: " + userName, leftMargin,titleBaseLine+80, paint);
         paint.setTextSize(50);
         canvas.drawText("Generated date&time: " + curdate, leftMargin,titleBaseLine+160, paint);
+
+        paint.setTextSize(60);
+        canvas.drawText("Personal Information: ", leftMargin,titleBaseLine+300, paint);
+
+        paint.setTextSize(50);
+        canvas.drawLine(leftMargin, titleBaseLine+350, rowLine,titleBaseLine+350,paint);
+        canvas.drawText("Height", leftMargin, titleBaseLine + 420 ,paint);
+        canvas.drawText(currentUser.getHeightInCm()+" cm", leftMargin+500, titleBaseLine + 420 ,paint);
+
+        canvas.drawLine(leftMargin, titleBaseLine+450, rowLine,titleBaseLine+450,paint);
+        canvas.drawText("Current Weight", leftMargin, titleBaseLine + 520 ,paint);
+        canvas.drawText(currentUser.getCurrentWeight()+" kg", leftMargin+500, titleBaseLine + 520 ,paint);
+
+        canvas.drawLine(leftMargin, titleBaseLine+550, rowLine,titleBaseLine+550,paint);
+        canvas.drawText("Pre-pregnancy Weight", leftMargin, titleBaseLine + 620 ,paint);
+        canvas.drawText(currentUser.getWeightBeforePregnancy()+" kg", leftMargin+500, titleBaseLine + 620 ,paint);
+
+        canvas.drawLine(leftMargin, titleBaseLine+650, rowLine,titleBaseLine+650,paint);
+        canvas.drawText("Current Week", leftMargin, titleBaseLine + 720 ,paint);
+        canvas.drawText("Week "+currentUser.getCurrentWeek(), leftMargin+500, titleBaseLine + 720 ,paint);
+
+        canvas.drawLine(leftMargin, titleBaseLine+750, rowLine,titleBaseLine+750,paint);
+        canvas.drawText("BMI Class", leftMargin, titleBaseLine + 820 ,paint);
+        canvas.drawText(currentUser.getBMIClass(), leftMargin+500, titleBaseLine + 820 ,paint);
+        canvas.drawLine(leftMargin, titleBaseLine+850, rowLine,titleBaseLine+850,paint);
         doc.finishPage(titlePage);
 
         PdfDocument.Page page = doc.startPage(pageInfo);
         vReport.draw(page.getCanvas());
         doc.finishPage(page);
 
-//        PdfDocument.Page page2 = doc.startPage(pageInfo);
-//        vReport.draw(page2.getCanvas());
-//        doc.finishPage(page2);
+        PdfDocument.Page page2 = doc.startPage(pageInfo);
+        int addSpace = 150;
+        canvas=page2.getCanvas();
+        paint.setTextSize(70);
+        canvas.drawText("Weight Log",leftMargin,titleBaseLine,paint);
+        canvas.drawLine(leftMargin, titleBaseLine+50, rowLine,titleBaseLine+50,paint);
+
+        paint.setTextSize(50);
+        for(Weight weight : weightList)
+        {
+            canvas.drawText("Week "+weight.getWeek(), leftMargin, titleBaseLine + (addSpace-30) ,paint);
+            canvas.drawText(weight.getWeight()+" kg", leftMargin+500, titleBaseLine + (addSpace-30) ,paint);
+            canvas.drawLine(leftMargin,titleBaseLine+addSpace,rowLine,titleBaseLine+addSpace,paint);
+
+            addSpace+=100;
+        }
+        doc.finishPage(page2);
 
         //write the document content
         String directory_path = Environment.getExternalStorageDirectory().getPath() + "/MyWeightReport/";
@@ -239,6 +277,17 @@ public class WeightGraphFragment extends Fragment {
         // close the document
         doc.close();
 
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        File output = new File(targetPdf);
+//        Uri uri = FileProvider.getUriForFile(
+//                this.getActivity().getApplicationContext(),
+//                this.getContext().getPackageName() + ".provider", output);
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
+        Uri uri = Uri.fromFile(output);
+        shareIntent.setType("application/pdf");
+        shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+        startActivity(shareIntent);
     }
 
     public static Bitmap drawToBitmap(Context context,final int layoutResId,
@@ -436,7 +485,6 @@ public class WeightGraphFragment extends Fragment {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
             return "200 OK!";
         }
         @Override
@@ -458,7 +506,6 @@ public class WeightGraphFragment extends Fragment {
            currentHeight = (float)details.getHeightInCm();
            PRE_WEIGHT = (float)details.getWeightBeforePregnancy();
            userName = details.getUsername();
-           String cwt = String.valueOf(currentWeight);
            bmi = PRE_WEIGHT * 10000/(currentHeight*currentHeight);
 
             bubbleSort();
