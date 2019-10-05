@@ -21,13 +21,12 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.FileProvider;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -70,12 +69,12 @@ public class WeightGraphFragment extends Fragment {
     View vReport;
     View vWeightGraph;
     View vWeightTracker;
-    Button btnGenerate;
     LoggedInUserDb loggedInUserdb;
     List<HashMap<String, String>> listArray;
     List<LoggedinUser> userList;
     List<Weight> weightList;
     ListView weightLV;
+    ImageView shareBtn;
     private LineChart chart;
     private String [] upperRange;
     private String [] lowerRange;
@@ -121,7 +120,7 @@ public class WeightGraphFragment extends Fragment {
         listArray = new ArrayList<>();
 
         tvTrackerCurrentWeight = vReport.findViewById(R.id.trackerWeight);
-        btnGenerate = vReport.findViewById(R.id.genReport);
+        shareBtn = vReport.findViewById(R.id.imageShare);
         loggedInUserdb = Room.databaseBuilder(vReport.getContext(),
                 LoggedInUserDb.class, "LoggedInUserDatabase")
                 .fallbackToDestructiveMigration()
@@ -175,7 +174,7 @@ public class WeightGraphFragment extends Fragment {
         chart.invalidate();
 
         //Generate graph
-        btnGenerate.setOnClickListener(new View.OnClickListener() {
+        shareBtn.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View v) {

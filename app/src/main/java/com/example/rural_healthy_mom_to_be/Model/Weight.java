@@ -21,9 +21,6 @@ public class Weight {
     @ColumnInfo(name = "week")
     public int week;
 
-    public Weight() {
-    }
-
     public Weight(int uid, Double weight, int week) {
         this.uid = uid;
         this.weight = weight;

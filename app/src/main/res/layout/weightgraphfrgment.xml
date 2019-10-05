@@ -7,41 +7,63 @@
     android:background="@color/cardview_light_background">
 
 
-    <ImageView
-        android:id="@+id/graph_imageView"
-        android:layout_width="433dp"
-        android:layout_height="200dp"
-        android:layout_gravity="center"
-        android:layout_margin="@dimen/activity_horizontal_margin"
-        app:srcCompat="@drawable/image" />
-
-    <TextView
-        android:id="@+id/textView4"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="          Kg" />
+        android:layout_height="955dp">
 
-    <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/weight_line_chart"
-        android:layout_width="match_parent"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginBottom="@dimen/activity_horizontal_margin"
-        android:layout_height="400dp"
-        android:layout_centerInParent="true"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="right"
-        android:text="Week           " />
+            <ImageView
+                android:id="@+id/graph_imageView"
+                android:layout_width="433dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                app:srcCompat="@drawable/image" />
 
-    <Button
-        android:id="@+id/genReport"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:text="Generate PDF" />
+            <ImageView
+                android:id="@+id/imageShare"
+                android:layout_width="54dp"
+                android:layout_height="47dp"
+                android:layout_gravity="right"
+                android:layout_marginRight="12dp"
+                app:srcCompat="@mipmap/ic_launcher_black_add_round" />
+
+            <TextView
+                android:id="@+id/tv_share"
+                android:layout_width="184dp"
+                android:layout_height="24dp"
+                android:layout_gravity="right"
+                android:layout_marginRight="21dp"
+                android:gravity="right"
+                android:text="Share" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="          Kg" />
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/weight_line_chart"
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginBottom="@dimen/activity_horizontal_margin" />
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="430dp"
+                android:layout_height="102dp"
+                android:gravity="right"
+                android:text="Week           " />
+
+        </LinearLayout>
+    </ScrollView>
+
 </LinearLayout>
