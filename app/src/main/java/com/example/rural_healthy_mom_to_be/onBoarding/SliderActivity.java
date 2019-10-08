@@ -9,14 +9,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.example.rural_healthy_mom_to_be.MainActivity;
 import com.example.rural_healthy_mom_to_be.R;
+import com.example.rural_healthy_mom_to_be.View.NavigationDrawer;
+import com.example.rural_healthy_mom_to_be.View.WelcomeActvity;
 
 public class SliderActivity extends AppCompatActivity {
     private Button btnSkip, btnNext;
     private ViewPager sViewPager;
     private LinearLayout dotsLayout;
     private TextView dots[];
-
     SliderAdapter sliderAdapter;
 
     @Override
@@ -26,7 +29,6 @@ public class SliderActivity extends AppCompatActivity {
 
         // find view id
         initView();
-
         // create Adapter object
         sliderAdapter = new SliderAdapter(this);
         // set adapter in ViewPager

@@ -2,6 +2,7 @@ package com.example.rural_healthy_mom_to_be.onBoarding;
 
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v4.view.PagerAdapter;
@@ -86,8 +87,9 @@ public class SliderAdapter extends PagerAdapter {
         slideHeading.setText(heading_slide[position]);
         slideDescription.setAllCaps(false);
         slideDescription.setText(description_slide[position]);
+        slideDescription.setTextColor(Color.parseColor("#000000"));
         slideDescription.setJustificationMode(Layout.JUSTIFICATION_MODE_INTER_WORD);
-
+        slideHeading.setTextColor(Color.parseColor("#000000"));
 
         return view;
     }

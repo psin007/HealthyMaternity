@@ -149,32 +149,46 @@
                     android:layout_below="@id/etCurWeight"
                     android:layout_marginTop="20dp"
                     android:textSize="18sp"
-                    android:text="Your current week of pregnancy?"
+                    android:text="Please select one of the following option:"
                     android:textColor="#000000"
                     />
 
-                <EditText
-                    android:id="@+id/et_curweek"
-                    android:layout_width="match_parent"
+                <RadioGroup
+                    android:id="@+id/radioOption"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:inputType="number"
                     android:layout_below="@id/tv_curweek"
-                    android:hint="3 "
-                    android:background="@drawable/border"
-                    android:layout_marginTop="8dp"/>
+                    android:layout_marginLeft="10dp"
+                    android:orientation="vertical">
 
 
+                    <RadioButton
+                        android:id="@+id/radioMale"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="I know my conception date"
+                        android:textSize="16sp"
+                        />
 
+                    <RadioButton
+                        android:id="@+id/radioFemale"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="I know my current week of pregnancy"
+                        android:textSize="16sp"
+                        />
+
+                </RadioGroup>
 
                 <Button
                     android:id="@+id/btNext"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_below="@+id/et_curweek"
+                    android:layout_below="@+id/radioOption"
                     android:layout_marginTop="20dp"
                     android:background="@color/colorPrimary"
-                    android:onClick="nextForm"
+                    android:onClick="askCurWeek"
                     android:text="Next"
                     android:textAllCaps="false"
                     android:textColor="#ffffff"

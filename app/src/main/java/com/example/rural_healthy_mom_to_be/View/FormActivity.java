@@ -17,6 +17,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.example.rural_healthy_mom_to_be.Model.LoggedinUser;
@@ -45,12 +47,10 @@ public class FormActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form);
 
-        //ToDo: RR added these lines
         loggedInUserdb = Room.databaseBuilder(getApplicationContext(),
                 LoggedInUserDb.class, "LoggedInUserDatabase")
                 .fallbackToDestructiveMigration()
                 .build();
-        //ToDo: RR added the above lines
     }
 
     public void nextForm(View view){
@@ -107,25 +107,66 @@ public class FormActivity extends AppCompatActivity {
             currentWeight = etCurrentWeight.getText().toString();
         }
 
+        //Check which radio button is selected
+        RadioGroup rg = (RadioGroup) findViewById(R.id.radioOption);
+        int conceptionButtonId = rg.getCheckedRadioButtonId();
+        RadioButton weekRadioButton = (RadioButton) findViewById(conceptionButtonId);
+        String weekRadioButtonText = weekRadioButton.getText().toString();
+        if(weekRadioButtonText.equals("I know my conception date")){
+            //invoke date picker
+        }
+        else if(weekRadioButtonText.equals("I know my current week of pregnancy")){
+            //invoke dialog box
+         //   askCurWeek();
+        }
+
+//        etWeeksPregnant = (EditText)findViewById(R.id.et_curweek);
+//        //If etWeeksPregnant is empty
+//        if(etWeeksPregnant.getText().toString().isEmpty()){
+//            etWeeksPregnant.setError("This field is mandatory!");
+//            flag = 1;
+//        }
+//        else if(Integer.parseInt(etWeeksPregnant.getText().toString()) > 40){
+//            etWeeksPregnant.setError("Please enter weeks between 0 to 40!");
+//            flag = 1;
+//        }
+//        else{
+//            weeksPregnant = etWeeksPregnant.getText().toString();
+//        }
 
 
+//        if(flag == 0){
+//            checkIfUserExist();
+//        }
+    }
 
-        etWeeksPregnant = (EditText)findViewById(R.id.et_curweek);
-        //If etWeeksPregnant is empty
-        if(etWeeksPregnant.getText().toString().isEmpty()){
-            etWeeksPregnant.setError("This field is mandatory!");
-            flag = 1;
-        }
-        else if(Integer.parseInt(etWeeksPregnant.getText().toString()) > 40){
-            etWeeksPregnant.setError("Please enter weeks between 0 to 40!");
-            flag = 1;
-        }
-        else{
-            weeksPregnant = etWeeksPregnant.getText().toString();
-        }
-        if(flag == 0){
-            checkIfUserExist();
-        }
+    public void askCurWeek(View view){
+
+        final EditText curWeek = new EditText(this.getApplicationContext());
+        curWeek.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        curWeek.setHint("Enter your current week of pregnancy");
+        curWeek.setPadding(55,55,55,55);
+        AlertDialog.Builder alert = new AlertDialog.Builder(this.getApplicationContext());
+        alert.setView(curWeek);
+
+        alert.setPositiveButton("save", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(!curWeek.getText().toString().isEmpty())
+                {
+                   //check if it is between 1 to 40 and then save in user's current week to be passed further
+                   // weeksPregnant = curWeek.getText().toString();
+                }
+
+            }
+        });
+        alert.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        alert.show();
     }
     protected void checkIfUserExist(){
         CheckUserInDb checkUserInDb = new CheckUserInDb();
@@ -154,14 +195,10 @@ public class FormActivity extends AppCompatActivity {
             }
             else{
                 putValuesInSharedPreference();
-                //ToDo: RR Removed these lines as it is better to redirect once the data is stored.
-//                    Intent intent = new Intent(FormActivity.this, NavigationDrawer.class);
-//                    startActivity(intent);
 
             }
         }
         protected void putValuesInSharedPreference(){
-            //ToDo: RR changed the name of sharedpreference to "loggedUser" which is used by MainActivity
             SharedPreferences loggedUser = getApplicationContext().getSharedPreferences("loggedUser", Context.MODE_PRIVATE);
             SharedPreferences.Editor loggedUsered = loggedUser.edit();
             //ToDo: DO we really need to save this data other than loggedIn in our shared preference?
@@ -174,15 +211,12 @@ public class FormActivity extends AppCompatActivity {
             loggedUsered.putString("weeksPregnant",weeksPregnant);
             loggedUsered.putString("loggedIn","yes");
 
-            //ToDo: RR added the below lines
             loggedUsered.commit();
             InsertDatabase insertDatabase = new InsertDatabase();
             insertDatabase.execute();
-            //ToDo: RR added the above lines
         }
     }
 
-    //ToDo: RR added the below asynctask
     private class InsertDatabase extends AsyncTask<Void, Void, String> {
 
         @Override
