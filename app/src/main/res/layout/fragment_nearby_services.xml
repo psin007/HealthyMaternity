@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
-        android:hint="10"
+        android:hint="40"
         android:layout_marginTop="8dp"
         android:padding="16dp"
         android:layout_alignBaseline="@+id/tvradius"/>

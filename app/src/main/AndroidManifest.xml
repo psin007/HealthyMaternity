@@ -19,12 +19,21 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDzVi7Qme8Mpbwyn7qSVq7jrUBi8G-ryAM" />
         <!-- ToDo: RR made mainactivity default activity -->
-        <activity android:name=".MainActivity">
+        <activity
+            android:theme="@style/AppTheme.NoActionBarOnBoarding"
+            android:name=".onBoarding.SliderActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".MainActivity">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
         <activity
             android:name=".View.NavigationDrawer"
