@@ -42,7 +42,6 @@ public class FoodDiaryFragement extends Fragment {
     Button btnAddFood;
     ListView foodList;
     Context context;
-    Button btnAddFood;
     LoggedinUser currentUser;
     HashMap<String, String> map;
     List<HashMap<String, String>> listArray;

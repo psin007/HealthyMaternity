@@ -88,6 +88,72 @@
         </TextView>
     </LinearLayout>
 
+    <RelativeLayout
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/quantityLayout"
+        >
 
+        <TextView
+            android:id="@+id/nutrientHeading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nutrient values:"
+            android:textSize="18sp"
+            android:layout_marginLeft="20dp"
+            android:textColor="#000000"
+            >
+        </TextView>
+        <TextView
+            android:layout_below="@+id/nutrientHeading"
+            android:id="@+id/tv_goalset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:textSize="18sp"
+            android:text="calories   "
+            android:textColor="#000000"
+            />
+
+        <TextView
+            android:id="@+id/tv_cal_values"
+            android:layout_width="142dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/tv_goalset"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="150dp"
+            android:layout_toRightOf="@id/tv_goalset"
+            android:textColor="#000000"
+            android:textSize="18sp" />
+
+
+
+        <TextView
+            android:id="@+id/tv_total_steps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:textSize="18sp"
+            android:text="Fat"
+            android:layout_below="@+id/tv_goalset"
+            android:textColor="#000000"
+            />
+
+        <TextView
+            android:id="@+id/tv_fat_values"
+            android:layout_width="134dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/tv_total_steps"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="130dp"
+            android:layout_toRightOf="@id/tv_total_steps"
+            android:textColor="#000000"
+            android:textSize="18sp" />
+
+
+
+
+    </RelativeLayout>
 
 </RelativeLayout>
