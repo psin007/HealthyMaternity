@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+
+        <TextView
+            android:id="@+id/addheading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add a meal"
+            android:textSize="@dimen/big_text_size"
+            android:textColor="@android:color/black"
+            android:layout_centerHorizontal="true"
+            />
+
+    <View
+        android:id="@+id/bottomLineAdd"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:alpha=".5"
+        android:layout_below="@id/addheading"
+        android:background="@android:color/black" />
+
+    <EditText
+        android:id="@+id/et_searchFood"
+        android:drawableLeft="@drawable/ic_search_black_24dp"
+        android:padding="8dp"
+        android:layout_below="@+id/bottomLineAdd"
+        android:layout_width="match_parent"
+        android:hint="Please enter the food you ate"
+        android:layout_height="wrap_content">
+    </EditText>
+    <LinearLayout
+        android:id="@+id/quantityLayout"
+        android:layout_below="@+id/et_searchFood"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Size of your serve: ">
+        </TextView>
+        <EditText
+            android:id="@+id/et_sizeFood"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            >
+        </EditText>
+        <TextView
+            android:id="@+id/unitFood"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="(g)"></TextView>
+    </LinearLayout>
+
+
+
+</RelativeLayout>

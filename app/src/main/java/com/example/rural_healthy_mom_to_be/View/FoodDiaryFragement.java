@@ -11,9 +11,12 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -40,6 +43,7 @@ public class FoodDiaryFragement extends Fragment {
     TextView date_select;
     ListView foodList;
     Context context;
+    Button btnAddFood;
     LoggedinUser currentUser;
     HashMap<String, String> map;
     List<HashMap<String, String>> listArray;
@@ -60,6 +64,7 @@ public class FoodDiaryFragement extends Fragment {
         context = this.getContext();
         date_select = vFood.findViewById(R.id.et_changedate);
         foodList = vFood.findViewById(R.id.fooditem_listview);
+        btnAddFood = vFood.findViewById(R.id.btn_addNewFood);
 
         //get current date
         String pattern = "dd/MM/yyyy";
@@ -97,6 +102,18 @@ public class FoodDiaryFragement extends Fragment {
                         date_select.setText(setDate);
                     }
                 };
+            }
+        });
+
+        btnAddFood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = new AddFoodInDiaryFragment();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.content_frame, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
         });
 
