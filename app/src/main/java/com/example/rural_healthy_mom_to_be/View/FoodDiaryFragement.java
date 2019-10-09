@@ -42,6 +42,7 @@ public class FoodDiaryFragement extends Fragment {
     Button btnAddFood;
     ListView foodList;
     Context context;
+    Button btnAddFood;
     LoggedinUser currentUser;
     HashMap<String, String> map;
     List<HashMap<String, String>> listArray;
@@ -102,6 +103,20 @@ public class FoodDiaryFragement extends Fragment {
                 };
             }
         });
+
+
+        btnAddFood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = new AddFoodInDiaryFragment();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.content_frame, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
+
 
         return vFood;
     }
