@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -45,6 +46,7 @@
             >
         </EditText>
         <Button
+            android:id="@+id/searchButton"
             android:layout_marginLeft="@dimen/fab_margin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -88,6 +90,108 @@
         </TextView>
     </LinearLayout>
 
+    <RelativeLayout
+        android:id="@+id/layoutFacts"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/quantityLayout"
+        >
+
+        <TextView
+            android:id="@+id/nutrientHeading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nutrient values:"
+            android:textSize="18sp"
+            android:layout_marginLeft="20dp"
+            android:textColor="#000000"
+            >
+        </TextView>
+        <TextView
+            android:layout_below="@+id/nutrientHeading"
+            android:id="@+id/tv_goalset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:textSize="18sp"
+            android:text="calories   "
+            android:textColor="#000000"
+            />
+
+        <TextView
+            android:id="@+id/tv_cal_values"
+            android:layout_width="142dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/tv_goalset"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="150dp"
+            android:layout_toRightOf="@id/tv_goalset"
+            android:textColor="#000000"
+            android:textSize="18sp" />
 
 
+
+        <TextView
+            android:id="@+id/tv_total_steps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:textSize="18sp"
+            android:text="Fat"
+            android:layout_below="@+id/tv_goalset"
+            android:textColor="#000000"
+            />
+
+        <TextView
+            android:id="@+id/tv_fat_values"
+            android:layout_width="134dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/tv_total_steps"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="130dp"
+            android:layout_toRightOf="@id/tv_total_steps"
+            android:textColor="#000000"
+            android:textSize="18sp" />
+
+
+
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layoutFacts"
+        android:id="@+id/addQuantity">
+        <TextView
+            android:id="@+id/tvEnterQuantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="Enter quantity:"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            >
+
+        </TextView>
+        <EditText
+            android:layout_toRightOf="@+id/tvEnterQuantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/etQuantity"
+            android:hint="Enter quantity"></EditText>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/etQuantity"
+            android:text="gm"
+            ></TextView>
+    </RelativeLayout>
+<Button
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Confirm"
+    android:layout_below="@id/addQuantity">
+
+</Button>
 </RelativeLayout>
