@@ -30,4 +30,12 @@
         android:layout_marginTop="25dp"
         android:textSize="18sp"
         android:text="Energy"/>
+    <TextView
+        android:id="@+id/fatLV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="25dp"
+        android:textSize="18sp"
+        android:text="Fat"/>
 </LinearLayout>

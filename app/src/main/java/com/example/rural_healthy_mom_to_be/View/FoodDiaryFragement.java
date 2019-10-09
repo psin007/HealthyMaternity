@@ -39,7 +39,9 @@ import java.util.List;
 public class FoodDiaryFragement extends Fragment {
     View vFood;
     TextView date_select;
+    TextView tv_intro;
     Button btnAddFood;
+    ListView lv_foodlist;
     ListView foodList;
     Context context;
     LoggedinUser currentUser;
@@ -63,6 +65,17 @@ public class FoodDiaryFragement extends Fragment {
         date_select = vFood.findViewById(R.id.et_changedate);
         foodList = vFood.findViewById(R.id.fooditem_listview);
         btnAddFood = vFood.findViewById(R.id.btn_addNewFood);
+        tv_intro = vFood.findViewById(R.id.tv_hiddenText);
+        lv_foodlist = vFood.findViewById(R.id.fooditem_listview);
+
+        loggedInUserdb = Room.databaseBuilder(vFood.getContext(),
+                LoggedInUserDb.class, "LoggedInUserDatabase")
+                .fallbackToDestructiveMigration()
+                .build();
+
+        ReadDatabase read = new ReadDatabase();
+        read.execute();
+
 
         //get current date
         String pattern = "dd/MM/yyyy";
@@ -123,7 +136,10 @@ public class FoodDiaryFragement extends Fragment {
     private class ReadDatabase extends AsyncTask<Void, Void, LoggedinUser> {
         @Override
         protected LoggedinUser doInBackground(Void... voids) {
-            consumList = loggedInUserdb.summaryDao().findByDate(date_select.getText().toString());
+            //Todo need to be refined
+            //consumList = loggedInUserdb.summaryDao().findByDate(date_select.getText().toString());
+            consumList = loggedInUserdb.summaryDao().getAll();
+
             userList = loggedInUserdb.loggedInUserDao().getAll();
             currentUser = userList.get(0);
             return userList.get(0);
@@ -131,25 +147,37 @@ public class FoodDiaryFragement extends Fragment {
 
         protected void onPostExecute(LoggedinUser details) {
             HashMap mapHead = new HashMap<String, String>();
-            String[] colHEAD = new String[]{"Food", "Quantity", "Energy"};
-            int[] dataCell = new int[]{R.id.food_itemLV, R.id.quantityLV, R.id.energyLV};
+            String[] colHEAD = new String[]{"Food", "Quantity", "Energy","Fat"};
+            int[] dataCell = new int[]{R.id.food_itemLV, R.id.quantityLV, R.id.energyLV,R.id.fatLV};
             listArray = new ArrayList<>();
             mapHead.put("Food", "Food");
             mapHead.put("Quantity", "   Quantity");
-            mapHead.put("Energy", "   Energy");
+            mapHead.put("Energy", "      Energy");
+            mapHead.put("Fat", "           Fat");
             listArray.add(mapHead);
 
-            myListAdapter = new SimpleAdapter(context, listArray, R.layout.list_view, colHEAD, dataCell);
+            myListAdapter = new SimpleAdapter(context, listArray, R.layout.food_diary_list, colHEAD, dataCell);
             foodList.setAdapter(myListAdapter);
 
             getDate();
 
+            if(consumList.size() == 0)
+            {
+                tv_intro.setVisibility(View.VISIBLE);
+                lv_foodlist.setVisibility(View.INVISIBLE);
+            }
+            else
+            {
+                tv_intro.setVisibility(View.INVISIBLE);
+                lv_foodlist.setVisibility(View.VISIBLE);
+            }
 
             for (Summary summary : consumList) {
                 map = new HashMap<String, String>();
                 map.put("Food", summary.getFoodname());
-                map.put("Quantity", summary.getQuantity() + " g");
-                map.put("Energy", summary.getCalories() + " kcal");
+                map.put("Quantity", "       "+summary.getQuantity() + " serves");
+                map.put("Energy", "    "+summary.getCalories() * summary.getQuantity()+ " kcal");
+                map.put("Fat", "  "+summary.getCalories() * summary.getQuantity() + " g");
                 listArray.add(map);
                 myListAdapter.notifyDataSetChanged();
             }
