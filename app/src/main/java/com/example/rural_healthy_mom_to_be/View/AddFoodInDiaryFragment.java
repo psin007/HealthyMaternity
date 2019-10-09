@@ -1,8 +1,12 @@
 package com.example.rural_healthy_mom_to_be.View;
 
+import android.arch.persistence.room.Room;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,21 +16,33 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.rural_healthy_mom_to_be.Model.Food;
+import com.example.rural_healthy_mom_to_be.Model.LoggedinUser;
+import com.example.rural_healthy_mom_to_be.Model.Summary;
 import com.example.rural_healthy_mom_to_be.R;
+import com.example.rural_healthy_mom_to_be.Repository.LoggedInUserDb;
 import com.example.rural_healthy_mom_to_be.Repository.NutritionAPI;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class AddFoodInDiaryFragment extends Fragment {
     View vFoodAdd;
     String foodToSearch;
     Food food;
     TextView tvCaloriesFacts;
+    LoggedInUserDb loggedInUserdb;
+    LoggedinUser currentUser;
     TextView tvFatFacts;
     EditText etSearchFood;
+    EditText etQuantity;
     Button searchButton;
+    Button addButton;
+    TextView tvServingUnit;
+    private List<LoggedinUser> userList;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
             savedInstanceState) {
@@ -34,7 +50,19 @@ public class AddFoodInDiaryFragment extends Fragment {
         tvCaloriesFacts = vFoodAdd.findViewById(R.id.tv_cal_values);
         tvFatFacts = vFoodAdd.findViewById(R.id.tv_fat_values);
         etSearchFood = vFoodAdd.findViewById(R.id.et_searchFood);
+        etQuantity = vFoodAdd.findViewById(R.id.etQuantity);
         searchButton = vFoodAdd.findViewById(R.id.searchButton);
+        addButton = vFoodAdd.findViewById(R.id.btn_confirmadd);
+        tvServingUnit = vFoodAdd.findViewById(R.id.tvServingUnit);
+
+        loggedInUserdb = Room.databaseBuilder(vFoodAdd.getContext(),
+                LoggedInUserDb.class, "LoggedInUserDatabase")
+                .fallbackToDestructiveMigration()
+                .build();
+
+        ReadDatabase readdb = new ReadDatabase();
+        readdb.execute();
+
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -46,7 +74,15 @@ public class AddFoodInDiaryFragment extends Fragment {
                 else{
                     etSearchFood.setError("Enter food to search");
                 }
+            }
+        });
 
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InsertRecord insert = new InsertRecord();
+                insert.execute(etSearchFood.getText().toString(),
+                        etQuantity.getText().toString());
             }
         });
 
@@ -124,6 +160,7 @@ public class AddFoodInDiaryFragment extends Fragment {
             String NutrientFact = "Nutrient facts:"+fatFact+calFact;
             tvCaloriesFacts.setText(food.getCalorieamount()+"");
             tvFatFacts.setText(food.getFat()+"");
+            tvServingUnit.setText(food.getServingunit());
 
             //set nutrientTv values
 
@@ -134,5 +171,40 @@ public class AddFoodInDiaryFragment extends Fragment {
         }
 
 
+    }
+
+    private class ReadDatabase extends AsyncTask<Void, Void, LoggedinUser> {
+        @Override
+        protected LoggedinUser doInBackground(Void... voids) {
+            userList = loggedInUserdb.loggedInUserDao().getAll();
+            currentUser = userList.get(0);
+            return null;
+        }
+            protected void onPostExecute () {
+            }
+        }
+
+    private class InsertRecord extends AsyncTask<String, Void, String>
+    {
+        @Override protected String doInBackground(String... params) {
+            String foodName = params[0];
+            int unit = Integer.valueOf(params[1]);
+
+                    Summary newRecord = new Summary(currentUser.getUserid(),foodName,unit,
+                    Double.valueOf(tvCaloriesFacts.getText().toString()),
+                            Double.valueOf(tvFatFacts.getText().toString()));
+            loggedInUserdb.summaryDao().insert(newRecord);
+            return params[0];
+        }
+        protected void onPostExecute(String food){
+            Snackbar.make(getView(), "Record has been added", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+            Fragment fragment = new FoodDiaryFragement();
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.content_frame, fragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        }
     }
 }

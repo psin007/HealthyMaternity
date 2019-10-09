@@ -58,19 +58,14 @@ public class Summary {
 //        this.time = time;
 //    }
 //updated one; without calories
-    public Summary(int sid, int uid, String foodname, int quantity, Double sugar, Double protein, Double fat, Double calcium, Double energy, Double iron, Double cholesterol, String time) {
-        this.sid = sid;
+
+
+    public Summary(int uid, String foodname, int quantity, Double calories,Double fat) {
         this.uid = uid;
         this.foodname = foodname;
         this.quantity = quantity;
-        this.sugar = sugar;
-        this.protein = protein;
+        this.calories = calories;
         this.fat = fat;
-        this.calcium = calcium;
-        this.energy = energy;
-        this.iron = iron;
-        this.cholesterol = cholesterol;
-        this.time = time;
     }
 
     public int getUid() {

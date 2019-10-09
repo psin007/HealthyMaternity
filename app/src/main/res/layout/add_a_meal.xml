@@ -181,17 +181,20 @@
             android:id="@+id/etQuantity"
             android:hint="Enter quantity"></EditText>
         <TextView
+            android:id="@+id/tvServingUnit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/etQuantity"
             android:text="gm"
             ></TextView>
     </RelativeLayout>
-<Button
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Confirm"
-    android:layout_below="@id/addQuantity">
 
-</Button>
+    <Button
+        android:id="@+id/btn_confirmadd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/addQuantity"
+        android:text="Confirm">
+
+    </Button>
 </RelativeLayout>
