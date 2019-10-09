@@ -177,7 +177,7 @@ public class FoodDiaryFragement extends Fragment {
                 map.put("Food", summary.getFoodname());
                 map.put("Quantity", "       "+summary.getQuantity() + " serves");
                 map.put("Energy", "    "+summary.getCalories() * summary.getQuantity()+ " kcal");
-                map.put("Fat", "  "+summary.getCalories() * summary.getQuantity() + " g");
+                map.put("Fat", "  "+summary.getFat() * summary.getQuantity() + " g");
                 listArray.add(map);
                 myListAdapter.notifyDataSetChanged();
             }
