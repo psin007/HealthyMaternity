@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.rural_healthy_mom_to_be.Model.Food;
@@ -23,13 +25,31 @@ public class AddFoodInDiaryFragment extends Fragment {
     Food food;
     TextView tvCaloriesFacts;
     TextView tvFatFacts;
+    EditText etSearchFood;
+    Button searchButton;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
             savedInstanceState) {
         vFoodAdd = inflater.inflate(R.layout.add_a_meal, container, false);
         tvCaloriesFacts = vFoodAdd.findViewById(R.id.tv_cal_values);
         tvFatFacts = vFoodAdd.findViewById(R.id.tv_fat_values);
-        new GetNDBNumber().execute("pasta");
+        etSearchFood = vFoodAdd.findViewById(R.id.et_searchFood);
+        searchButton = vFoodAdd.findViewById(R.id.searchButton);
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!(etSearchFood.getText().toString().isEmpty())) {
+                    String foodToSearch = etSearchFood.getText().toString();
+                    new GetNDBNumber().execute(foodToSearch);
+
+                }
+                else{
+                    etSearchFood.setError("Enter food to search");
+                }
+
+            }
+        });
+
         return vFoodAdd;
 
     }
