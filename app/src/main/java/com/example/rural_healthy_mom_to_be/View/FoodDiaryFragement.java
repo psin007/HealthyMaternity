@@ -8,8 +8,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -41,6 +39,7 @@ import java.util.List;
 public class FoodDiaryFragement extends Fragment {
     View vFood;
     TextView date_select;
+    Button btnAddFood;
     ListView foodList;
     Context context;
     Button btnAddFood;
@@ -104,6 +103,7 @@ public class FoodDiaryFragement extends Fragment {
                 };
             }
         });
+
 
         btnAddFood.setOnClickListener(new View.OnClickListener() {
             @Override

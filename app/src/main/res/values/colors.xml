@@ -6,4 +6,6 @@
     <color name="transparent_grey">#DFFFFFFF</color>
     <color name="sub_text_color">#FB9907</color>
     <color name="text_color">#4153B6</color>
+    <color name="colorDot">#82CAFA</color>
+    <color name="colortWhite">#CCCCCC</color>
 </resources>
