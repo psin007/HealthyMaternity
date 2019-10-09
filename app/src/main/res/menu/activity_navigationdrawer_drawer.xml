@@ -14,7 +14,11 @@
             android:id="@+id/nav_nearbyservices"
             android:title="Nearby Services" />
         <item
+            android:id="@+id/nav_fooddiary"
+            android:title="Food Diary" />
+        <item
             android:id="@+id/nav_myProfile"
             android:title="My Profile" />
+
     </group>
 </menu>

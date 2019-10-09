@@ -212,7 +212,7 @@ public class WeightTrackerFragment extends Fragment {
 
             HashMap mapHead = new HashMap<String,String>();
 
-            String[] colHEAD = new String[] {"Week","Weight","Weight in range"};
+            String[] colHEAD = new String[] {"Week","Weight","Gain"};
             int[] dataCell = new int[] {R.id.weekLV,R.id.weightLV,R.id.InRangeLV};
             listArray = new ArrayList<HashMap<String, String>>();
             mapHead.put("Week","Week");

@@ -8,8 +8,8 @@
 
 
     <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="955dp">
+        android:layout_width="363dp"
+        android:layout_height="886dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -47,6 +47,13 @@
                 android:layout_height="wrap_content"
                 android:text="          Kg" />
 
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="430dp"
+                android:layout_height="102dp"
+                android:gravity="right"
+                android:text="Week           " />
+
             <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/weight_line_chart"
                 android:layout_width="match_parent"
@@ -55,13 +62,6 @@
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:layout_marginBottom="@dimen/activity_horizontal_margin" />
-
-            <TextView
-                android:id="@+id/textView5"
-                android:layout_width="430dp"
-                android:layout_height="102dp"
-                android:gravity="right"
-                android:text="Week           " />
 
         </LinearLayout>
     </ScrollView>

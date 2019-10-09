@@ -1,30 +1,20 @@
 package com.example.rural_healthy_mom_to_be.View;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.arch.persistence.room.Room;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.InputType;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.example.rural_healthy_mom_to_be.Model.LoggedinUser;
 import com.example.rural_healthy_mom_to_be.Model.Weight;
 import com.example.rural_healthy_mom_to_be.R;
 import com.example.rural_healthy_mom_to_be.Repository.LoggedInUserDb;
 
-import java.util.UUID;
 
 public class FormActivity extends AppCompatActivity {
 
@@ -106,9 +96,6 @@ public class FormActivity extends AppCompatActivity {
         else{
             currentWeight = etCurrentWeight.getText().toString();
         }
-
-
-
 
         etWeeksPregnant = (EditText)findViewById(R.id.et_curweek);
         //If etWeeksPregnant is empty

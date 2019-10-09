@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/cardview_light_background">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="671dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/et_changedate"
+                android:layout_width="match_parent"
+                android:layout_height="75dp"
+                android:ems="10"
+                android:inputType="date"
+                android:textColor="#323232"
+                android:textSize="24sp" />
+
+            <ImageView
+                android:id="@+id/iv_fooddiary"
+                android:layout_width="match_parent"
+                android:layout_height="206dp"
+                app:srcCompat="@drawable/pre_womanfortracker" />
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="412dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ListView
+                        android:id="@+id/fooditem_listview"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                </LinearLayout>
+            </ScrollView>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btn_addNewFood"
+        android:layout_width="match_parent"
+        android:layout_height="61dp"
+        android:background="#FF5722"
+        android:text="+ Add a food"
+        android:textAlignment="center"
+        android:textColor="@color/common_google_signin_btn_text_dark_default"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+</LinearLayout>

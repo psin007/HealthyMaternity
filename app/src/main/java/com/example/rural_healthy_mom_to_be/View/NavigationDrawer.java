@@ -4,8 +4,6 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -19,7 +17,6 @@ import android.support.v4.widget.DrawerLayout;
 
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 
 import com.example.rural_healthy_mom_to_be.R;
 
@@ -146,15 +143,17 @@ public class NavigationDrawer extends AppCompatActivity
                         nextFragment = new NearbyServicesFragment();
                         getSupportActionBar().setTitle("Nearby Services");
                 }
-
-
                 }
-
                 break;
             case R.id.nav_myProfile:
                 nextFragment = new Profile();
                 getSupportActionBar().setTitle("My Profile");
                 tag="Profile";
+                break;
+
+            case R.id.nav_fooddiary:
+                nextFragment = new FoodDiaryFragement();
+                getSupportActionBar().setTitle("Food Diary");
                 break;
         }
         if(nextFragment != null) {
