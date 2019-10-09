@@ -12,7 +12,7 @@
             android:id="@+id/addheading"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Add a food"
+            android:text="            Add a food"
             android:padding="8dp"
             android:textSize="@dimen/medium_text_size"
             android:textColor="@android:color/white"
@@ -27,12 +27,18 @@
         android:alpha=".5"
         android:layout_below="@id/addheading"
         android:background="@android:color/black" />
-
+    <ImageView
+        android:layout_marginTop="18dp"
+        android:id="@+id/iv_fooddiaryy"
+        android:layout_width="match_parent"
+        android:layout_height="192dp"
+        app:srcCompat="@drawable/fooddiaryy" >
+    </ImageView>
     <LinearLayout
         android:id="@+id/layoutSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/bottomLineAdd"
+        android:layout_below="@+id/iv_fooddiaryy"
         android:orientation="horizontal"
         android:layout_marginTop="@dimen/big_text_size"
         android:baselineAligned="true">
@@ -105,7 +111,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Nutrient values:"
-            android:textSize="18sp"
+            android:textSize="20sp"
             android:layout_marginLeft="20dp"
             android:textColor="#000000"
             >
@@ -140,7 +146,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:textSize="18sp"
-            android:text="Fat(g)                 "
+            android:text="Fat(g)                  "
             android:layout_below="@+id/tv_goalset"
             android:textColor="#000000"
             />
@@ -184,7 +190,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/etQuantity"
             android:hint="                              "
-            android:background="@drawable/border">
+            >
 
         </EditText>
 
@@ -209,7 +215,10 @@
     android:layout_marginLeft="20dp"
     android:layout_below="@id/addQuantity"
     android:textColor="#ffffff"
-    android:visibility="gone">
+    android:visibility="gone"
+    android:layout_marginTop="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_alignParentRight="true">
 
 </Button>
 </RelativeLayout>

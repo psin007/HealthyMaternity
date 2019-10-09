@@ -9,7 +9,7 @@
                 android:id="@+id/iv_fooddiary"
                 android:layout_width="match_parent"
                 android:layout_height="192dp"
-                app:srcCompat="@drawable/pre_womanfortracker" >
+                app:srcCompat="@drawable/fooddiaryy" >
     </ImageView>
     <View
         android:id="@+id/topLine"
@@ -17,7 +17,7 @@
         android:layout_height="1dp"
         android:alpha=".5"
         android:layout_below="@id/iv_fooddiary"
-        android:background="@android:color/black" />
+        android:background="#FB9907" />
         <TextView
                 android:id="@+id/et_changedate"
                 android:layout_below="@+id/iv_fooddiary"
@@ -36,7 +36,7 @@
             android:layout_height="1dp"
             android:alpha=".5"
             android:layout_below="@id/et_changedate"
-            android:background="@android:color/black" />
+            android:background="#FB9907" />
 
     <TextView
         android:id="@+id/tv_hiddenText"
