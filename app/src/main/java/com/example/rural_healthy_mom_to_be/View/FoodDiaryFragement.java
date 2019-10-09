@@ -8,12 +8,13 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -38,6 +39,7 @@ import java.util.List;
 public class FoodDiaryFragement extends Fragment {
     View vFood;
     TextView date_select;
+    Button btnAddFood;
     ListView foodList;
     Context context;
     LoggedinUser currentUser;
@@ -60,6 +62,7 @@ public class FoodDiaryFragement extends Fragment {
         context = this.getContext();
         date_select = vFood.findViewById(R.id.et_changedate);
         foodList = vFood.findViewById(R.id.fooditem_listview);
+        btnAddFood = vFood.findViewById(R.id.btn_addNewFood);
 
         //get current date
         String pattern = "dd/MM/yyyy";
@@ -99,7 +102,6 @@ public class FoodDiaryFragement extends Fragment {
                 };
             }
         });
-
 
         return vFood;
     }
