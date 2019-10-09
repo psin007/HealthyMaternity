@@ -1,6 +1,7 @@
 package com.example.rural_healthy_mom_to_be.View;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.arch.persistence.room.Room;
 import android.content.Context;
@@ -15,21 +16,26 @@ import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.rural_healthy_mom_to_be.Model.LoggedinUser;
 import com.example.rural_healthy_mom_to_be.Model.Weight;
 import com.example.rural_healthy_mom_to_be.R;
 import com.example.rural_healthy_mom_to_be.Repository.LoggedInUserDb;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.UUID;
 
 public class FormActivity extends AppCompatActivity {
 
+    View view;
     private EditText etUserName;
     private EditText etHeight;
     private EditText etWeightBeforePreg;
@@ -40,17 +46,54 @@ public class FormActivity extends AppCompatActivity {
     private String prePregnancyWeight;
     private String currentWeight;
     private String weeksPregnant;
+    Date doc;
+    DatePickerDialog picker;
 
     LoggedInUserDb loggedInUserdb;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form);
+        view = findViewById(R.id.content_frame);
 
         loggedInUserdb = Room.databaseBuilder(getApplicationContext(),
                 LoggedInUserDb.class, "LoggedInUserDatabase")
                 .fallbackToDestructiveMigration()
                 .build();
+        //Check which radio button is selected to know week of pregnancy
+        final RadioGroup radio = (RadioGroup) findViewById(R.id.radioOption);
+        radio.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+                View radioButton = radio.findViewById(checkedId);
+                int index = radio.indexOfChild(radioButton);
+                switch (index) {
+                    case 0: // first button
+                        final Calendar cldr = Calendar.getInstance();
+                        int day = cldr.get(Calendar.DAY_OF_MONTH);
+                        int month = cldr.get(Calendar.MONTH);
+                        int year = cldr.get(Calendar.YEAR);
+                        // date picker dialog
+                        picker = new DatePickerDialog(FormActivity.this,
+                                new DatePickerDialog.OnDateSetListener() {
+                                    @Override
+                                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                        //set date to a variable and calculate week
+                                    }
+                                }, year, month, day);
+                        picker.getDatePicker().setMaxDate(new Date().getTime());
+                        picker.show();
+                        break;
+                    case 1: // secondbutton
+                        askCurWeek(view);
+                        break;
+                }
+            }
+        });
+
+
     }
 
     public void nextForm(View view){
@@ -107,18 +150,7 @@ public class FormActivity extends AppCompatActivity {
             currentWeight = etCurrentWeight.getText().toString();
         }
 
-        //Check which radio button is selected
-        RadioGroup rg = (RadioGroup) findViewById(R.id.radioOption);
-        int conceptionButtonId = rg.getCheckedRadioButtonId();
-        RadioButton weekRadioButton = (RadioButton) findViewById(conceptionButtonId);
-        String weekRadioButtonText = weekRadioButton.getText().toString();
-        if(weekRadioButtonText.equals("I know my conception date")){
-            //invoke date picker
-        }
-        else if(weekRadioButtonText.equals("I know my current week of pregnancy")){
-            //invoke dialog box
-         //   askCurWeek();
-        }
+
 
 //        etWeeksPregnant = (EditText)findViewById(R.id.et_curweek);
 //        //If etWeeksPregnant is empty
@@ -142,11 +174,11 @@ public class FormActivity extends AppCompatActivity {
 
     public void askCurWeek(View view){
 
-        final EditText curWeek = new EditText(this.getApplicationContext());
-        curWeek.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        final EditText curWeek = new EditText(this);
+        curWeek.setInputType(InputType.TYPE_CLASS_NUMBER);
         curWeek.setHint("Enter your current week of pregnancy");
         curWeek.setPadding(55,55,55,55);
-        AlertDialog.Builder alert = new AlertDialog.Builder(this.getApplicationContext());
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setView(curWeek);
 
         alert.setPositiveButton("save", new DialogInterface.OnClickListener() {

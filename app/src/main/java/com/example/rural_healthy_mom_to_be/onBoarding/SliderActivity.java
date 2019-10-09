@@ -138,7 +138,7 @@ public class SliderActivity extends AppCompatActivity {
         }
 
         if (dots.length > 0)
-            dots[currentPage].setTextColor(getResources().getColor(R.color.colorAccent)); // dot_active
+            dots[currentPage].setTextColor(getResources().getColor(R.color.colorDot)); // dot_active
     }
 
 
