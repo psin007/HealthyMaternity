@@ -96,12 +96,12 @@ public class WeightTrackerFragment extends Fragment {
 
         final EditText addWeek = new EditText(context);
         addWeek.setInputType(InputType.TYPE_CLASS_NUMBER);
-        addWeek.setHint("Enter a new week");
+        addWeek.setHint("Enter any past week");
         layout.addView(addWeek);
 
         final EditText addWeight = new EditText(context);
         addWeight.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
-        addWeight.setHint("Enter a new weight value");
+        addWeight.setHint("Enter weight value for above week");
         layout.addView(addWeight);
         alert.setView(layout);
         alert.setCancelable(false);
@@ -131,6 +131,7 @@ public class WeightTrackerFragment extends Fragment {
                     Toast.makeText(context,"Please input the weight within valid range (from 25-250kg)",Toast.LENGTH_LONG).show();
                     flag = 1;
                 }
+
                 else {
                     InsertRecord insertRecord = new InsertRecord();
                     insertRecord.execute(addWeek.getText().toString(), addWeight.getText().toString());

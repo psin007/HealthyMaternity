@@ -5,16 +5,15 @@
     android:layout_marginBottom="@dimen/activity_horizontal_margin"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    >
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            tools:ignore="MissingConstraints">
 
             <ImageView
                 android:id="@+id/iv_fooddiary"
@@ -72,7 +71,6 @@
             </ListView>
 
         </LinearLayout>
-    </ScrollView>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

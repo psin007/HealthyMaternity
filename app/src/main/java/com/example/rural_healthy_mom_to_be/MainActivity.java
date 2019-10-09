@@ -44,28 +44,28 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences loggedUser = getApplicationContext().getSharedPreferences("loggedUser", Context.MODE_PRIVATE);
         final String loggedIn = loggedUser.getString("loggedIn","no");
 
-        Thread timer = new Thread() {
-            public void run() {
-                try {
-                    sleep(SPLASH_TIME);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                } finally {
-                    if(loggedIn.equals("yes")){
-                        Intent intent = new Intent(MainActivity.this, NavigationDrawer.class);
-                        startActivity(intent);
-                        finish();
-                    }
-                    else{
-                        Intent intent = new Intent(MainActivity.this, WelcomeActvity.class);
-                        startActivity(intent);
-                        finish();
-                    }
-                }
-            }
-        };
-        timer.start();
-
+//        Thread timer = new Thread() {
+//            public void run() {
+//                try {
+//                    sleep(SPLASH_TIME);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                } finally {
+//
+//                }
+//            }
+//        };
+//        timer.start();
+        if(loggedIn.equals("yes")){
+            Intent intent = new Intent(MainActivity.this, NavigationDrawer.class);
+            startActivity(intent);
+            finish();
+        }
+        else{
+            Intent intent = new Intent(MainActivity.this, WelcomeActvity.class);
+            startActivity(intent);
+            finish();
+        }
 
 //        SharedPreferences loggedUser = getApplicationContext().getSharedPreferences("loggedUser", Context.MODE_PRIVATE);
 //        String loggedIn = loggedUser.getString("loggedIn","no");

@@ -37,11 +37,12 @@
         android:layout_marginTop="@dimen/big_text_size"
         android:baselineAligned="true">
         <EditText
+            android:layout_marginLeft="20dp"
             android:id="@+id/et_searchFood"
             android:padding="8dp"
             android:layout_below="@+id/bottomLineAdd"
             android:layout_width="wrap_content"
-            android:hint="Please enter the food you ate"
+            android:hint="Please enter what you had today"
             android:layout_height="wrap_content"
             >
         </EditText>
@@ -51,7 +52,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Search"
-            android:drawableRight="@drawable/ic_search_black_24dp"
+            android:textColor="#ffffff"
+            android:background="@color/colorPrimary"
+            android:textAllCaps="false"
             >
         </Button>
     </LinearLayout>
@@ -85,7 +88,6 @@
             android:id="@+id/unitFood"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="(g)"
             >
         </TextView>
     </LinearLayout>
@@ -95,6 +97,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/quantityLayout"
+        android:visibility="gone"
         >
 
         <TextView
@@ -114,7 +117,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:textSize="18sp"
-            android:text="calories   "
+            android:text="calories(kcal)"
             android:textColor="#000000"
             />
 
@@ -137,7 +140,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:textSize="18sp"
-            android:text="Fat"
+            android:text="Fat(g)                 "
             android:layout_below="@+id/tv_goalset"
             android:textColor="#000000"
             />
@@ -162,13 +165,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/layoutFacts"
-        android:id="@+id/addQuantity">
+        android:id="@+id/addQuantity"
+        android:visibility="gone">
         <TextView
             android:id="@+id/tvEnterQuantity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:text="Enter quantity:"
+            android:text="Enter quantity:  "
             android:textColor="#000000"
             android:textSize="18sp"
             >
@@ -179,19 +183,33 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/etQuantity"
-            android:hint="Enter quantity"></EditText>
+            android:hint="                              "
+            android:background="@drawable/border">
+
+        </EditText>
+
         <TextView
+            android:id="@+id/tvServingUnit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/etQuantity"
-            android:text="gm"
-            ></TextView>
+            android:text="  gm"
+
+            >
+
+        </TextView>
     </RelativeLayout>
 <Button
+    android:id="@+id/confirmAddButton"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:text="Confirm"
-    android:layout_below="@id/addQuantity">
+    android:textAllCaps="false"
+    android:background="@color/colorPrimary"
+    android:layout_marginLeft="20dp"
+    android:layout_below="@id/addQuantity"
+    android:textColor="#ffffff"
+    android:visibility="gone">
 
 </Button>
 </RelativeLayout>

@@ -9,7 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.rural_healthy_mom_to_be.Model.Food;
 import com.example.rural_healthy_mom_to_be.R;
@@ -27,14 +30,24 @@ public class AddFoodInDiaryFragment extends Fragment {
     TextView tvFatFacts;
     EditText etSearchFood;
     Button searchButton;
+    Button confirmButton;
+    TextView tvServingUnit;
+    RelativeLayout addQuantity;
+    RelativeLayout layoutFacts;
+    LinearLayout quantityLayout;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
             savedInstanceState) {
         vFoodAdd = inflater.inflate(R.layout.add_a_meal, container, false);
         tvCaloriesFacts = vFoodAdd.findViewById(R.id.tv_cal_values);
         tvFatFacts = vFoodAdd.findViewById(R.id.tv_fat_values);
+        tvServingUnit = vFoodAdd.findViewById(R.id.tvServingUnit);
         etSearchFood = vFoodAdd.findViewById(R.id.et_searchFood);
         searchButton = vFoodAdd.findViewById(R.id.searchButton);
+        confirmButton = vFoodAdd.findViewById(R.id.confirmAddButton);
+        addQuantity = vFoodAdd.findViewById(R.id.addQuantity);
+        layoutFacts = vFoodAdd.findViewById(R.id.layoutFacts);
+        quantityLayout = vFoodAdd.findViewById(R.id.quantityLayout);
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,15 +76,25 @@ public class AddFoodInDiaryFragment extends Fragment {
         @Override
         protected void onPostExecute(String result) {
             try {
-                JSONObject jsonobject = new JSONObject(result);
+                if(result.contains("errors")){
+                   etSearchFood.setError("Please enter another food item");
+                }
+                else {
+                    confirmButton.setVisibility(View.VISIBLE);
+                    addQuantity.setVisibility(View.VISIBLE);
+                    layoutFacts.setVisibility(View.VISIBLE);
+                    quantityLayout.setVisibility(View.VISIBLE);
+                    JSONObject jsonobject = new JSONObject(result);
 
-                JSONArray jsonArray= jsonobject.getJSONObject("list").getJSONArray("item");
-                String nbdno=jsonArray.getJSONObject(0).getString("ndbno");
-                GetNutrientData getNutrientData = new GetNutrientData();
-                getNutrientData.execute(nbdno);
+                    JSONArray jsonArray = jsonobject.getJSONObject("list").getJSONArray("item");
+                    String nbdno = jsonArray.getJSONObject(0).getString("ndbno");
+                    GetNutrientData getNutrientData = new GetNutrientData();
+                    getNutrientData.execute(nbdno);
+                }
 
             } catch (JSONException e) {
                 e.printStackTrace();
+
             }
 
 
@@ -86,7 +109,13 @@ public class AddFoodInDiaryFragment extends Fragment {
 
         @Override
         protected void onPostExecute(String result) {
-            paresResult(result);
+            Log.d("result",result);
+            if(result.equals("")){
+                Toast.makeText(getActivity(),"can not find info ",Toast.LENGTH_SHORT).show();
+            }
+            else{
+                paresResult(result);
+            }
         }
     }
 
@@ -124,7 +153,7 @@ public class AddFoodInDiaryFragment extends Fragment {
             String NutrientFact = "Nutrient facts:"+fatFact+calFact;
             tvCaloriesFacts.setText(food.getCalorieamount()+"");
             tvFatFacts.setText(food.getFat()+"");
-
+            tvServingUnit.setText("  ("+food.getServingunit()+")");
             //set nutrientTv values
 
         }
