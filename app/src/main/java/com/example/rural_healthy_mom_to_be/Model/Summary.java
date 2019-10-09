@@ -18,6 +18,10 @@ public class Summary {
             onUpdate = ForeignKey.CASCADE)
     @ColumnInfo(name = "uid")
     public int uid;
+    @ColumnInfo(name = "foodname")
+    public String foodname;
+    @ColumnInfo(name = "quantity")
+    public int quantity;
     @ColumnInfo(name = "calories")
     public Double calories;
     @ColumnInfo(name = "sugar")
@@ -37,8 +41,12 @@ public class Summary {
     @ColumnInfo(name = "time")
     public String time;
 
-    public Summary(int uid, Double calories, Double sugar, Double protein, Double fat, Double calcium, Double energy, Double iron, Double cholesterol, String time) {
+    public Summary(int uid, String foodname, int quantity, Double calories, Double sugar,
+                   Double protein, Double fat, Double calcium, Double energy, Double iron,
+                   Double cholesterol, String time) {
         this.uid = uid;
+        this.foodname = foodname;
+        this.quantity = quantity;
         this.calories = calories;
         this.sugar = sugar;
         this.protein = protein;
@@ -56,6 +64,22 @@ public class Summary {
 
     public void setUid(int uid) {
         this.uid = uid;
+    }
+
+    public String getFoodname() {
+        return foodname;
+    }
+
+    public void setFoodname(String foodname) {
+        this.foodname = foodname;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     public Double getCalories() {

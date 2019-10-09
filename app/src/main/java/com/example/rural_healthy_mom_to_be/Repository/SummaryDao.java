@@ -21,6 +21,10 @@ public interface SummaryDao {
     @Query("SELECT * FROM Summary WHERE uid = :id LIMIT 1")
     Summary findByID(int id);
 
+    //2010-10-10 00:00:00
+    @Query("SELECT * FROM Summary WHERE strftime('%d/%m/%Y',time) = :date")
+    List<Summary> findByDate(String date);
+
     @Insert
     void insertAll(Summary... summaries);
 

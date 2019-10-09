@@ -26,25 +26,32 @@ import com.example.rural_healthy_mom_to_be.Model.Weight;
 import com.example.rural_healthy_mom_to_be.R;
 import com.example.rural_healthy_mom_to_be.Repository.LoggedInUserDb;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 
-public class FoodDiaryFragement extends Fragment{
+public class FoodDiaryFragement extends Fragment {
     View vFood;
-    EditText date_select;
+    TextView date_select;
     ListView foodList;
     Context context;
     LoggedinUser currentUser;
-    HashMap<String,String> map;
+    HashMap<String, String> map;
     List<HashMap<String, String>> listArray;
     SimpleAdapter myListAdapter;
     LoggedInUserDb loggedInUserdb;
     private DatePickerDialog.OnDateSetListener mListener;
     private List<Summary> consumList;
     private List<LoggedinUser> userList;
+    private int year;
+    private int month;
+    private int day;
+    private String pattern;
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
@@ -53,6 +60,12 @@ public class FoodDiaryFragement extends Fragment{
         context = this.getContext();
         date_select = vFood.findViewById(R.id.et_changedate);
         foodList = vFood.findViewById(R.id.fooditem_listview);
+
+        //get current date
+        String pattern = "dd/MM/yyyy";
+        SimpleDateFormat simformat = new SimpleDateFormat(pattern);
+        String currentDateTimeString = simformat.format(new Date());
+        date_select.setText(currentDateTimeString);
 
         date_select.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,7 +84,7 @@ public class FoodDiaryFragement extends Fragment{
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
 
-                mListener = new DatePickerDialog.OnDateSetListener(){
+                mListener = new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int yr, int mm, int dd) {
                         mm += 1;
@@ -80,7 +93,7 @@ public class FoodDiaryFragement extends Fragment{
                             monthString = "0" + monthString;
                         }
 
-                        String setDate = dd+"/"+monthString+"/"+yr;
+                        String setDate = dd + "/" + monthString + "/" + yr;
                         date_select.setText(setDate);
                     }
                 };
@@ -94,38 +107,45 @@ public class FoodDiaryFragement extends Fragment{
     private class ReadDatabase extends AsyncTask<Void, Void, LoggedinUser> {
         @Override
         protected LoggedinUser doInBackground(Void... voids) {
-            consumList = loggedInUserdb.summaryDao().getAll();
+            consumList = loggedInUserdb.summaryDao().findByDate(date_select.getText().toString());
             userList = loggedInUserdb.loggedInUserDao().getAll();
             currentUser = userList.get(0);
             return userList.get(0);
         }
+
         protected void onPostExecute(LoggedinUser details) {
-            HashMap mapHead = new HashMap<String,String>();
-            String[] colHEAD = new String[] {"Food","Quantity","Energy"};
-            int[] dataCell = new int[] {R.id.food_itemLV,R.id.quantityLV,R.id.energyLV};
+            HashMap mapHead = new HashMap<String, String>();
+            String[] colHEAD = new String[]{"Food", "Quantity", "Energy"};
+            int[] dataCell = new int[]{R.id.food_itemLV, R.id.quantityLV, R.id.energyLV};
             listArray = new ArrayList<>();
-            mapHead.put("Food","Food");
-            mapHead.put("Quantity","   Quantity");
-            mapHead.put("Energy","   Energy");
+            mapHead.put("Food", "Food");
+            mapHead.put("Quantity", "   Quantity");
+            mapHead.put("Energy", "   Energy");
             listArray.add(mapHead);
 
-            myListAdapter = new SimpleAdapter(context,listArray,R.layout.list_view,colHEAD,dataCell);
+            myListAdapter = new SimpleAdapter(context, listArray, R.layout.list_view, colHEAD, dataCell);
             foodList.setAdapter(myListAdapter);
 
-//
-//            for(Summary summary : consumList) {
-//                map = new HashMap<String, String>();
-//                map.put("Food", "Week " + weight.getWeek() + "");
-//                map.put("Weight", weight.getWeight() + " KG");
+            getDate();
 
 
-
+            for (Summary summary : consumList) {
+                map = new HashMap<String, String>();
+                map.put("Food", summary.getFoodname());
+                map.put("Quantity", summary.getQuantity() + " g");
+                map.put("Energy", summary.getCalories() + " kcal");
                 listArray.add(map);
                 myListAdapter.notifyDataSetChanged();
             }
+        }
 
+        private void getDate() {
+            day = Integer.valueOf(date_select.getText().toString().substring(0, 1));
+            month = Integer.valueOf(date_select.getText().toString().substring(3, 4));
+            year = Integer.valueOf(date_select.getText().toString().substring(6, 7));
         }
     }
+}
 
 
 

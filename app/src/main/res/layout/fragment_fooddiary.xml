@@ -9,31 +9,35 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="671dp">
+        android:layout_height="562dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
-
-            <EditText
-                android:id="@+id/et_changedate"
-                android:layout_width="match_parent"
-                android:layout_height="75dp"
-                android:ems="10"
-                android:inputType="date"
-                android:textColor="#323232"
-                android:textSize="24sp" />
 
             <ImageView
                 android:id="@+id/iv_fooddiary"
                 android:layout_width="match_parent"
-                android:layout_height="206dp"
+                android:layout_height="192dp"
+                android:background="#FFFFFF"
                 app:srcCompat="@drawable/pre_womanfortracker" />
+
+            <TextView
+                android:id="@+id/et_changedate"
+                android:layout_width="match_parent"
+                android:layout_height="75dp"
+                android:background="#FF6E40"
+                android:ems="10"
+                android:gravity="center"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp"
+                android:textStyle="bold" />
 
             <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="412dp">
+                android:layout_height="322dp"
+                android:background="#FFF3E0">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -43,22 +47,35 @@
                     <ListView
                         android:id="@+id/fooditem_listview"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
+                        android:layout_height="match_parent">
+
+                    </ListView>
+
                 </LinearLayout>
             </ScrollView>
 
         </LinearLayout>
     </ScrollView>
 
-    <Button
-        android:id="@+id/btn_addNewFood"
+    <LinearLayout
+        android:id="@+id/button_layout"
         android:layout_width="match_parent"
-        android:layout_height="61dp"
-        android:background="#FF5722"
-        android:text="+ Add a food"
-        android:textAlignment="center"
-        android:textColor="@color/common_google_signin_btn_text_dark_default"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        android:layout_height="63dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <Button
+            android:id="@+id/btn_addNewFood"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#FF5722"
+            android:text="+ Add a food"
+            android:textAlignment="center"
+            android:textColor="@color/common_google_signin_btn_text_dark_default"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
 
 </LinearLayout>
