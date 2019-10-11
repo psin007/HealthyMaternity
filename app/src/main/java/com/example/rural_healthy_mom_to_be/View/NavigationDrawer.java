@@ -126,10 +126,6 @@ public class NavigationDrawer extends AppCompatActivity
                 getSupportActionBar().setTitle("Homepage");
                 tag="HomePageFragment";
                 break;
-            case R.id.nav_weighttracker:
-                nextFragment = new WeightTrackerFragment();
-                getSupportActionBar().setTitle("Weight Tracker");
-                break;
             case R.id.nav_weightGraph:
                 nextFragment = new WeightGraphFragment();
                 getSupportActionBar().setTitle("Weight Graph");

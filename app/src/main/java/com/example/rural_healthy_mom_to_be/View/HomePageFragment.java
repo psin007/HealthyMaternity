@@ -14,8 +14,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.rural_healthy_mom_to_be.Model.LoggedinUser;
+import com.example.rural_healthy_mom_to_be.Model.Weight;
 import com.example.rural_healthy_mom_to_be.R;
 import com.example.rural_healthy_mom_to_be.Repository.LoggedInUserDb;
 import com.example.rural_healthy_mom_to_be.Repository.WeightValuesAPI;
@@ -36,7 +38,6 @@ public class HomePageFragment  extends Fragment {
     TextView homeHeader;
     TextView homeDate;
     TextView weekLabel;
-    TextView weightBeforePreg;
     TextView currentWeight;
     TextView minWeight;
     TextView maxWeight;
@@ -46,6 +47,7 @@ public class HomePageFragment  extends Fragment {
     int currentWeek;
     String BMIClass;
     LoggedinUser currentUser;
+    Weight lastWeight;
 
     //TODO remove static and global variable
     static public double maxWeightValue;
@@ -86,11 +88,21 @@ public class HomePageFragment  extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Log.d("editCurrentWeight",editWeight.getText().toString());
-                if(!editWeight.getText().toString().isEmpty())
+                if(editWeight.getText().toString().isEmpty())
                 {
-                currentUser.setCurrentWeight(Double.parseDouble(editWeight.getText().toString()));
-                UpdateDatabase updateDatabase = new UpdateDatabase();
-                updateDatabase.execute();
+                    Toast.makeText(getContext(),"The input is invalid!",Toast.LENGTH_LONG).show();
+                }
+                else if(Integer.valueOf(editWeight.getText().toString())>300||
+                        Integer.valueOf(editWeight.getText().toString())<15)
+                {
+                    Toast.makeText(getContext(),"Please input the weight within valid range (from 25-250kg)",Toast.LENGTH_LONG).show();
+                }
+                else
+                {
+                    currentUser.setCurrentWeight(Double.parseDouble(editWeight.getText().toString()));
+                    lastWeight.setWeight(Double.parseDouble(editWeight.getText().toString()));
+                    UpdateDatabase updateDatabase = new UpdateDatabase();
+                    updateDatabase.execute();
                 }
 
             }
@@ -146,7 +158,8 @@ public class HomePageFragment  extends Fragment {
         @Override
         protected String doInBackground(Void... voids) {
             loggedInUserdb.loggedInUserDao().updateUsers(currentUser);
-            return currentUser.getCurrentWeight()+"";
+            loggedInUserdb.weightDao().updateUsers(lastWeight);
+            return lastWeight.getWeight()+"";
         }
         @Override
         protected void onPostExecute(String newWeight) {
@@ -168,7 +181,9 @@ public class HomePageFragment  extends Fragment {
         @Override
         protected LoggedinUser doInBackground(Void... voids) {
             List<LoggedinUser> userList = loggedInUserdb.loggedInUserDao().getAll();
+            List<Weight> weightList = loggedInUserdb.weightDao().getAll();
             currentUser = userList.get(0);
+            lastWeight = weightList.get(0);
             return userList.get(0);
         }
         protected void onPostExecute(LoggedinUser details) {
@@ -190,8 +205,8 @@ public class HomePageFragment  extends Fragment {
 
         //    weightBeforePreg.setText(details.getWeightBeforePregnancy()+"");
 
-            currentWeight.setText(details.getCurrentWeight()+"  ");
-            currentWeightValue = details.getCurrentWeight();
+            currentWeight.setText(lastWeight.getWeight()+"  ");
+            currentWeightValue = lastWeight.getWeight();
             weightBeforePregValue = details.getWeightBeforePregnancy();
 
             GetWeightValues getWeightValues = new GetWeightValues();

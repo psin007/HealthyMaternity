@@ -133,6 +133,7 @@ public class WeightGraphFragment extends Fragment {
         fab_add = vReport.findViewById(R.id.fab);
         listArray = new ArrayList<>();
         shareBtn =vReport.findViewById(R.id.fab_share);
+        cdGraph = vReport.findViewById(R.id.cd_graph);
 
         tvTrackerCurrentWeight = vReport.findViewById(R.id.trackerWeight);
         loggedInUserdb = Room.databaseBuilder(vReport.getContext(),
@@ -265,7 +266,7 @@ public class WeightGraphFragment extends Fragment {
         doc.finishPage(titlePage);
 
         PdfDocument.Page page = doc.startPage(pageInfo);
-        vReport.draw(page.getCanvas());
+        cdGraph.draw(page.getCanvas());
         doc.finishPage(page);
 
         PdfDocument.Page page2 = doc.startPage(pageInfo);
@@ -280,7 +281,28 @@ public class WeightGraphFragment extends Fragment {
         {
             canvas.drawText("Week "+weight.getWeek(), leftMargin, titleBaseLine + (addSpace-30) ,paint);
             canvas.drawText(weight.getWeight()+" kg", leftMargin+500, titleBaseLine + (addSpace-30) ,paint);
+
+            if(weight.getWeight() > HomePageFragment.maxWeightValue)
+            {
+                paint.setColor(Color.RED);
+                canvas.drawText("Upper", leftMargin+900, titleBaseLine + (addSpace-30) ,paint);
+                paint.setColor(Color.BLACK);
+            }
+            else if(weight.getWeight() < HomePageFragment.maxWeightValue)
+            {
+                paint.setColor(Color.RED);
+                canvas.drawText("Lower", leftMargin+900, titleBaseLine + (addSpace-30) ,paint);
+                paint.setColor(Color.BLACK);
+            }
+            else
+                {
+                paint.setColor(Color.GREEN);
+                canvas.drawText("Overweight", leftMargin+900, titleBaseLine + (addSpace-30) ,paint);
+                paint.setColor(Color.BLACK);
+            }
+
             canvas.drawLine(leftMargin,titleBaseLine+addSpace,rowLine,titleBaseLine+addSpace,paint);
+
 
             addSpace+=100;
         }
@@ -435,8 +457,6 @@ public class WeightGraphFragment extends Fragment {
     public class getRange extends AsyncTask<Void, Void, String> {
         @Override
         protected String doInBackground(Void... params) {
-            String response = null;
-
             try {
                 if(bmi < 18.5)
                 {
