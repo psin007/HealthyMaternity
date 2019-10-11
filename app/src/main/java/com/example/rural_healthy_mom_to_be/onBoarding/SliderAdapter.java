@@ -85,7 +85,7 @@ public class SliderAdapter extends PagerAdapter {
         slideDescription.setAllCaps(false);
         slideDescription.setText(description_slide[position]);
         slideDescription.setTextColor(Color.parseColor("#000000"));
-        slideDescription.setJustificationMode(Layout.JUSTIFICATION_MODE_INTER_WORD);
+        //slideDescription.setJustificationMode(Layout.JUSTIFICATION_MODE_INTER_WORD);
         slideHeading.setTextColor(Color.parseColor("#000000"));
 
         return view;

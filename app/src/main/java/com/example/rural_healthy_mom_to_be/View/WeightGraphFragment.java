@@ -1,7 +1,10 @@
 package com.example.rural_healthy_mom_to_be.View;
 import android.Manifest;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.arch.persistence.room.Room;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -18,15 +21,22 @@ import android.os.Environment;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.CardView;
+import android.text.InputType;
+import android.transition.Slide;
+import android.transition.TransitionManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -40,7 +50,6 @@ import com.example.rural_healthy_mom_to_be.Repository.LoggedInUserDb;
 import com.example.rural_healthy_mom_to_be.Repository.RestClient;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarEntry;
@@ -69,6 +78,7 @@ public class WeightGraphFragment extends Fragment {
     View vReport;
     View vWeightGraph;
     View vWeightTracker;
+    CardView cdGraph;
     LoggedInUserDb loggedInUserdb;
     List<HashMap<String, String>> listArray;
     List<LoggedinUser> userList;
@@ -88,8 +98,8 @@ public class WeightGraphFragment extends Fragment {
     ArrayList<Entry>lineEntries1 = new ArrayList<>();
     ArrayList<Entry>lineEntries2 = new ArrayList<>();
     ArrayList<Entry>lineEntries3 = new ArrayList<>();
-    ArrayList<Entry>lineEntries4 = new ArrayList<>();
 
+    SimpleAdapter myListAdapter;
     /**
      * permissions request code
      */
@@ -136,6 +146,10 @@ public class WeightGraphFragment extends Fragment {
         getRange getRangeVal = new getRange();
         getRangeVal.execute();
 
+        cdGraph = vWeightGraph.findViewById(R.id.cd_graph);
+        TransitionManager.beginDelayedTransition(cdGraph, new Slide());
+
+
         //Initialize the chart
         chart = vReport.findViewById(R.id.weight_line_chart);
         //chart.setTouchEnabled(false);
@@ -150,10 +164,14 @@ public class WeightGraphFragment extends Fragment {
         l.setEnabled(true);
 
         //draw at background
-        chart.setBackgroundColor(Color.WHITE);
+        //chart.setBackgroundColor(Color.WHITE);
         chart.setDrawGridBackground(false);
         chart.setDrawBorders(false);
         chart.setNoDataText("Please wait a few seconds...");
+        chart.getAxisLeft().setTextColor(Color.GRAY); // left y-axis
+        chart.getXAxis().setTextColor(Color.GRAY);
+        chart.getLegend().setTextColor(Color.GRAY);
+
 
         //get X axis
         XAxis xAxis = chart.getXAxis();
@@ -164,10 +182,6 @@ public class WeightGraphFragment extends Fragment {
         xAxis.setAxisMaximum((float) 40);
         xAxis.setDrawGridLines(true);
 
-        Description description = new Description();
-        description.setText("Expected Weight Each Week");
-        description.setEnabled(true);
-        chart.setDescription(description);
         chart.animateX(2500, Easing.EaseInExpo);
         chart.getAxisRight().setEnabled(false);
         //refresh
@@ -386,31 +400,21 @@ public class WeightGraphFragment extends Fragment {
     private void setUsrWeight(){
         LineDataSet ds3 = new LineDataSet(lineEntries3, "current weight");
         ds3.setDrawValues(true);
-        ds3.setColor(Color.parseColor("#e08b4a"));
+        ds3.setValueTextColor(Color.GRAY);
+        ds3.setColor(Color.parseColor("#FB9907"));
         ds3.setDrawCircles(true);
         ds3.setCircleRadius(5f);
-        ds3.setCircleHoleRadius(2.5f);
-        ds3.setCircleColor(Color.parseColor("#e08b4a"));
+        ds3.setCircleColor(Color.parseColor("#FB9907"));
         ds3.setLineWidth(2f);
         ds3.setValueTextSize(7f);
         ds3.setFormLineWidth(2f);
         ds3.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
         ds3.setFormSize(15.f);
+        ds3.setDrawCircleHole(false);
         dataSets.add(ds3);
     }
 
-    private void calLinearRegFunction(){
 
-        double[] x = {4, 8, 12, 16, 20};
-        double[] y = {69.85, 69.98, 70.01, 70.15, 71.12};
-        LinearRegression reg = new LinearRegression(x,y);
-        for(int i = 10;i <= 40;i++)
-        {
-            double py = i*reg.slope() + reg.intercept();
-            float yy = (float) py;
-            lineEntries4.add(new Entry(i,yy));
-        }
-    }
 
 //    private void preUsrWeight(){
 //
@@ -513,6 +517,52 @@ public class WeightGraphFragment extends Fragment {
             //preUsrWeight();
             chart.notifyDataSetChanged();
             chart.invalidate();
+
+            HashMap mapHead = new HashMap<String,String>();
+            String[] colHEAD = new String[] {"Week","Weight","Gain"};
+            int[] dataCell = new int[] {R.id.weekLV,R.id.weightLV,R.id.InRangeLV};
+            listArray = new ArrayList<HashMap<String, String>>();
+            mapHead.put("Week","Week");
+            mapHead.put("Weight","   Weight");
+            mapHead.put("Weight in range","   Weight in range /week");
+            listArray.add(mapHead);
+
+            myListAdapter = new SimpleAdapter(context,listArray,R.layout.list_view,colHEAD,dataCell);
+            weightLV.setAdapter(myListAdapter);
+
+            for(Weight weight:weightList) {
+                map = new HashMap<String, String>();
+                map.put("Week", "Week " + weight.getWeek() + "");
+                map.put("Weight", weight.getWeight() + " KG");
+
+                //TODO all of it needs to be redone
+                if (weight.getWeight() > HomePageFragment.maxWeightValue) {
+                    map.put("Weight in range", "   Higher ");
+                } else if (weight.getWeight() < HomePageFragment.minWeightValue) {
+                    map.put("Weight in range", "   Lower ");
+                } else {
+                    map.put("Weight in range", "In range");
+                }
+                listArray.add(map);
+                myListAdapter.notifyDataSetChanged();
+            }
+        }
+    }
+
+    private class UpdateUserInfo extends AsyncTask<Double,Void,String>{
+        @Override protected String doInBackground(Double... params){
+            double pos1 = (double) params[1];
+            int pos = (int) pos1 - 1;
+            Weight weight = weightList.get(pos);
+            weight.setWeight(params[0]);
+            loggedInUserdb.weightDao().updateUsers();
+            myListAdapter.notifyDataSetChanged();
+            return "";
+        }
+
+        @Override
+        protected void onPostExecute(String details){
+            Toast.makeText(context,"The weight has been updated!",Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -533,7 +583,110 @@ public class WeightGraphFragment extends Fragment {
         {
             lineEntries3.add(new Entry(newUser.getWeek(),newUser.getWeight().floatValue()));
         }
-
     }
+
+    private void showInputBox(String oldWeight, final double index){
+        final Dialog dialog = new Dialog(this.getContext());
+        dialog.setContentView(R.layout.input_box);
+        dialog.setTitle("Edit Weight");
+        TextView textMsg = dialog.findViewById(R.id.txtmsg);
+        textMsg.setText("Update weight (Kg)");
+        final EditText editText = dialog.findViewById(R.id.weight_input);
+        editText.setText(oldWeight);
+        Button btn = dialog.findViewById(R.id.btn_box_done);
+
+
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                map.put("Weight",editText.getText().toString()+" KG");
+                UpdateUserInfo updateUserInfo = new UpdateUserInfo();
+                updateUserInfo.execute(Double.valueOf(editText.getText().toString()),index);
+                myListAdapter.notifyDataSetChanged();
+                dialog.dismiss();
+                ReadDatabase readDatabase = new ReadDatabase();
+                readDatabase.execute();
+            }
+        });
+        dialog.show();
+    }
+
+    private class InsertRecord extends AsyncTask<String, Void, String>
+    {
+        @Override protected String doInBackground(String... params) {
+            int week = Integer.valueOf(params[0]);
+            double weight = (double) Double.valueOf(params[1]);
+            Weight newRecord = new Weight(currentUser.getUserid(),weight,week);
+            loggedInUserdb.weightDao().insert(newRecord);
+
+            return params[0];
+        }
+        protected void onPostExecute(String week){
+            Snackbar.make(getView(), "Record for week "+week+" has been updated", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+            ReadDatabase readDatabase = new ReadDatabase();
+            readDatabase.execute();
+        }
+    }
+
+    public void addNewWeight(View view){
+        AlertDialog.Builder alert = new AlertDialog.Builder(context);
+        LinearLayout layout = new LinearLayout(context);
+        layout.setOrientation(LinearLayout.VERTICAL);
+
+        final EditText addWeek = new EditText(context);
+        addWeek.setInputType(InputType.TYPE_CLASS_NUMBER);
+        addWeek.setHint("Enter any past week");
+        layout.addView(addWeek);
+
+        final EditText addWeight = new EditText(context);
+        addWeight.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        addWeight.setHint("Enter weight value for above week");
+        layout.addView(addWeight);
+        alert.setView(layout);
+        alert.setCancelable(false);
+        alert.setPositiveButton("SAVE", new DialogInterface.OnClickListener() {
+            int flag = 0;
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(addWeek.getText().toString().isEmpty())
+                {
+                    Toast.makeText(context,"The fields can not be empty",Toast.LENGTH_LONG).show();
+                    flag = 1;
+                }
+                else if(addWeight.getText().toString().isEmpty())
+                {
+                    Toast.makeText(context,"The fields can not be empty",Toast.LENGTH_LONG).show();
+                    flag = 1;
+                }
+                else if(Integer.valueOf(addWeek.getText().toString())>=currentUser.getCurrentWeek()||
+                        Integer.valueOf(addWeek.getText().toString())<0)
+                {
+                    Toast.makeText(context,"Please input valid week (from 0 to current week)",Toast.LENGTH_LONG).show();
+                    flag = 1;
+                }
+                else if(Double.valueOf(addWeight.getText().toString())>300||
+                        Double.valueOf(addWeight.getText().toString())<15)
+                {
+                    Toast.makeText(context,"Please input the weight within valid range (from 25-250kg)",Toast.LENGTH_LONG).show();
+                    flag = 1;
+                }
+
+                else {
+                    InsertRecord insertRecord = new InsertRecord();
+                    insertRecord.execute(addWeek.getText().toString(), addWeight.getText().toString());
+                }
+            }
+        });
+        alert.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        alert.show();
+    }
+
 
 }

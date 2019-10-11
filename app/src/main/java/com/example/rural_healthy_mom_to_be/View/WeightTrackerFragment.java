@@ -93,7 +93,6 @@ public class WeightTrackerFragment extends Fragment {
         LinearLayout layout = new LinearLayout(context);
         layout.setOrientation(LinearLayout.VERTICAL);
 
-
         final EditText addWeek = new EditText(context);
         addWeek.setInputType(InputType.TYPE_CLASS_NUMBER);
         addWeek.setHint("Enter any past week");
@@ -212,7 +211,6 @@ public class WeightTrackerFragment extends Fragment {
             tvTrackerCurrentWeight.setText(currentUser.getCurrentWeight()+" KG");
 
             HashMap mapHead = new HashMap<String,String>();
-
             String[] colHEAD = new String[] {"Week","Weight","Gain"};
             int[] dataCell = new int[] {R.id.weekLV,R.id.weightLV,R.id.InRangeLV};
             listArray = new ArrayList<HashMap<String, String>>();
@@ -223,7 +221,6 @@ public class WeightTrackerFragment extends Fragment {
 
             myListAdapter = new SimpleAdapter(context,listArray,R.layout.list_view,colHEAD,dataCell);
             weightLV.setAdapter(myListAdapter);
-
 
             for(Weight weight:weightList) {
                 map = new HashMap<String, String>();
