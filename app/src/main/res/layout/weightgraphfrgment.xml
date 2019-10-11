@@ -9,7 +9,7 @@ android:layout_height="match_parent"
 android:background="#00FFFFFF"
 android:orientation="vertical">
 
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -94,13 +94,13 @@ android:orientation="vertical">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
+                                android:layout_height="wrap_content"
                                 android:orientation="vertical">
 
                                 <ListView
                                     android:id="@+id/listView"
                                     android:layout_width="341dp"
-                                    android:layout_height="234dp"
+                                    android:layout_height="477dp"
                                     android:layout_marginBottom="15dp">
 
                                 </ListView>
@@ -172,6 +172,6 @@ android:orientation="vertical">
 
             </android.support.v7.widget.CardView>
         </RelativeLayout>
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 
 </android.support.constraint.ConstraintLayout>

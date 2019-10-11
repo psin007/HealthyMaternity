@@ -526,7 +526,7 @@ public class WeightGraphFragment extends Fragment {
             listArray = new ArrayList<HashMap<String, String>>();
             mapHead.put("Week","Week");
             mapHead.put("Weight","   Weight");
-            mapHead.put("Weight in range","   Range");
+            mapHead.put("Weight in range","    Range");
             listArray.add(mapHead);
 
             myListAdapter = new SimpleAdapter(context,listArray,R.layout.list_view,colHEAD,dataCell);
@@ -600,13 +600,22 @@ public class WeightGraphFragment extends Fragment {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                map.put("Weight",editText.getText().toString()+" KG");
                 UpdateUserInfo updateUserInfo = new UpdateUserInfo();
-                updateUserInfo.execute(Double.valueOf(editText.getText().toString()),index);
-                myListAdapter.notifyDataSetChanged();
+                try
+                {
+                    Double.parseDouble(editText.getText().toString());
+                    updateUserInfo.execute(Double.valueOf(editText.getText().toString()),index);
+                    myListAdapter.notifyDataSetChanged();
+                }
+                catch(NumberFormatException e)
+                {
+                    Toast.makeText(context,"The input is invalid!",Toast.LENGTH_LONG).show();
+                }
+
                 dialog.dismiss();
                 ReadDatabase readDatabase = new ReadDatabase();
                 readDatabase.execute();
+                chart.invalidate();
             }
         });
         dialog.show();
@@ -650,39 +659,45 @@ public class WeightGraphFragment extends Fragment {
             int flag = 0;
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if(addWeek.getText().toString().isEmpty())
+                if(addWeek.getText().toString().isEmpty()||addWeight.getText().toString().isEmpty())
                 {
                     Toast.makeText(context,"The fields can not be empty",Toast.LENGTH_LONG).show();
                     flag = 1;
                 }
-                else if(addWeight.getText().toString().isEmpty())
+
+                try
                 {
-                    Toast.makeText(context,"The fields can not be empty",Toast.LENGTH_LONG).show();
-                    flag = 1;
+                    Double weight = Double.parseDouble(addWeight.getText().toString());
+                    int week = Integer.parseInt(addWeek.getText().toString());
+
+                    if(week>=currentUser.getCurrentWeek()|| week<0)
+                    {
+                        Toast.makeText(context,"Please input valid week (from 0 to current week)",Toast.LENGTH_LONG).show();
+                        flag = 1;
+                    }
+                    else if(weight>300|| weight<15)
+                    {
+                        Toast.makeText(context,"Please input the weight within valid range (from 25-250kg)",Toast.LENGTH_LONG).show();
+                        flag = 1;
+                    }
+
+                    else if(checkIfWeekExists(week))
+                    {
+                        Toast.makeText(context,"The record for this week exists!",Toast.LENGTH_LONG).show();
+                        flag = 1;
+                    }
+
+                    else {
+                        InsertRecord insertRecord = new InsertRecord();
+                        insertRecord.execute(addWeek.getText().toString(), addWeight.getText().toString());
+                        chart.invalidate();
+                    }
                 }
-                else if(Integer.valueOf(addWeek.getText().toString())>=currentUser.getCurrentWeek()||
-                        Integer.valueOf(addWeek.getText().toString())<0)
+                catch(NumberFormatException e)
                 {
-                    Toast.makeText(context,"Please input valid week (from 0 to current week)",Toast.LENGTH_LONG).show();
-                    flag = 1;
-                }
-                else if(Double.valueOf(addWeight.getText().toString())>300||
-                        Double.valueOf(addWeight.getText().toString())<15)
-                {
-                    Toast.makeText(context,"Please input the weight within valid range (from 25-250kg)",Toast.LENGTH_LONG).show();
-                    flag = 1;
+                    Toast.makeText(context,"The input is invalid!",Toast.LENGTH_LONG).show();
                 }
 
-                else if(checkIfWeekExists(Integer.valueOf(addWeek.getText().toString())))
-                {
-                    Toast.makeText(context,"The record for this week exists!",Toast.LENGTH_LONG).show();
-                    flag = 1;
-                }
-
-                else {
-                    InsertRecord insertRecord = new InsertRecord();
-                    insertRecord.execute(addWeek.getText().toString(), addWeight.getText().toString());
-                }
             }
         });
         alert.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
