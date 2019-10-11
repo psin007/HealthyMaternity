@@ -21,6 +21,7 @@ import android.os.Environment;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -33,6 +34,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -45,7 +47,6 @@ import android.widget.Toast;
 import com.example.rural_healthy_mom_to_be.Model.LoggedinUser;
 import com.example.rural_healthy_mom_to_be.Model.Weight;
 import com.example.rural_healthy_mom_to_be.R;
-import com.example.rural_healthy_mom_to_be.Repository.LinearRegression;
 import com.example.rural_healthy_mom_to_be.Repository.LoggedInUserDb;
 import com.example.rural_healthy_mom_to_be.Repository.RestClient;
 import com.github.mikephil.charting.animation.Easing;
@@ -84,7 +85,7 @@ public class WeightGraphFragment extends Fragment {
     List<LoggedinUser> userList;
     List<Weight> weightList;
     ListView weightLV;
-    ImageView shareBtn;
+    FloatingActionButton shareBtn;
     private LineChart chart;
     private String [] upperRange;
     private String [] lowerRange;
@@ -94,6 +95,7 @@ public class WeightGraphFragment extends Fragment {
     HashMap<String,String> map;
     Context context;
     TextView tvTrackerCurrentWeight;
+    FloatingActionButton fab_add;
 
     ArrayList<Entry>lineEntries1 = new ArrayList<>();
     ArrayList<Entry>lineEntries2 = new ArrayList<>();
@@ -125,12 +127,14 @@ public class WeightGraphFragment extends Fragment {
         vWeightGraph = inflater.inflate(R.layout.weightgraphfrgment, container,false);
         vWeightTracker = inflater.inflate(R.layout.weighttrackerfragment,container,false);
 
+
         context = vReport.getContext();
         weightLV = vReport.findViewById(R.id.listView);
+        fab_add = vReport.findViewById(R.id.fab);
         listArray = new ArrayList<>();
+        shareBtn =vReport.findViewById(R.id.fab_share);
 
         tvTrackerCurrentWeight = vReport.findViewById(R.id.trackerWeight);
-        shareBtn = vReport.findViewById(R.id.imageShare);
         loggedInUserdb = Room.databaseBuilder(vReport.getContext(),
                 LoggedInUserDb.class, "LoggedInUserDatabase")
                 .fallbackToDestructiveMigration()
@@ -146,8 +150,7 @@ public class WeightGraphFragment extends Fragment {
         getRange getRangeVal = new getRange();
         getRangeVal.execute();
 
-        cdGraph = vWeightGraph.findViewById(R.id.cd_graph);
-        TransitionManager.beginDelayedTransition(cdGraph, new Slide());
+
 
 
         //Initialize the chart
@@ -159,19 +162,15 @@ public class WeightGraphFragment extends Fragment {
         chart.setScaleEnabled(true);
         chart.setPinchZoom(true);
 
-        // get the legend (only possible after setting data)
-        Legend l = chart.getLegend();
-        l.setEnabled(true);
-
         //draw at background
         //chart.setBackgroundColor(Color.WHITE);
         chart.setDrawGridBackground(false);
         chart.setDrawBorders(false);
         chart.setNoDataText("Please wait a few seconds...");
-        chart.getAxisLeft().setTextColor(Color.GRAY); // left y-axis
-        chart.getXAxis().setTextColor(Color.GRAY);
-        chart.getLegend().setTextColor(Color.GRAY);
-
+        chart.getAxisLeft().setTextColor(Color.WHITE); // left y-axis
+        chart.getXAxis().setTextColor(Color.WHITE);
+        chart.getLegend().setTextColor(Color.WHITE);
+        chart.getDescription().setEnabled(false);
 
         //get X axis
         XAxis xAxis = chart.getXAxis();
@@ -193,6 +192,22 @@ public class WeightGraphFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 createPdf();
+            }
+        });
+
+        fab_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addNewWeight(view);
+            }
+        });
+
+        weightLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //show the input box
+                showInputBox(String.valueOf(currentUser.getCurrentWeight()),(double) position);
+                myListAdapter.notifyDataSetChanged();
             }
         });
 
@@ -379,6 +394,7 @@ public class WeightGraphFragment extends Fragment {
         ds1.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
         ds1.setFormSize(15.f);
         dataSets.add(ds1);
+        chart.notifyDataSetChanged();
     }
 
     private void setLowerRange(){
@@ -395,16 +411,17 @@ public class WeightGraphFragment extends Fragment {
         ds2.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
         ds2.setFormSize(15.f);
         dataSets.add(ds2);
+        chart.notifyDataSetChanged();
     }
 
     private void setUsrWeight(){
         LineDataSet ds3 = new LineDataSet(lineEntries3, "current weight");
-        ds3.setDrawValues(true);
+        ds3.setDrawValues(false);
         ds3.setValueTextColor(Color.GRAY);
-        ds3.setColor(Color.parseColor("#FB9907"));
+        ds3.setColor(Color.parseColor("#f8b95c"));
         ds3.setDrawCircles(true);
         ds3.setCircleRadius(5f);
-        ds3.setCircleColor(Color.parseColor("#FB9907"));
+        ds3.setCircleColor(Color.parseColor("#f8b95c"));
         ds3.setLineWidth(2f);
         ds3.setValueTextSize(7f);
         ds3.setFormLineWidth(2f);
@@ -412,29 +429,8 @@ public class WeightGraphFragment extends Fragment {
         ds3.setFormSize(15.f);
         ds3.setDrawCircleHole(false);
         dataSets.add(ds3);
+        chart.notifyDataSetChanged();
     }
-
-
-
-//    private void preUsrWeight(){
-//
-//        calLinearRegFunction();
-//
-//        LineDataSet ds4 = new LineDataSet(lineEntries4, "Predication Line");
-//        ds4.setDrawValues(true);
-//        ds4.setColor(Color.parseColor("#48fa5d"));
-//        ds4.setDrawCircles(false);
-////        ds4.setCircleRadius(10f);
-////        ds4.setCircleHoleRadius(5f);
-////        ds4.setCircleColor(Color.parseColor("#e08b4a"));
-//        ds4.setLineWidth(2f);
-//        ds4.setValueTextSize(10f);
-//        ds4.setFormLineWidth(2f);
-//        ds4.enableDashedLine(15f,10f,2f);
-//        ds4.setFormSize(15.f);
-//        dataSets.add(ds4);
-//    }
-
 
     public class getRange extends AsyncTask<Void, Void, String> {
         @Override
@@ -500,6 +496,7 @@ public class WeightGraphFragment extends Fragment {
             userList = loggedInUserdb.loggedInUserDao().getAll();
             weightList = loggedInUserdb.weightDao().getAll();
             currentUser = userList.get(0);
+            populateWeightDB();
             return userList.get(0);
         }
         protected void onPostExecute(LoggedinUser details) {
@@ -516,15 +513,20 @@ public class WeightGraphFragment extends Fragment {
             setUsrWeight();
             //preUsrWeight();
             chart.notifyDataSetChanged();
+
+            // get the legend (only possible after setting data)
+            Legend l = chart.getLegend();
+            l.setEnabled(true);
+
             chart.invalidate();
 
             HashMap mapHead = new HashMap<String,String>();
-            String[] colHEAD = new String[] {"Week","Weight","Gain"};
+            String[] colHEAD = new String[] {"Week","Weight","Weight in range"};
             int[] dataCell = new int[] {R.id.weekLV,R.id.weightLV,R.id.InRangeLV};
             listArray = new ArrayList<HashMap<String, String>>();
             mapHead.put("Week","Week");
             mapHead.put("Weight","   Weight");
-            mapHead.put("Weight in range","   Weight in range /week");
+            mapHead.put("Weight in range","   Range");
             listArray.add(mapHead);
 
             myListAdapter = new SimpleAdapter(context,listArray,R.layout.list_view,colHEAD,dataCell);
@@ -535,13 +537,12 @@ public class WeightGraphFragment extends Fragment {
                 map.put("Week", "Week " + weight.getWeek() + "");
                 map.put("Weight", weight.getWeight() + " KG");
 
-                //TODO all of it needs to be redone
                 if (weight.getWeight() > HomePageFragment.maxWeightValue) {
                     map.put("Weight in range", "   Higher ");
                 } else if (weight.getWeight() < HomePageFragment.minWeightValue) {
                     map.put("Weight in range", "   Lower ");
                 } else {
-                    map.put("Weight in range", "In range");
+                    map.put("Weight in range", "   Ideal");
                 }
                 listArray.add(map);
                 myListAdapter.notifyDataSetChanged();
@@ -555,8 +556,7 @@ public class WeightGraphFragment extends Fragment {
             int pos = (int) pos1 - 1;
             Weight weight = weightList.get(pos);
             weight.setWeight(params[0]);
-            loggedInUserdb.weightDao().updateUsers();
-            myListAdapter.notifyDataSetChanged();
+            populateWeightDB();
             return "";
         }
 
@@ -673,6 +673,12 @@ public class WeightGraphFragment extends Fragment {
                     flag = 1;
                 }
 
+                else if(checkIfWeekExists(Integer.valueOf(addWeek.getText().toString())))
+                {
+                    Toast.makeText(context,"The record for this week exists!",Toast.LENGTH_LONG).show();
+                    flag = 1;
+                }
+
                 else {
                     InsertRecord insertRecord = new InsertRecord();
                     insertRecord.execute(addWeek.getText().toString(), addWeight.getText().toString());
@@ -686,6 +692,25 @@ public class WeightGraphFragment extends Fragment {
             }
         });
         alert.show();
+    }
+
+    private boolean checkIfWeekExists(int week)
+    {
+        for(Weight record:weightList)
+        {
+            if(week == record.getWeek())
+                return true;
+        }
+        return false;
+    }
+
+    private void populateWeightDB()
+    {
+        loggedInUserdb.weightDao().deleteAll();
+        for(Weight weight:weightList)
+        {
+            loggedInUserdb.weightDao().insert(weight);
+        }
     }
 
 

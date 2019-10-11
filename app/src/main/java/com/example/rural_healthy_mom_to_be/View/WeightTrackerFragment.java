@@ -68,20 +68,18 @@ public class WeightTrackerFragment extends Fragment {
         ReadDatabase readDatabase = new ReadDatabase();
         readDatabase.execute();
 
-//        weightLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                //show the input box
-//                showInputBox(String.valueOf(currentUser.getCurrentWeight()),(double) position);
-//            }
-//        });
+        weightLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //show the input box
+                showInputBox(String.valueOf(currentUser.getCurrentWeight()),(double) position);
+            }
+        });
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 addNewWeight(view);
-//                Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
             }
         });
 
@@ -156,12 +154,9 @@ public class WeightTrackerFragment extends Fragment {
         editText.setText(oldWeight);
         Button btn = dialog.findViewById(R.id.btn_box_done);
 
-
-
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                map.put("Weight",editText.getText().toString()+" KG");
                 UpdateUserInfo updateUserInfo = new UpdateUserInfo();
                 updateUserInfo.execute(Double.valueOf(editText.getText().toString()),index);
                 myListAdapter.notifyDataSetChanged();
@@ -245,10 +240,10 @@ public class WeightTrackerFragment extends Fragment {
     private class UpdateUserInfo extends AsyncTask<Double,Void,String>{
         @Override protected String doInBackground(Double... params){
             double pos1 = (double) params[1];
-            int pos = (int) pos1 - 1;
+            int pos = (int) pos1;
             Weight weight = weightList.get(pos);
             weight.setWeight(params[0]);
-            loggedInUserdb.weightDao().updateUsers();
+
             myListAdapter.notifyDataSetChanged();
             return "";
         }
