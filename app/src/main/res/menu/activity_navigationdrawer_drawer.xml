@@ -5,11 +5,8 @@
             android:id="@+id/nav_homepage"
             android:title="Homepage" />
         <item
-            android:id="@+id/nav_weighttracker"
-            android:title="Weight Tracker" />
-        <item
             android:id="@+id/nav_weightGraph"
-            android:title="Weight Graph" />
+            android:title="Weight Tracker" />
         <item
             android:id="@+id/nav_nearbyservices"
             android:title="Nearby Services" />

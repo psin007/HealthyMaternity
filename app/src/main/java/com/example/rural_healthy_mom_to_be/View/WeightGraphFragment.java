@@ -237,7 +237,7 @@ public class WeightGraphFragment extends Fragment {
         paint.setTextSize(60);
         canvas.drawText("User name: " + userName, leftMargin,titleBaseLine+80, paint);
         paint.setTextSize(50);
-        canvas.drawText("Generated date&time: " + curdate, leftMargin,titleBaseLine+160, paint);
+        canvas.drawText("Date&Time: " + curdate, leftMargin,titleBaseLine+160, paint);
 
         paint.setTextSize(60);
         canvas.drawText("Personal Information: ", leftMargin,titleBaseLine+300, paint);
@@ -274,34 +274,34 @@ public class WeightGraphFragment extends Fragment {
         canvas=page2.getCanvas();
         paint.setTextSize(70);
         canvas.drawText("Weight Log",leftMargin,titleBaseLine,paint);
-        canvas.drawLine(leftMargin, titleBaseLine+50, rowLine,titleBaseLine+50,paint);
+        canvas.drawLine(leftMargin, titleBaseLine+50, rowLine+500,titleBaseLine+50,paint);
 
         paint.setTextSize(50);
         for(Weight weight : weightList)
         {
             canvas.drawText("Week "+weight.getWeek(), leftMargin, titleBaseLine + (addSpace-30) ,paint);
-            canvas.drawText(weight.getWeight()+" kg", leftMargin+500, titleBaseLine + (addSpace-30) ,paint);
+            canvas.drawText(weight.getWeight()+" kg", leftMargin+250, titleBaseLine + (addSpace-30) ,paint);
 
             if(weight.getWeight() > HomePageFragment.maxWeightValue)
             {
                 paint.setColor(Color.RED);
-                canvas.drawText("Upper", leftMargin+900, titleBaseLine + (addSpace-30) ,paint);
+                canvas.drawText("Upper", leftMargin+500, titleBaseLine + (addSpace-30) ,paint);
                 paint.setColor(Color.BLACK);
             }
-            else if(weight.getWeight() < HomePageFragment.maxWeightValue)
+            else if(weight.getWeight() < HomePageFragment.minWeightValue)
             {
-                paint.setColor(Color.RED);
-                canvas.drawText("Lower", leftMargin+900, titleBaseLine + (addSpace-30) ,paint);
+                paint.setColor(Color.BLUE);
+                canvas.drawText("Lower", leftMargin+500, titleBaseLine + (addSpace-30) ,paint);
                 paint.setColor(Color.BLACK);
             }
             else
                 {
                 paint.setColor(Color.GREEN);
-                canvas.drawText("Overweight", leftMargin+900, titleBaseLine + (addSpace-30) ,paint);
+                canvas.drawText("Ideal", leftMargin+500, titleBaseLine + (addSpace-30) ,paint);
                 paint.setColor(Color.BLACK);
             }
 
-            canvas.drawLine(leftMargin,titleBaseLine+addSpace,rowLine,titleBaseLine+addSpace,paint);
+            canvas.drawLine(leftMargin,titleBaseLine+addSpace,rowLine+500,titleBaseLine+addSpace,paint);
 
 
             addSpace+=100;

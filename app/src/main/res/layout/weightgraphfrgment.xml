@@ -100,7 +100,7 @@ android:orientation="vertical">
                                 <ListView
                                     android:id="@+id/listView"
                                     android:layout_width="341dp"
-                                    android:layout_height="477dp"
+                                    android:layout_height="251dp"
                                     android:layout_marginBottom="15dp">
 
                                 </ListView>
