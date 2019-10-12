@@ -26,12 +26,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class AddFoodInDiaryFragment extends Fragment {
     View vFoodAdd;
-    String foodToSearch;
     View addQuantity;
     View layoutFacts;
     View quantityLayout;
@@ -46,6 +47,7 @@ public class AddFoodInDiaryFragment extends Fragment {
     Button addButton;
     TextView tvServingUnit;
     private List<LoggedinUser> userList;
+    final String pattern = "yyyy-MM-dd HH:mm:ss";
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
             savedInstanceState) {
@@ -200,7 +202,6 @@ public class AddFoodInDiaryFragment extends Fragment {
                 currentUser = userList.get(0);
                 return null;
             }
-
             protected void onPostExecute() {
             }
         }
@@ -210,10 +211,12 @@ public class AddFoodInDiaryFragment extends Fragment {
             protected String doInBackground(String... params) {
                 String foodName = params[0];
                 int unit = Integer.valueOf(params[1]);
+                SimpleDateFormat simformat = new SimpleDateFormat(pattern);
+                String currentDateTimeString = simformat.format(new Date());
 
                 Summary newRecord = new Summary(currentUser.getUserid(), foodName, unit,
                         Double.valueOf(tvCaloriesFacts.getText().toString()),
-                        Double.valueOf(tvFatFacts.getText().toString()));
+                        Double.valueOf(tvFatFacts.getText().toString()),currentDateTimeString);
                 loggedInUserdb.summaryDao().insert(newRecord);
                 return params[0];
             }

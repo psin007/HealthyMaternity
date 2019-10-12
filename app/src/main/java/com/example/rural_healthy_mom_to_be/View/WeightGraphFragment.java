@@ -170,7 +170,7 @@ public class WeightGraphFragment extends Fragment {
         chart.setNoDataText("Please wait a few seconds...");
         chart.getAxisLeft().setTextColor(Color.WHITE); // left y-axis
         chart.getXAxis().setTextColor(Color.WHITE);
-        chart.getLegend().setTextColor(Color.WHITE);
+
         chart.getDescription().setEnabled(false);
 
         //get X axis
@@ -533,9 +533,9 @@ public class WeightGraphFragment extends Fragment {
             setUsrWeight();
             //preUsrWeight();
             chart.notifyDataSetChanged();
-
             // get the legend (only possible after setting data)
             Legend l = chart.getLegend();
+            chart.getLegend().setTextColor(Color.WHITE);
             l.setEnabled(true);
 
             chart.invalidate();

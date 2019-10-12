@@ -60,12 +60,14 @@ public class Summary {
 //updated one; without calories
 
 
-    public Summary(int uid, String foodname, int quantity, Double calories,Double fat) {
+    public Summary(int uid, String foodname, int quantity, Double calories,Double fat, String time) {
         this.uid = uid;
         this.foodname = foodname;
         this.quantity = quantity;
         this.calories = calories;
         this.fat = fat;
+        this.time = time;
+
     }
 
     public int getUid() {

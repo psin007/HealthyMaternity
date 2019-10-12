@@ -3,7 +3,6 @@ package com.example.rural_healthy_mom_to_be.View;
 import android.app.DatePickerDialog;
 import android.arch.persistence.room.Room;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
@@ -23,11 +22,9 @@ import android.widget.TextView;
 
 import com.example.rural_healthy_mom_to_be.Model.LoggedinUser;
 import com.example.rural_healthy_mom_to_be.Model.Summary;
-import com.example.rural_healthy_mom_to_be.Model.Weight;
 import com.example.rural_healthy_mom_to_be.R;
 import com.example.rural_healthy_mom_to_be.Repository.LoggedInUserDb;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -91,15 +88,6 @@ public class FoodDiaryFragement extends Fragment {
                 int month = cal.get(Calendar.MONTH);
                 int day = cal.get(Calendar.DAY_OF_MONTH);
 
-                DatePickerDialog dialog = new DatePickerDialog(
-                        getContext(),
-                        android.R.style.Theme_Holo_Dialog_MinWidth,
-                        mListener,
-                        year, month, day
-                );
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.show();
-
                 mListener = new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int yr, int mm, int dd) {
@@ -108,11 +96,22 @@ public class FoodDiaryFragement extends Fragment {
                         if (monthString.length() == 1) {
                             monthString = "0" + monthString;
                         }
-
                         String setDate = dd + "/" + monthString + "/" + yr;
                         date_select.setText(setDate);
+                        //show the list for given date
+                        ReadDatabase read = new ReadDatabase();
+                        read.execute();
                     }
                 };
+
+                DatePickerDialog dialog = new DatePickerDialog(
+                        getContext(),
+                        android.R.style.Theme_Holo_Dialog_MinWidth,
+                        mListener,
+                        year, month, day
+                );
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
             }
         });
 
@@ -137,8 +136,8 @@ public class FoodDiaryFragement extends Fragment {
         @Override
         protected LoggedinUser doInBackground(Void... voids) {
             //Todo need to be refined
-            //consumList = loggedInUserdb.summaryDao().findByDate(date_select.getText().toString());
-            consumList = loggedInUserdb.summaryDao().getAll();
+            consumList = loggedInUserdb.summaryDao().findByDate(date_select.getText().toString());
+            //consumList = loggedInUserdb.summaryDao().getAll();
 
             userList = loggedInUserdb.loggedInUserDao().getAll();
             currentUser = userList.get(0);
