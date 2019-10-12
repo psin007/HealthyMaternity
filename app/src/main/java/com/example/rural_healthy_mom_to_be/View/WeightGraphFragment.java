@@ -499,6 +499,11 @@ public class WeightGraphFragment extends Fragment {
                 LineData data = new LineData(dataSets);
                 chart.setData(data);
 
+                // get the legend (only possible after setting data)
+                Legend l = chart.getLegend();
+                chart.getLegend().setTextColor(Color.WHITE);
+                l.setEnabled(true);
+
                 //refresh
 //                chart.invalidate();
             } catch (JSONException e) {
@@ -533,10 +538,6 @@ public class WeightGraphFragment extends Fragment {
             setUsrWeight();
             //preUsrWeight();
             chart.notifyDataSetChanged();
-            // get the legend (only possible after setting data)
-            Legend l = chart.getLegend();
-            chart.getLegend().setTextColor(Color.WHITE);
-            l.setEnabled(true);
 
             chart.invalidate();
 

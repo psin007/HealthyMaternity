@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -173,13 +174,17 @@ public class FoodDiaryFragement extends Fragment {
 
             for (Summary summary : consumList) {
                 map = new HashMap<String, String>();
-                map.put("Food", summary.getFoodname());
-                map.put("Quantity", "       "+summary.getQuantity() + " serves");
+                map.put("Food", fixedLengthString(summary.getFoodname(),8));
+                map.put("Quantity", summary.getQuantity() + " serves");
                 map.put("Energy", "    "+summary.getCalories() * summary.getQuantity()+ " kcal");
                 map.put("Fat", "  "+summary.getFat() * summary.getQuantity() + " g");
                 listArray.add(map);
                 myListAdapter.notifyDataSetChanged();
             }
+        }
+
+        public String fixedLengthString(String string, int length) {
+            return String.format("%-"+length+ "s", string);
         }
 
         private void getDate() {

@@ -92,8 +92,8 @@ public class HomePageFragment  extends Fragment {
                 {
                     Toast.makeText(getContext(),"The input is invalid!",Toast.LENGTH_LONG).show();
                 }
-                else if(Integer.valueOf(editWeight.getText().toString())>300||
-                        Integer.valueOf(editWeight.getText().toString())<15)
+                else if(Double.valueOf(editWeight.getText().toString())>300||
+                        Double.valueOf(editWeight.getText().toString())<15)
                 {
                     Toast.makeText(getContext(),"Please input the weight within valid range (from 25-250kg)",Toast.LENGTH_LONG).show();
                 }
