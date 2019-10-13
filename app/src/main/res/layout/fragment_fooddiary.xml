@@ -27,7 +27,7 @@
         android:clickable="true"
         android:ems="10"
         android:gravity="center"
-        android:textColor="#2CD7EC"
+        android:textColor="#FB9907"
         android:textSize="24sp"
         android:textStyle="bold" />
 

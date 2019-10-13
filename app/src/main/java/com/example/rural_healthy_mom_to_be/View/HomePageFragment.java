@@ -207,7 +207,7 @@ public class HomePageFragment  extends Fragment
         }
         @Override
         protected void onPostExecute(String newWeight) {
-            currentWeight.setText(newWeight);
+            currentWeight.setText(newWeight + " KG");
             if(currentWeightValue < minWeightValue){
                 message.setText("Great going! Just a little bit lower than recommended weight gain  this week.");
             }
@@ -249,7 +249,7 @@ public class HomePageFragment  extends Fragment
 
         //    weightBeforePreg.setText(details.getWeightBeforePregnancy()+"");
 
-            currentWeight.setText(lastWeight.getWeight()+"  ");
+            currentWeight.setText(lastWeight.getWeight()+" KG");
             currentWeightValue = lastWeight.getWeight();
             weightBeforePregValue = details.getWeightBeforePregnancy();
 
