@@ -127,7 +127,6 @@ public class WeightGraphFragment extends Fragment {
         vWeightGraph = inflater.inflate(R.layout.weightgraphfrgment, container,false);
         vWeightTracker = inflater.inflate(R.layout.weighttrackerfragment,container,false);
 
-
         context = vReport.getContext();
         weightLV = vReport.findViewById(R.id.listView);
         fab_add = vReport.findViewById(R.id.fab);
