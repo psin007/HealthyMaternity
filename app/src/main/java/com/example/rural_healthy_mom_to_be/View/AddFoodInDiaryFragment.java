@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.rural_healthy_mom_to_be.Model.Food;
 import com.example.rural_healthy_mom_to_be.Model.LoggedinUser;
@@ -87,18 +88,16 @@ public class AddFoodInDiaryFragment extends Fragment {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                InsertRecord insert = new InsertRecord();
-                insert.execute(etSearchFood.getText().toString(),
-                        etQuantity.getText().toString());
-            }
-        });
+                if (etSearchFood.getText().toString().isEmpty() ||
+                        etQuantity.getText().toString().isEmpty())
+                    Toast.makeText(getContext(), "Fields cannot be empty!", Toast.LENGTH_SHORT).show();
+                else
+                {
+                    InsertRecord insert = new InsertRecord();
+                    insert.execute(etSearchFood.getText().toString(),
+                            etQuantity.getText().toString());
+                }
 
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                InsertRecord insert = new InsertRecord();
-                insert.execute(etSearchFood.getText().toString(),
-                        etQuantity.getText().toString());
             }
         });
 
