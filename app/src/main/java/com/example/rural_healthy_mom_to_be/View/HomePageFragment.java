@@ -27,12 +27,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class HomePageFragment  extends Fragment {
+public class HomePageFragment  extends Fragment
+{
     View vHomePage;
     LoggedInUserDb loggedInUserdb;
     TextView homeHeader;

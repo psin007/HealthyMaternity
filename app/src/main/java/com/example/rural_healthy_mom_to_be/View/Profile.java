@@ -51,7 +51,6 @@ public class Profile extends Fragment {
         tvHeight =view.findViewById(R.id.weight_current);
         tvWeight =view.findViewById(R.id.etprePregWeightValue);
 
-
         ReadDatabase readDatabase = new ReadDatabase();
         readDatabase.execute();
         return view;

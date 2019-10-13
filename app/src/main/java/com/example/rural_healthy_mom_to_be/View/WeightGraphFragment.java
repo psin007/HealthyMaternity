@@ -168,8 +168,8 @@ public class WeightGraphFragment extends Fragment {
         chart.setDrawGridBackground(false);
         chart.setDrawBorders(false);
         chart.setNoDataText("Please wait a few seconds...");
-        chart.getAxisLeft().setTextColor(Color.WHITE); // left y-axis
-        chart.getXAxis().setTextColor(Color.WHITE);
+        chart.getAxisLeft().setTextColor(Color.BLACK); // left y-axis
+        chart.getXAxis().setTextColor(Color.BLACK);
 
         chart.getDescription().setEnabled(false);
 
@@ -440,10 +440,10 @@ public class WeightGraphFragment extends Fragment {
         LineDataSet ds3 = new LineDataSet(lineEntries3, "current weight");
         ds3.setDrawValues(false);
         ds3.setValueTextColor(Color.GRAY);
-        ds3.setColor(Color.parseColor("#f8b95c"));
+        ds3.setColor(Color.parseColor("#f8925c"));
         ds3.setDrawCircles(true);
         ds3.setCircleRadius(5f);
-        ds3.setCircleColor(Color.parseColor("#f8b95c"));
+        ds3.setCircleColor(Color.parseColor("#f8925c"));
         ds3.setLineWidth(2f);
         ds3.setValueTextSize(7f);
         ds3.setFormLineWidth(2f);
@@ -501,7 +501,7 @@ public class WeightGraphFragment extends Fragment {
 
                 // get the legend (only possible after setting data)
                 Legend l = chart.getLegend();
-                chart.getLegend().setTextColor(Color.WHITE);
+                chart.getLegend().setTextColor(Color.BLACK);
                 l.setEnabled(true);
 
                 //refresh
