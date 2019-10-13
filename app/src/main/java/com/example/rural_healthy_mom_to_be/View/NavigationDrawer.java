@@ -89,6 +89,11 @@ public class NavigationDrawer extends AppCompatActivity
         }
     }
 
+    public void setWeightTitle(){
+        getSupportActionBar().setTitle("Weight Graph");
+    }
+
+
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String[] permissions,

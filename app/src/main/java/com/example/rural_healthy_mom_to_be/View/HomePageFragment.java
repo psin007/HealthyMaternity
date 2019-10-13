@@ -7,11 +7,14 @@ import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,6 +51,9 @@ public class HomePageFragment  extends Fragment
     String BMIClass;
     LoggedinUser currentUser;
     Weight lastWeight;
+    Button weightTab;
+    Button hospitalsTab;
+    Button foodTab;
 
     //TODO remove static and global variable
     static public double maxWeightValue;
@@ -68,6 +74,44 @@ public class HomePageFragment  extends Fragment
         minWeight = vHomePage.findViewById(R.id.min_ideal);
         maxWeight = vHomePage.findViewById(R.id.max_ideal);
         message = vHomePage.findViewById(R.id.msg);
+        weightTab = vHomePage.findViewById(R.id.weighttab);
+        hospitalsTab = vHomePage.findViewById(R.id.hospitalTab);
+        foodTab = vHomePage.findViewById(R.id.foodTab);
+        weightTab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = new WeightGraphFragment();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.content_frame, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
+
+        hospitalsTab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = new NearbyServicesFragment();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.content_frame, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
+
+        foodTab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = new FoodDiaryFragement();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.content_frame, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
         ReadDatabase readDatabase = new ReadDatabase();
         readDatabase.execute();
 
