@@ -64,7 +64,7 @@ public class NearbyServicesFragment extends Fragment implements OnMapReadyCallba
     View vmyMaps;
     LocationManager locationManager;
     LocationListener locationListener;
-    private Spinner mainSpinner;
+  //  private Spinner mainSpinner;
     ArrayList<Hospital> hospitals;
     Button mapButton,listButton;
     EditText etRadius;
@@ -78,7 +78,7 @@ public class NearbyServicesFragment extends Fragment implements OnMapReadyCallba
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         vmyMaps = inflater.inflate(R.layout.fragment_nearby_services, container, false);
-        mainSpinner = vmyMaps.findViewById(R.id.services_spinner);
+       // mainSpinner = vmyMaps.findViewById(R.id.services_spinner);
         etRadius = (EditText)vmyMaps.findViewById(R.id.etRadius);
         placeList = vmyMaps.findViewById(R.id.recyclerView);
         mapButton = vmyMaps.findViewById(R.id.map_button);
@@ -99,7 +99,7 @@ public class NearbyServicesFragment extends Fragment implements OnMapReadyCallba
                 Log.d("latitude","latitude");
                 Log.d("longitude","latitude");
 //                 myMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.2f));
-                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 10);
+                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 7);
                 myMap.animateCamera(cameraUpdate);
                 locationManager.removeUpdates(this);
 
@@ -121,12 +121,12 @@ public class NearbyServicesFragment extends Fragment implements OnMapReadyCallba
             }
 
         };
-        fillSpinnerData(vmyMaps);
+        //fillSpinnerData(vmyMaps);
         locationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
 
         final SupportMapFragment maps = (SupportMapFragment)(getChildFragmentManager().findFragmentById(R.id.map));
         maps.getMapAsync(this);
-                searchHospitalButton.setOnClickListener(new View.OnClickListener() {
+        searchHospitalButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //find radius of search
@@ -140,35 +140,35 @@ public class NearbyServicesFragment extends Fragment implements OnMapReadyCallba
                 searchHospitals();
             }
         });
-        mainSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("test",mainSpinner.getItemAtPosition(position).toString());
-                if(etRadius.getText().toString().length() != 0){
-                    radius = (Double.parseDouble(etRadius.getText().toString()));
-                }
-                else{
-                    radius = 40;
-                }
-                switch(mainSpinner.getItemAtPosition(position).toString()){
-                    case "Search for a service here":
-                        break;
-                    case "Hospitals":
-                        clearData();
-                        searchHospitals();
-                        break;
-//                    case "Fertility centers": searchFertilityCentres();
+//        mainSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                Log.d("test",mainSpinner.getItemAtPosition(position).toString());
+//                if(etRadius.getText().toString().length() != 0){
+//                    radius = (Double.parseDouble(etRadius.getText().toString()));
+//                }
+//                else{
+//                    radius = 40;
+//                }
+//                switch(mainSpinner.getItemAtPosition(position).toString()){
+//                    case "Search for a service here":
 //                        break;
-//                    case "Obstetrician-gynaecologist": searchObstetricianGynaecologist();
+//                    case "Hospitals":
+//                        clearData();
+//                        searchHospitals();
 //                        break;
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+////                    case "Fertility centers": searchFertilityCentres();
+////                        break;
+////                    case "Obstetrician-gynaecologist": searchObstetricianGynaecologist();
+////                        break;
+//                }
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
 
         mapButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -370,16 +370,16 @@ public class NearbyServicesFragment extends Fragment implements OnMapReadyCallba
 
     }
 
-    public void fillSpinnerData(View view){
-        List<String> list = new ArrayList<String>();
-        list.add("Search for a service here");
-        list.add("Hospitals");
-        final Spinner services = (Spinner) vmyMaps.findViewById(R.id.services_spinner);
-        final ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String> (this.getActivity(),android.R.layout.simple_spinner_item,list);
-        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        services.setAdapter(spinnerAdapter );
-
-    }
+//    public void fillSpinnerData(View view){
+//        List<String> list = new ArrayList<String>();
+//        list.add("Search for a service here");
+//        list.add("Hospitals");
+//        final Spinner services = (Spinner) vmyMaps.findViewById(R.id.services_spinner);
+//        final ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String> (this.getActivity(),android.R.layout.simple_spinner_item,list);
+//        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        services.setAdapter(spinnerAdapter );
+//
+//    }
 
     public void showMarker(){
         LatLng loc;
