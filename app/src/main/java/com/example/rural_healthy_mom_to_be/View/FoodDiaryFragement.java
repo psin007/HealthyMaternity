@@ -3,6 +3,7 @@ package com.example.rural_healthy_mom_to_be.View;
 import android.app.DatePickerDialog;
 import android.arch.persistence.room.Room;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
@@ -10,7 +11,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,13 +20,14 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.rural_healthy_mom_to_be.Model.LoggedinUser;
 import com.example.rural_healthy_mom_to_be.Model.Summary;
+import com.example.rural_healthy_mom_to_be.Model.Weight;
 import com.example.rural_healthy_mom_to_be.R;
 import com.example.rural_healthy_mom_to_be.Repository.LoggedInUserDb;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -46,17 +47,17 @@ public class FoodDiaryFragement extends Fragment {
     LoggedinUser currentUser;
     HashMap<String, String> map;
     List<HashMap<String, String>> listArray;
-    public static SimpleAdapter myListAdapter;
+    SimpleAdapter myListAdapter;
     LoggedInUserDb loggedInUserdb;
     private DatePickerDialog.OnDateSetListener mListener;
     private List<Summary> consumList;
     private List<LoggedinUser> userList;
-    private int curyear;
-    private int curmonth;
-    private int curday;
+    private int year;
+    private int month;
+    private int day;
     private String pattern;
 
-
+    //TO show initially when this page is loaded
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
             savedInstanceState) {
         vFood = inflater.inflate(R.layout.fragment_fooddiary, container, false);
@@ -76,13 +77,11 @@ public class FoodDiaryFragement extends Fragment {
         read.execute();
 
 
-
         //get current date
         String pattern = "dd/MM/yyyy";
         SimpleDateFormat simformat = new SimpleDateFormat(pattern);
         String currentDateTimeString = simformat.format(new Date());
         date_select.setText(currentDateTimeString);
-        getDate();
 
         date_select.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,26 +91,6 @@ public class FoodDiaryFragement extends Fragment {
                 int month = cal.get(Calendar.MONTH);
                 int day = cal.get(Calendar.DAY_OF_MONTH);
 
-                mListener = new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int yr, int mm, int dd) {
-                        mm += 1;
-                        String monthString = String.valueOf(mm);
-                        if (monthString.length() == 1) {
-                            monthString = "0" + monthString;
-                        }
-                        String setDate = dd + "/" + monthString + "/" + yr;
-                        if(yr <= curyear && (mm*30+dd)<=(curmonth*30+curday))
-                            date_select.setText(setDate);
-                        else
-                            Toast.makeText(context,"Cannot select the future date!",Toast.LENGTH_LONG).show();
-
-                        //show the list for given date
-                        ReadDatabase read = new ReadDatabase();
-                        read.execute();
-                    }
-                };
-
                 DatePickerDialog dialog = new DatePickerDialog(
                         getContext(),
                         android.R.style.Theme_Holo_Dialog_MinWidth,
@@ -120,10 +99,24 @@ public class FoodDiaryFragement extends Fragment {
                 );
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
+
+                mListener = new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int yr, int mm, int dd) {
+                        mm += 1;
+                        String monthString = String.valueOf(mm);
+                        if (monthString.length() == 1) {
+                            monthString = "0" + monthString;
+                        }
+
+                        String setDate = dd + "/" + monthString + "/" + yr;
+                        date_select.setText(setDate);
+                    }
+                };
             }
         });
 
-
+// When add a food option is clicked, this listener listenes
         btnAddFood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -140,24 +133,19 @@ public class FoodDiaryFragement extends Fragment {
         return vFood;
     }
 
-    private void getDate() {
-        curday = Integer.valueOf(date_select.getText().toString().substring(0, 1));
-        curmonth = Integer.valueOf(date_select.getText().toString().substring(3, 4));
-        curyear = Integer.valueOf(date_select.getText().toString().substring(6, 7));
-    }
-
+    //This class reads database summaryDao to further show in screen
     private class ReadDatabase extends AsyncTask<Void, Void, LoggedinUser> {
         @Override
         protected LoggedinUser doInBackground(Void... voids) {
             //Todo need to be refined
-            consumList = loggedInUserdb.summaryDao().findByDate(date_select.getText().toString());
-            //consumList = loggedInUserdb.summaryDao().getAll();
+            //consumList = loggedInUserdb.summaryDao().findByDate(date_select.getText().toString());
+            consumList = loggedInUserdb.summaryDao().getAll();
 
             userList = loggedInUserdb.loggedInUserDao().getAll();
             currentUser = userList.get(0);
             return userList.get(0);
         }
-
+        //after the background work is done
         protected void onPostExecute(LoggedinUser details) {
             HashMap mapHead = new HashMap<String, String>();
             String[] colHEAD = new String[]{"Food", "Quantity", "Energy","Fat"};
@@ -172,6 +160,8 @@ public class FoodDiaryFragement extends Fragment {
             myListAdapter = new SimpleAdapter(context, listArray, R.layout.food_diary_list, colHEAD, dataCell);
             foodList.setAdapter(myListAdapter);
 
+            getDate();
+
             if(consumList.size() == 0)
             {
                 tv_intro.setVisibility(View.VISIBLE);
@@ -185,20 +175,20 @@ public class FoodDiaryFragement extends Fragment {
 
             for (Summary summary : consumList) {
                 map = new HashMap<String, String>();
-                map.put("Food", fixedLengthString(summary.getFoodname(),8));
-                map.put("Quantity", summary.getQuantity() + " serves");
+                map.put("Food", summary.getFoodname());
+                map.put("Quantity", "       "+summary.getQuantity() + " serves");
                 map.put("Energy", "    "+summary.getCalories() * summary.getQuantity()+ " kcal");
                 map.put("Fat", "  "+summary.getFat() * summary.getQuantity() + " g");
                 listArray.add(map);
                 myListAdapter.notifyDataSetChanged();
             }
         }
-
-        public String fixedLengthString(String string, int length) {
-            return String.format("%-"+length+ "s", string);
+        //To get Day month and year information from date
+        private void getDate() {
+            day = Integer.valueOf(date_select.getText().toString().substring(0, 1));
+            month = Integer.valueOf(date_select.getText().toString().substring(3, 4));
+            year = Integer.valueOf(date_select.getText().toString().substring(6, 7));
         }
-
-
     }
 }
 
