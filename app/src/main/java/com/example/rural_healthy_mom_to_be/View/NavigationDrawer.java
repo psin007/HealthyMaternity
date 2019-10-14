@@ -44,7 +44,7 @@ public class NavigationDrawer extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
-        getSupportActionBar().setTitle("Homepage");
+        getSupportActionBar().setTitle("Home");
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().add(R.id.content_frame, new HomePageFragment(),"HomePageFragment").commit();
 
@@ -128,12 +128,12 @@ public class NavigationDrawer extends AppCompatActivity
         switch (id) {
             case R.id.nav_homepage:
                 nextFragment = new HomePageFragment();
-                getSupportActionBar().setTitle("Homepage");
+                getSupportActionBar().setTitle("Home");
                 tag="HomePageFragment";
                 break;
             case R.id.nav_weightGraph:
                 nextFragment = new WeightGraphFragment();
-                getSupportActionBar().setTitle("Weight Graph");
+                getSupportActionBar().setTitle("Weight Tracker");
                 break;
 
             case R.id.nav_nearbyservices:

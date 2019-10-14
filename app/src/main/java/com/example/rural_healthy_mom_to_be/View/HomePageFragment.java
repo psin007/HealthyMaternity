@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -80,8 +82,10 @@ public class HomePageFragment  extends Fragment
         weightTab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Fragment fragment = new WeightGraphFragment();
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Weight Tracker");
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.content_frame, fragment);
                 fragmentTransaction.addToBackStack(null);
@@ -94,6 +98,7 @@ public class HomePageFragment  extends Fragment
             public void onClick(View v) {
                 Fragment fragment = new NearbyServicesFragment();
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Nearby Hospitals");
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.content_frame, fragment);
                 fragmentTransaction.addToBackStack(null);
@@ -106,6 +111,7 @@ public class HomePageFragment  extends Fragment
             public void onClick(View v) {
                 Fragment fragment = new FoodDiaryFragement();
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Food Diary");
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.content_frame, fragment);
                 fragmentTransaction.addToBackStack(null);
@@ -209,13 +215,13 @@ public class HomePageFragment  extends Fragment
         protected void onPostExecute(String newWeight) {
             currentWeight.setText(newWeight + " KG");
             if(currentWeightValue < minWeightValue){
-                message.setText("Great going! Just a little bit lower than recommended weight gain  this week.");
+                message.setText("Your weight is lower than recommended weight value for this week.");
             }
             else if(currentWeightValue > maxWeightValue){
-                message.setText("Your progress is amazing! Just a bit over than recommended weight gain this week.");
+                message.setText("You have gained more than recommended weight for this week.");
             }
             else{
-                message.setText("You are perfect! Your weight gain is in recommended range this week.");
+                message.setText("Awesome! Your weight gain is in recommended range this week.");
             }        }
 
     }
@@ -295,13 +301,13 @@ public class HomePageFragment  extends Fragment
                 }
 
                 if(currentWeightValue < minWeightValue){
-                    message.setText("Great going! Just a little bit lower than recommended weight gain  this week.");
+                    message.setText("Your weight is lower than recommended weight value for this week.");
                 }
                 else if(currentWeightValue > maxWeightValue){
-                    message.setText("Your progress is amazing! Just a bit over than recommended weight gain this week.");
+                    message.setText("You have gained more than recommended weight for this week.");
                 }
                 else{
-                    message.setText("You are perfect! Your weight gain is in recommended range this week.");
+                    message.setText("Awesome! Your weight gain is in recommended range this week.");
                 }
             }
             catch (JSONException e) {
