@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,7 +45,7 @@ public class FoodDiaryFragement extends Fragment {
     LoggedinUser currentUser;
     HashMap<String, String> map;
     List<HashMap<String, String>> listArray;
-    public static SimpleAdapter myListAdapter;
+    SimpleAdapter myListAdapter;
     LoggedInUserDb loggedInUserdb;
     private DatePickerDialog.OnDateSetListener mListener;
     private List<Summary> consumList;
@@ -76,13 +75,11 @@ public class FoodDiaryFragement extends Fragment {
         read.execute();
 
 
-
         //get current date
         String pattern = "dd/MM/yyyy";
         SimpleDateFormat simformat = new SimpleDateFormat(pattern);
         String currentDateTimeString = simformat.format(new Date());
         date_select.setText(currentDateTimeString);
-        getDate();
 
         date_select.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,7 +98,7 @@ public class FoodDiaryFragement extends Fragment {
                             monthString = "0" + monthString;
                         }
                         String setDate = dd + "/" + monthString + "/" + yr;
-                        if(yr <= curyear && (mm*30+dd)<=(curmonth*30+curday))
+                        if(yr <= curyear && mm<=curmonth &&dd<=curday)
                             date_select.setText(setDate);
                         else
                             Toast.makeText(context,"Cannot select the future date!",Toast.LENGTH_LONG).show();
@@ -140,12 +137,6 @@ public class FoodDiaryFragement extends Fragment {
         return vFood;
     }
 
-    private void getDate() {
-        curday = Integer.valueOf(date_select.getText().toString().substring(0, 1));
-        curmonth = Integer.valueOf(date_select.getText().toString().substring(3, 4));
-        curyear = Integer.valueOf(date_select.getText().toString().substring(6, 7));
-    }
-
     private class ReadDatabase extends AsyncTask<Void, Void, LoggedinUser> {
         @Override
         protected LoggedinUser doInBackground(Void... voids) {
@@ -172,6 +163,8 @@ public class FoodDiaryFragement extends Fragment {
             myListAdapter = new SimpleAdapter(context, listArray, R.layout.food_diary_list, colHEAD, dataCell);
             foodList.setAdapter(myListAdapter);
 
+            getDate();
+
             if(consumList.size() == 0)
             {
                 tv_intro.setVisibility(View.VISIBLE);
@@ -185,8 +178,8 @@ public class FoodDiaryFragement extends Fragment {
 
             for (Summary summary : consumList) {
                 map = new HashMap<String, String>();
-                map.put("Food", fixedLengthString(summary.getFoodname(),8));
-                map.put("Quantity", summary.getQuantity() + " serves");
+                map.put("Food", summary.getFoodname());
+                map.put("Quantity", "       "+summary.getQuantity() + " serves");
                 map.put("Energy", "    "+summary.getCalories() * summary.getQuantity()+ " kcal");
                 map.put("Fat", "  "+summary.getFat() * summary.getQuantity() + " g");
                 listArray.add(map);
@@ -194,11 +187,11 @@ public class FoodDiaryFragement extends Fragment {
             }
         }
 
-        public String fixedLengthString(String string, int length) {
-            return String.format("%-"+length+ "s", string);
+        private void getDate() {
+            curday = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+            curmonth = Calendar.getInstance().get(Calendar.MONTH)+1;
+            curyear = Calendar.getInstance().get(Calendar.YEAR);
         }
-
-
     }
 }
 

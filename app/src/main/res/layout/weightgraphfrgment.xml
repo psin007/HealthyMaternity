@@ -112,15 +112,6 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
                         android:layout_height="wrap_content"
                         android:text="          Kg" />
 
-                    <TextView
-                        android:id="@+id/textView5"
-                        android:layout_width="287dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="right"
-                        android:layout_marginRight="5dp"
-                        android:gravity="right"
-                        android:text="Week           " />
-
                     <com.github.mikephil.charting.charts.LineChart
                         android:id="@+id/weight_line_chart"
                         android:layout_width="match_parent"
@@ -131,6 +122,15 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
                         android:layout_marginBottom="@dimen/activity_horizontal_margin">
 
                     </com.github.mikephil.charting.charts.LineChart>
+
+                    <TextView
+                        android:id="@+id/textView5"
+                        android:layout_width="287dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_marginRight="5dp"
+                        android:gravity="right"
+                        android:text="Week           " />
 
                 </LinearLayout>
 

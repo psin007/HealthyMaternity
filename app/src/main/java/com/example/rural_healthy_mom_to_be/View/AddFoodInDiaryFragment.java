@@ -230,7 +230,6 @@ public class AddFoodInDiaryFragment extends Fragment {
             protected void onPostExecute(String food) {
                 Snackbar.make(getView(), "Record has been added", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-                FoodDiaryFragement.myListAdapter.notifyDataSetChanged();
                 Fragment fragment = new FoodDiaryFragement();
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
