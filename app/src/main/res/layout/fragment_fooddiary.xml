@@ -69,7 +69,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#FB9907"
-            android:text="+ Add a food"
+            android:text=" Search Food "
             android:textAlignment="center"
             android:textColor="@color/common_google_signin_btn_text_dark_default"
             android:textSize="18sp"
