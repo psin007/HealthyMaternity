@@ -132,65 +132,65 @@ public class AddFoodInDiaryFragment extends Fragment {
                     getNutrientData.execute(nbdno);
 
                 }
-                }catch(JSONException e){
-                    e.printStackTrace();
-                }
+            }catch(JSONException e){
+                e.printStackTrace();
             }
         }
+    }
 
-        class GetNutrientData extends AsyncTask<String, Void, String> {
+    class GetNutrientData extends AsyncTask<String, Void, String> {
 
-            @Override
-            protected String doInBackground(String... params) {
-                return NutritionAPI.getData(params[0]);
-            }
-
-            @Override
-            protected void onPostExecute(String result) {
-                paresResult(result);
-            }
+        @Override
+        protected String doInBackground(String... params) {
+            return NutritionAPI.getData(params[0]);
         }
 
-        private void paresResult(String result) {
-            double fat;
-            double calories;
-            String servingUnit;
-            double servingAmount;
-            String category;
-            String foodName;
-            String fatFact = "";
-            String calFact = "";
-            try {
-                food = new Food();
-                JSONObject jsonObject = new JSONObject(result);
-                JSONArray jsonArray = jsonObject.getJSONObject("report").getJSONObject("food").getJSONArray("nutrients");
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    String nutrientId = jsonArray.getJSONObject(i).getString("nutrient_id");
-                    if (nutrientId.equals("204")) {
-                        fat = Double.parseDouble(jsonArray.getJSONObject(i).getString("value"));
-                        JSONArray measuresArray = jsonArray.getJSONObject(i).getJSONArray("measures");
-                        servingAmount = measuresArray.getJSONObject(0).getDouble("qty");
-                        servingUnit = measuresArray.getJSONObject(0).getString("label");
-                        food.setFat(fat);
-                        food.setServingunit(servingUnit);
-                        fatFact = "\nFat - " + fat;
+        @Override
+        protected void onPostExecute(String result) {
+            paresResult(result);
+        }
+    }
 
-                    }
-                    if (nutrientId.equals("208")) {
-                        calories = Double.parseDouble(jsonArray.getJSONObject(i).getString("value"));
-                        food.setCalorieamount(calories);
-                        calFact = "\nCalories -" + calories;
-                    }
+    private void paresResult(String result) {
+        double fat;
+        double calories;
+        String servingUnit;
+        double servingAmount;
+        String category;
+        String foodName;
+        String fatFact = "";
+        String calFact = "";
+        try {
+            food = new Food();
+            JSONObject jsonObject = new JSONObject(result);
+            JSONArray jsonArray = jsonObject.getJSONObject("report").getJSONObject("food").getJSONArray("nutrients");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                String nutrientId = jsonArray.getJSONObject(i).getString("nutrient_id");
+                if (nutrientId.equals("204")) {
+                    fat = Double.parseDouble(jsonArray.getJSONObject(i).getString("value"));
+                    JSONArray measuresArray = jsonArray.getJSONObject(i).getJSONArray("measures");
+                    servingAmount = measuresArray.getJSONObject(0).getDouble("qty");
+                    servingUnit = measuresArray.getJSONObject(0).getString("label");
+                    food.setFat(fat);
+                    food.setServingunit(servingUnit);
+                    fatFact = "\nFat - " + fat;
+
                 }
-                if(food.getCalorieamount()!=null)
-                    tvCaloriesFacts.setText(food.getCalorieamount() + "");
-                else
-                    tvCaloriesFacts.setText("0");
-                if(food.getFat()!=null)
-                    tvFatFacts.setText(food.getFat() + "");
-                else
-                    tvFatFacts.setText("0");
-                tvServingUnit.setText(food.getServingunit());
+                if (nutrientId.equals("208")) {
+                    calories = Double.parseDouble(jsonArray.getJSONObject(i).getString("value"));
+                    food.setCalorieamount(calories);
+                    calFact = "\nCalories -" + calories;
+                }
+            }
+            if(food.getCalorieamount()!=null)
+                tvCaloriesFacts.setText(food.getCalorieamount() + "");
+            else
+                tvCaloriesFacts.setText("0");
+            if(food.getFat()!=null)
+                tvFatFacts.setText(food.getFat() + "");
+            else
+                tvFatFacts.setText("0");
+            tvServingUnit.setText(food.getServingunit());
 
                 //set nutrientTv values
 
@@ -201,31 +201,31 @@ public class AddFoodInDiaryFragment extends Fragment {
 
         }
 
-        private class ReadDatabase extends AsyncTask<Void, Void, LoggedinUser> {
-            @Override
-            protected LoggedinUser doInBackground(Void... voids) {
-                userList = loggedInUserdb.loggedInUserDao().getAll();
-                currentUser = userList.get(0);
-                return null;
-            }
-            protected void onPostExecute() {
-            }
+    private class ReadDatabase extends AsyncTask<Void, Void, LoggedinUser> {
+        @Override
+        protected LoggedinUser doInBackground(Void... voids) {
+            userList = loggedInUserdb.loggedInUserDao().getAll();
+            currentUser = userList.get(0);
+            return null;
         }
+        protected void onPostExecute() {
+        }
+    }
 
-        private class InsertRecord extends AsyncTask<String, Void, String> {
-            @Override
-            protected String doInBackground(String... params) {
-                String foodName = params[0];
-                int unit = Integer.valueOf(params[1]);
-                SimpleDateFormat simformat = new SimpleDateFormat(pattern);
-                String currentDateTimeString = simformat.format(new Date());
+    private class InsertRecord extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... params) {
+            String foodName = params[0];
+            int unit = Integer.valueOf(params[1]);
+            SimpleDateFormat simformat = new SimpleDateFormat(pattern);
+            String currentDateTimeString = simformat.format(new Date());
 
-                Summary newRecord = new Summary(currentUser.getUserid(), foodName, unit,
-                        Double.valueOf(tvCaloriesFacts.getText().toString()),
-                        Double.valueOf(tvFatFacts.getText().toString()),currentDateTimeString);
-                loggedInUserdb.summaryDao().insert(newRecord);
-                return params[0];
-            }
+            Summary newRecord = new Summary(currentUser.getUserid(), foodName, unit,
+                    Double.valueOf(tvCaloriesFacts.getText().toString()),
+                    Double.valueOf(tvFatFacts.getText().toString()),currentDateTimeString);
+            loggedInUserdb.summaryDao().insert(newRecord);
+            return params[0];
+        }
 
             protected void onPostExecute(String food) {
                 Snackbar.make(getView(), "Record has been added", Snackbar.LENGTH_LONG)

@@ -12,7 +12,7 @@
             android:id="@+id/addheading"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="            Add a food"
+            android:text="            Search  food"
             android:padding="8dp"
             android:textSize="@dimen/medium_text_size"
             android:textColor="@android:color/white"

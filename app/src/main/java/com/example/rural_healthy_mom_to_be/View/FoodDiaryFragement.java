@@ -3,6 +3,7 @@ package com.example.rural_healthy_mom_to_be.View;
 import android.app.DatePickerDialog;
 import android.arch.persistence.room.Room;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,9 +25,11 @@ import android.widget.Toast;
 
 import com.example.rural_healthy_mom_to_be.Model.LoggedinUser;
 import com.example.rural_healthy_mom_to_be.Model.Summary;
+import com.example.rural_healthy_mom_to_be.Model.Weight;
 import com.example.rural_healthy_mom_to_be.R;
 import com.example.rural_healthy_mom_to_be.Repository.LoggedInUserDb;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -55,7 +59,7 @@ public class FoodDiaryFragement extends Fragment {
     private int curday;
     private String pattern;
 
-
+    //TO show initially when this page is loaded
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
             savedInstanceState) {
         vFood = inflater.inflate(R.layout.fragment_fooddiary, container, false);
@@ -75,11 +79,13 @@ public class FoodDiaryFragement extends Fragment {
         read.execute();
 
 
+
         //get current date
         String pattern = "dd/MM/yyyy";
         SimpleDateFormat simformat = new SimpleDateFormat(pattern);
         String currentDateTimeString = simformat.format(new Date());
         date_select.setText(currentDateTimeString);
+        getDate();
 
         date_select.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,26 +95,6 @@ public class FoodDiaryFragement extends Fragment {
                 int month = cal.get(Calendar.MONTH);
                 int day = cal.get(Calendar.DAY_OF_MONTH);
 
-                mListener = new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int yr, int mm, int dd) {
-                        mm += 1;
-                        String monthString = String.valueOf(mm);
-                        if (monthString.length() == 1) {
-                            monthString = "0" + monthString;
-                        }
-                        String setDate = dd + "/" + monthString + "/" + yr;
-                        if(yr <= curyear && mm<=curmonth &&dd<=curday)
-                            date_select.setText(setDate);
-                        else
-                            Toast.makeText(context,"Cannot select the future date!",Toast.LENGTH_LONG).show();
-
-                        //show the list for given date
-                        ReadDatabase read = new ReadDatabase();
-                        read.execute();
-                    }
-                };
-
                 DatePickerDialog dialog = new DatePickerDialog(
                         getContext(),
                         android.R.style.Theme_Holo_Dialog_MinWidth,
@@ -117,10 +103,24 @@ public class FoodDiaryFragement extends Fragment {
                 );
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
+
+                mListener = new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int yr, int mm, int dd) {
+                        mm += 1;
+                        String monthString = String.valueOf(mm);
+                        if (monthString.length() == 1) {
+                            monthString = "0" + monthString;
+                        }
+
+                        String setDate = dd + "/" + monthString + "/" + yr;
+                        date_select.setText(setDate);
+                    }
+                };
             }
         });
 
-
+// When add a food option is clicked, this listener listenes
         btnAddFood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -137,12 +137,13 @@ public class FoodDiaryFragement extends Fragment {
         return vFood;
     }
 
+    //This class reads database summaryDao to further show in screen
     private class ReadDatabase extends AsyncTask<Void, Void, LoggedinUser> {
         @Override
         protected LoggedinUser doInBackground(Void... voids) {
             //Todo need to be refined
-            consumList = loggedInUserdb.summaryDao().findByDate(date_select.getText().toString());
-            //consumList = loggedInUserdb.summaryDao().getAll();
+            //consumList = loggedInUserdb.summaryDao().findByDate(date_select.getText().toString());
+            consumList = loggedInUserdb.summaryDao().getAll();
 
             userList = loggedInUserdb.loggedInUserDao().getAll();
             currentUser = userList.get(0);
@@ -162,8 +163,6 @@ public class FoodDiaryFragement extends Fragment {
 
             myListAdapter = new SimpleAdapter(context, listArray, R.layout.food_diary_list, colHEAD, dataCell);
             foodList.setAdapter(myListAdapter);
-
-            getDate();
 
             if(consumList.size() == 0)
             {

@@ -39,9 +39,7 @@ public class SplashActivity extends AppCompatActivity {
                         startActivity(intent);
                         finish();
                     }
-                    //
-//                        Intent intent = new Intent(SplashActivity.this, SliderActivity.class);
-//                        startActivity(intent);
+
                     finish();
 
                 }
