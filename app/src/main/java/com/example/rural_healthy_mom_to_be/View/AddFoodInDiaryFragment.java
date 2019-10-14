@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -72,6 +73,8 @@ public class AddFoodInDiaryFragment extends Fragment {
         ReadDatabase readdb = new ReadDatabase();
         readdb.execute();
 
+        etQuantity.setInputType(InputType.TYPE_CLASS_NUMBER);
+
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -97,7 +100,6 @@ public class AddFoodInDiaryFragment extends Fragment {
                     insert.execute(etSearchFood.getText().toString(),
                             etQuantity.getText().toString());
                 }
-
             }
         });
 
@@ -180,9 +182,14 @@ public class AddFoodInDiaryFragment extends Fragment {
                         calFact = "\nCalories -" + calories;
                     }
                 }
-                String NutrientFact = "Nutrient facts:" + fatFact + calFact;
-                tvCaloriesFacts.setText(food.getCalorieamount() + "");
-                tvFatFacts.setText(food.getFat() + "");
+                if(food.getCalorieamount()!=null)
+                    tvCaloriesFacts.setText(food.getCalorieamount() + "");
+                else
+                    tvCaloriesFacts.setText("0");
+                if(food.getFat()!=null)
+                    tvFatFacts.setText(food.getFat() + "");
+                else
+                    tvFatFacts.setText("0");
                 tvServingUnit.setText(food.getServingunit());
 
                 //set nutrientTv values
@@ -223,6 +230,7 @@ public class AddFoodInDiaryFragment extends Fragment {
             protected void onPostExecute(String food) {
                 Snackbar.make(getView(), "Record has been added", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                FoodDiaryFragement.myListAdapter.notifyDataSetChanged();
                 Fragment fragment = new FoodDiaryFragement();
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

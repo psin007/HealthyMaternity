@@ -46,7 +46,7 @@ public class FoodDiaryFragement extends Fragment {
     LoggedinUser currentUser;
     HashMap<String, String> map;
     List<HashMap<String, String>> listArray;
-    SimpleAdapter myListAdapter;
+    public static SimpleAdapter myListAdapter;
     LoggedInUserDb loggedInUserdb;
     private DatePickerDialog.OnDateSetListener mListener;
     private List<Summary> consumList;
@@ -76,6 +76,7 @@ public class FoodDiaryFragement extends Fragment {
         read.execute();
 
 
+
         //get current date
         String pattern = "dd/MM/yyyy";
         SimpleDateFormat simformat = new SimpleDateFormat(pattern);
@@ -103,7 +104,7 @@ public class FoodDiaryFragement extends Fragment {
                         if(yr <= curyear && (mm*30+dd)<=(curmonth*30+curday))
                             date_select.setText(setDate);
                         else
-                            Toast.makeText(context,"Cannot select the previous date!",Toast.LENGTH_LONG).show();
+                            Toast.makeText(context,"Cannot select the future date!",Toast.LENGTH_LONG).show();
 
                         //show the list for given date
                         ReadDatabase read = new ReadDatabase();
