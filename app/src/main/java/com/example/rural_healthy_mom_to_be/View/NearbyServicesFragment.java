@@ -72,6 +72,7 @@ public class NearbyServicesFragment extends Fragment implements OnMapReadyCallba
     Hospital hospital;
     double curlongitude;
     double curlatitude;
+    Button searchHospitalButton;
     double dist;
     RecyclerView placeList;
     @Override
@@ -82,6 +83,7 @@ public class NearbyServicesFragment extends Fragment implements OnMapReadyCallba
         placeList = vmyMaps.findViewById(R.id.recyclerView);
         mapButton = vmyMaps.findViewById(R.id.map_button);
         listButton=vmyMaps.findViewById(R.id.list_button);
+        searchHospitalButton = vmyMaps.findViewById(R.id.searchHospitalButton);
         if(etRadius.getText().toString().length() != 0){
             radius = (Double.parseDouble(etRadius.getText().toString()));
         }
@@ -124,6 +126,20 @@ public class NearbyServicesFragment extends Fragment implements OnMapReadyCallba
 
         final SupportMapFragment maps = (SupportMapFragment)(getChildFragmentManager().findFragmentById(R.id.map));
         maps.getMapAsync(this);
+                searchHospitalButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //find radius of search
+                if(etRadius.getText().toString().length() != 0){
+                    radius = (Double.parseDouble(etRadius.getText().toString()));
+                }
+                else{
+                    radius = 40;
+                }
+                clearData();
+                searchHospitals();
+            }
+        });
         mainSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
