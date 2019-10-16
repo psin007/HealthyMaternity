@@ -93,7 +93,7 @@ public class AddFoodInDiaryFragment extends Fragment {
             public void onClick(View v) {
                 if (etSearchFood.getText().toString().isEmpty() ||
                         etQuantity.getText().toString().isEmpty())
-                    Toast.makeText(getContext(), "Quantity cannot be empty!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Fields cannot be empty!", Toast.LENGTH_SHORT).show();
                 else
                 {
                     InsertRecord insert = new InsertRecord();
@@ -239,3 +239,4 @@ public class AddFoodInDiaryFragment extends Fragment {
         }
     }
 }
+
