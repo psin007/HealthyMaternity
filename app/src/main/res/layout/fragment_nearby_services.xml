@@ -38,6 +38,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/etRadius"
             android:text="Search Hospitals"
+            android:textColor="#ffffff"
+            android:background="#62aada"
             >
 
         </Button>

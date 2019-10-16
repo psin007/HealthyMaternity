@@ -612,6 +612,7 @@ public class WeightGraphFragment extends Fragment {
         TextView textMsg = dialog.findViewById(R.id.txtmsg);
         textMsg.setText("Update weight (Kg)");
         final EditText editText = dialog.findViewById(R.id.weight_input);
+        editText.setInputType(InputType.TYPE_CLASS_NUMBER);
         editText.setText(oldWeight);
         Button btn = dialog.findViewById(R.id.btn_box_done);
 

@@ -27,7 +27,7 @@
         android:clickable="true"
         android:ems="10"
         android:gravity="center"
-        android:textColor="#FB9907"
+        android:textColor="#dd7e28"
         android:textSize="24sp"
         android:textStyle="bold" />
 
@@ -68,7 +68,7 @@
             android:id="@+id/btn_addNewFood"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#FB9907"
+            android:background="#dd7e28"
             android:text=" Search Food "
             android:textAlignment="center"
             android:textColor="@color/common_google_signin_btn_text_dark_default"

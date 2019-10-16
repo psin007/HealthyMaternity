@@ -48,9 +48,9 @@ public class SliderAdapter extends PagerAdapter {
 
     // description Array
     public String[] description_slide ={
-            "You can track your weight and maintain weight log during different stages of pregnancy and compare your weight gain with recommended maximum and minimum  weight gain with help of a graph.",
+            "You can track your weight and maintain weight log during different stages of pregnancy and compare your weight gain with recommended maximum and minimum weight gain with help of a graph.",
             "You can generate PDF report containing your weight information before pregnancy, weight log during maternity and weight gain graph during all the weeks of pregnancy.",
-            "This application lets you maintain a log of food item and quantity that you ate at your selected time and count calories and other nutrients intake during pregnancy."
+            "This application lets you maintain a log of food items and quantity that you ate and count calories and other nutrients intake during pregnancy."
     };
 
 

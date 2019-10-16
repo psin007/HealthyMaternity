@@ -6,6 +6,7 @@ public class Hospital
     private String hospitalName;
     private String hosAddress;
     private double distanceFromCur;
+    private String phoneNumber;
 
 
     public Hospital(double latitude, double longitude, String hospitalName, String hosAddress, double distanceFromCur) {
@@ -14,6 +15,23 @@ public class Hospital
         this.hospitalName = hospitalName;
         this.hosAddress = hosAddress;
         this.distanceFromCur = distanceFromCur;
+    }
+
+    public Hospital(double latitude, double longitude, String hospitalName, String hosAddress, double distanceFromCur, String phoneNumber) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.hospitalName = hospitalName;
+        this.hosAddress = hosAddress;
+        this.distanceFromCur = distanceFromCur;
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public double getDistanceFromCur() {

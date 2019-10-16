@@ -140,35 +140,7 @@ public class NearbyServicesFragment extends Fragment implements OnMapReadyCallba
                 searchHospitals();
             }
         });
-//        mainSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                Log.d("test",mainSpinner.getItemAtPosition(position).toString());
-//                if(etRadius.getText().toString().length() != 0){
-//                    radius = (Double.parseDouble(etRadius.getText().toString()));
-//                }
-//                else{
-//                    radius = 40;
-//                }
-//                switch(mainSpinner.getItemAtPosition(position).toString()){
-//                    case "Search for a service here":
-//                        break;
-//                    case "Hospitals":
-//                        clearData();
-//                        searchHospitals();
-//                        break;
-////                    case "Fertility centers": searchFertilityCentres();
-////                        break;
-////                    case "Obstetrician-gynaecologist": searchObstetricianGynaecologist();
-////                        break;
-//                }
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//
-//            }
-//        });
+
 
         mapButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -183,46 +155,12 @@ public class NearbyServicesFragment extends Fragment implements OnMapReadyCallba
             public void onClick(View view) {
                 placeList.setVisibility(View.VISIBLE);
                 listButton.setBackgroundResource(R.color.colorAccent);
+
                 mapButton.setBackgroundColor(Color.parseColor("#b5651d"));
             }
         });
         return vmyMaps;
     }
-    private void searchObstetricianGynaecologist() {
-//        GetObsGyCenter getObsGyCenter = new GetObsGyCenter();
-//        getObsGyCenter.execute();
-    }
-
-//    private class GetObsGyCenter extends AsyncTask<String,Void,String> {
-//
-//        @Override
-//        protected String doInBackground(String... params) {
-//            return ObsGyAPI.getObsGyInfo(String.valueOf(curlatitude),String.valueOf(curlongitude),"40000","Obstetrician-Gynaecologist);
-//        }
-//
-//        @Override
-//        protected void onPostExecute(String result) {
-//            Log.d("ObsGyAPI",result);
-//            final ObsGy[] nearByOG=ObsGyAPI.getObsGy(result);
-//            for(int j =0;j<nearByOG.length;j++){
-//
-//                myMap.addMarker(new MarkerOptions().position(new LatLng(nearByOG[j].getLatitude(),nearByOG[j].getLongitude())).title(nearByOG[j].getObsGyName()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))).setTag(j);
-//
-//            }
-//            myMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-//                @Override
-//                public boolean onMarkerClick(Marker marker) {
-//                    Object tagObject = marker.getTag(); //because red markup is not given any tag and if clicked, tag is null and it crashes
-//                    if(tagObject!=null) {
-//                        int tag = (int) tagObject;
-//                        new AlertDialog.Builder(getActivity()).setTitle("Obstetrician - Gynaecologist details").setMessage(nearByOG[tag].getObsGyName()).setPositiveButton("Ok", null).show();
-//                    }
-//                    return false;
-//                }
-//            });
-//        }
-//    }
-
 
     private void searchHospitals() {
 
@@ -234,41 +172,6 @@ public class NearbyServicesFragment extends Fragment implements OnMapReadyCallba
         hospitals.removeAll(hospitals);
         myMap.clear();
     }
-
-    private void searchFertilityCentres() {
-//        GetFertilityCenter getFertilityCenter = new GetFertilityCenter();
-//        getFertilityCenter.execute();
-    }
-//    private class GetFertilityCenter extends AsyncTask<String,Void,String> {
-//
-//        @Override
-//        protected String doInBackground(String... params) {
-//            return FertilityCenterAPI.getFertilityCenterInfo(String.valueOf(curlatitude),String.valueOf(curlongitude),"40000","Fertility Center");
-//
-//        }
-//
-//        @Override
-//        protected void onPostExecute(String result) {
-//            Log.d("fertility center",result);
-//            final FertilityCentre[] nearByFC=FertilityCenterAPI.getFertilityCenter(result);
-//            for(int j =0;j<nearByFC.length;j++){
-//
-//                myMap.addMarker(new MarkerOptions().position(new LatLng(nearByFC[j].getLatitude(),nearByFC[j].getLongitude())).title(nearByFC[j].getFertilityName()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))).setTag(j);
-//
-//            }
-//            myMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-//                @Override
-//                public boolean onMarkerClick(Marker marker) {
-//                    Object tagObject = marker.getTag(); //because red markup is not given any tag and if clicked, tag is null and it crashes
-//                    if(tagObject!=null) {
-//                        int tag = (int) tagObject;
-//                        new AlertDialog.Builder(getActivity()).setTitle("Fertility center details").setMessage(nearByFC[tag].getFertilityName()).setPositiveButton("Ok", null).show();
-//                    }
-//                    return false;
-//                }
-//            });
-//        }
-//    }
 
     private class GetHospitalData extends AsyncTask<String,Void,String> {
 
@@ -293,7 +196,7 @@ public class NearbyServicesFragment extends Fragment implements OnMapReadyCallba
 
                     String name = jsonobject.getString("Hospital name");
                     String address = jsonobject.getString("Full_address");
-
+                    String phNumber = jsonobject.getString("Phone number");
                     double latitude = jsonobject.getDouble("Latitude");
                     double longitude = jsonobject.getDouble("Longitude");
                     boolean close = distanceLessThanRadius(latitude,longitude,curlatitude,curlongitude);
@@ -304,6 +207,7 @@ public class NearbyServicesFragment extends Fragment implements OnMapReadyCallba
                         hospital.setLatitude(latitude);
                         hospital.setLongitude(longitude);
                         hospital.setHosAddress(address);
+                        hospital.setPhoneNumber(phNumber);
                         hospitals.add(hospital);
                     }
                 }
@@ -366,20 +270,9 @@ public class NearbyServicesFragment extends Fragment implements OnMapReadyCallba
         myMap.getUiSettings().setMyLocationButtonEnabled(true);
         myMap.setMyLocationEnabled(true);
         updateLocation();
-
-
     }
 
-//    public void fillSpinnerData(View view){
-//        List<String> list = new ArrayList<String>();
-//        list.add("Search for a service here");
-//        list.add("Hospitals");
-//        final Spinner services = (Spinner) vmyMaps.findViewById(R.id.services_spinner);
-//        final ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String> (this.getActivity(),android.R.layout.simple_spinner_item,list);
-//        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        services.setAdapter(spinnerAdapter );
-//
-//    }
+
 
     public void showMarker(){
         LatLng loc;
@@ -396,6 +289,7 @@ public class NearbyServicesFragment extends Fragment implements OnMapReadyCallba
                         int tag = (int) tagObject;
                         new AlertDialog.Builder(getActivity()).setTitle("Hospital details").setMessage(hospitals.get(tag).getHospitalName()+
                                 "\nAddress: "+hospitals.get(tag).getHosAddress()+
+                                "\nPhone number: "+hospitals.get(tag).getPhoneNumber()+
                                 "\nDistance from current location:"+
                                 String.format("%.2f",hospitals.get(tag).getDistanceFromCur())+" km").setPositiveButton("Ok", null).show();
                     }

@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:background="#fff"
-    android:layout_height="?android:attr/listPreferredItemHeightLarge"
+    android:layout_height="wrap_content"
     android:padding="8dp">
 
     <TextView
@@ -18,11 +18,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         />
-
     <TextView
         android:id="@+id/distance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         />
 
+    <TextView
+        android:id="@+id/phNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
 </LinearLayout>

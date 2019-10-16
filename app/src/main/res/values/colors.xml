@@ -8,4 +8,6 @@
     <color name="sub_text_color">#FB9907</color>
     <color name="text_color">#4153B6</color>
     <color name="colortWhite">#CCCCCC</color>
+    <color name="gray">#7E8186</color>
+
 </resources>

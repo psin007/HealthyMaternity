@@ -61,6 +61,8 @@ public class NavigationDrawer extends AppCompatActivity
          }
     }
 
+
+//goBack
     public void alertIdealMessage(View view){
         HomePageFragment homePageFragment = (HomePageFragment)getSupportFragmentManager().findFragmentByTag("HomePageFragment");
         if(homePageFragment!=null){
