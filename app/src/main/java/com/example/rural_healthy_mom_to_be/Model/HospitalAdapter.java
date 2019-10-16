@@ -30,14 +30,9 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.ViewHo
         final Hospital myListData = listdata[position];
         holder.name.setText(listdata[position].getHospitalName());
         holder.address.setText("Address: "+listdata[position].getHosAddress());
-
+        holder.phoneNumber.setText("Phone Number: "+listdata[position].getPhoneNumber());
         holder.distance.setText("Distance from current location: "+String.format("%.1f",listdata[position].getDistanceFromCur())+"");
-//        holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Toast.makeText(view.getContext(),"click on item: "+myListData.getDescription(),Toast.LENGTH_LONG).show();
-//            }
-//        });
+
     }
 
 
@@ -51,12 +46,14 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.ViewHo
         public TextView name;
         public TextView address;
         public TextView distance;
+        public TextView phoneNumber;
         public LinearLayout linearLayout;
         public ViewHolder(View itemView) {
             super(itemView);
             this.name = (TextView) itemView.findViewById(R.id.name);
             this.address = (TextView) itemView.findViewById(R.id.address);
             this.distance =(TextView) itemView.findViewById(R.id.distance);
+            this.phoneNumber=(TextView) itemView.findViewById(R.id.phNumber);
             linearLayout = (LinearLayout) itemView.findViewById(R.id.recycler_layout);
         }
     }
