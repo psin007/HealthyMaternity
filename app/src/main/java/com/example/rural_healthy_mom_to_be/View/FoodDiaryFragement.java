@@ -95,6 +95,21 @@ public class FoodDiaryFragement extends Fragment {
                 int month = cal.get(Calendar.MONTH);
                 int day = cal.get(Calendar.DAY_OF_MONTH);
 
+                mListener = new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int yr, int mm, int dd) {
+                        mm += 1;
+                        String monthString = String.valueOf(mm);
+                        if (monthString.length() == 1) {
+                            monthString = "0" + monthString;
+                        }
+                        String setDate = dd + "/" + monthString + "/" + yr;
+                        date_select.setText(setDate);
+                        ReadDatabase read = new ReadDatabase();
+                        read.execute();
+                    }
+                };
+
                 DatePickerDialog dialog = new DatePickerDialog(
                         getContext(),
                         android.R.style.Theme_Holo_Dialog_MinWidth,
@@ -104,19 +119,7 @@ public class FoodDiaryFragement extends Fragment {
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
 
-                mListener = new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int yr, int mm, int dd) {
-                        mm += 1;
-                        String monthString = String.valueOf(mm);
-                        if (monthString.length() == 1) {
-                            monthString = "0" + monthString;
-                        }
 
-                        String setDate = dd + "/" + monthString + "/" + yr;
-                        date_select.setText(setDate);
-                    }
-                };
             }
         });
 
@@ -137,13 +140,19 @@ public class FoodDiaryFragement extends Fragment {
         return vFood;
     }
 
+    private void getDate() {
+        curday = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+        curmonth = Calendar.getInstance().get(Calendar.MONTH)+1;
+        curyear = Calendar.getInstance().get(Calendar.YEAR);
+    }
+
     //This class reads database summaryDao to further show in screen
     private class ReadDatabase extends AsyncTask<Void, Void, LoggedinUser> {
         @Override
         protected LoggedinUser doInBackground(Void... voids) {
             //Todo need to be refined
-            //consumList = loggedInUserdb.summaryDao().findByDate(date_select.getText().toString());
-            consumList = loggedInUserdb.summaryDao().getAll();
+            consumList = loggedInUserdb.summaryDao().findByDate(date_select.getText().toString());
+//            consumList = loggedInUserdb.summaryDao().getAll();
 
             userList = loggedInUserdb.loggedInUserDao().getAll();
             currentUser = userList.get(0);
@@ -184,12 +193,6 @@ public class FoodDiaryFragement extends Fragment {
                 listArray.add(map);
                 myListAdapter.notifyDataSetChanged();
             }
-        }
-
-        private void getDate() {
-            curday = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
-            curmonth = Calendar.getInstance().get(Calendar.MONTH)+1;
-            curyear = Calendar.getInstance().get(Calendar.YEAR);
         }
     }
 }
