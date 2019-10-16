@@ -68,7 +68,7 @@ public class Profile extends Fragment {
 
             tvuserValue.setText(currentUser.getUsername());
             tvHeight.setText(currentUser.getHeightInCm()+"");
-            tvWeight.setText(String.valueOf(currentUser.getCurrentWeight()));
+            tvWeight.setText(String.valueOf(currentUser.getWeightBeforePregnancy()));
         }
     }
     public void alertChangeHeight(View view) {

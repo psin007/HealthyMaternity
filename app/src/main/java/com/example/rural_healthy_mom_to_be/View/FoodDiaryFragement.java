@@ -49,15 +49,15 @@ public class FoodDiaryFragement extends Fragment {
     LoggedinUser currentUser;
     HashMap<String, String> map;
     List<HashMap<String, String>> listArray;
-    SimpleAdapter myListAdapter;
+    static public SimpleAdapter myListAdapter;
     LoggedInUserDb loggedInUserdb;
     private DatePickerDialog.OnDateSetListener mListener;
-    private List<Summary> consumList;
+    static private List<Summary> consumList;
     private List<LoggedinUser> userList;
     private int curyear;
     private int curmonth;
     private int curday;
-    private String pattern;
+    final String pattern = "dd/MM/yyyy";
 
     //TO show initially when this page is loaded
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
@@ -75,17 +75,18 @@ public class FoodDiaryFragement extends Fragment {
                 .fallbackToDestructiveMigration()
                 .build();
 
+        //get current date
+        SimpleDateFormat simformat = new SimpleDateFormat(pattern);
+        String currentDateTimeString = simformat.format(new Date());
+        date_select.setText(currentDateTimeString);
+        getDate();
+
         ReadDatabase read = new ReadDatabase();
         read.execute();
 
 
 
-        //get current date
-        String pattern = "dd/MM/yyyy";
-        SimpleDateFormat simformat = new SimpleDateFormat(pattern);
-        String currentDateTimeString = simformat.format(new Date());
-        date_select.setText(currentDateTimeString);
-        getDate();
+
 
         date_select.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,7 +105,11 @@ public class FoodDiaryFragement extends Fragment {
                             monthString = "0" + monthString;
                         }
                         String setDate = dd + "/" + monthString + "/" + yr;
-                        date_select.setText(setDate);
+                        if(yr <= curyear && (mm*30+dd)<=(curmonth*30+curday))
+                            date_select.setText(setDate);
+                        else
+                            Toast.makeText(context,"Cannot select the future date!",Toast.LENGTH_LONG).show();
+//                        date_select.setText(setDate);
                         ReadDatabase read = new ReadDatabase();
                         read.execute();
                     }
