@@ -48,7 +48,7 @@
         android:layout_below="@id/bottomLine"
         android:gravity="center_vertical"
         android:padding="@dimen/medium_text_size"
-        android:text="Food diary is to record what have you eaten and how much you have eaten.Please use 'Add a food' button to keep your food record."
+        android:text="Food diary is to record what have you eaten and how much you have eaten.Please use 'SEARCH FOOD' button to keep your food record."
         android:visibility="invisible"></TextView>
 
     <ListView
