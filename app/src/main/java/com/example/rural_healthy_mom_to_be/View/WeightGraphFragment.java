@@ -74,7 +74,10 @@ import java.util.List;
 
 import static android.graphics.pdf.PdfDocument.PageInfo;
 
-
+/*
+    This class is for display the weight graph and weight log
+    as well as generating the report
+ */
 public class WeightGraphFragment extends Fragment {
     View vReport;
     View vWeightGraph;
