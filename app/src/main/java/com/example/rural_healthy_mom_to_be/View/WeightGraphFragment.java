@@ -214,6 +214,9 @@ public class WeightGraphFragment extends Fragment {
         return vReport;
     }
 
+    /*
+        The method to generate a pdf file of weight graph and weight log
+     */
     private void createPdf(){
         //Create a new document
         PdfDocument doc = new PdfDocument();
@@ -294,7 +297,7 @@ public class WeightGraphFragment extends Fragment {
                 paint.setColor(Color.BLACK);
             }
             else
-                {
+            {
                 paint.setColor(Color.GREEN);
                 canvas.drawText("Ideal", leftMargin+500, titleBaseLine + (addSpace-30) ,paint);
                 paint.setColor(Color.BLACK);
@@ -401,6 +404,10 @@ public class WeightGraphFragment extends Fragment {
         }
     }
 
+    /*
+        Set the upper line of the weight graph
+     */
+
     private void setUpperRange(){
         LineDataSet ds1 = new LineDataSet(lineEntries1, "max weight");
 
@@ -418,6 +425,9 @@ public class WeightGraphFragment extends Fragment {
         chart.notifyDataSetChanged();
     }
 
+    /*
+        set the lower line of weight graph
+     */
     private void setLowerRange(){
         LineDataSet ds2 = new LineDataSet(lineEntries2, "min weight");
 
@@ -453,6 +463,9 @@ public class WeightGraphFragment extends Fragment {
         chart.notifyDataSetChanged();
     }
 
+    /*
+        Method to get the ideal weight range based on the BMI class
+     */
     public class getRange extends AsyncTask<Void, Void, String> {
         @Override
         protected String doInBackground(Void... params) {
@@ -514,6 +527,9 @@ public class WeightGraphFragment extends Fragment {
         protected void onPostExecute(String response) { }
     }
 
+    /*
+        Read the SQLite database
+     */
     private class ReadDatabase extends AsyncTask<Void, Void, LoggedinUser> {
         @Override
         protected LoggedinUser doInBackground(Void... voids) {
@@ -526,11 +542,11 @@ public class WeightGraphFragment extends Fragment {
         protected void onPostExecute(LoggedinUser details) {
 
             //my code
-           currentWeight = (float)details.getCurrentWeight();
-           currentHeight = (float)details.getHeightInCm();
-           PRE_WEIGHT = (float)details.getWeightBeforePregnancy();
-           userName = details.getUsername();
-           bmi = PRE_WEIGHT * 10000/(currentHeight*currentHeight);
+            currentWeight = (float)details.getCurrentWeight();
+            currentHeight = (float)details.getHeightInCm();
+            PRE_WEIGHT = (float)details.getWeightBeforePregnancy();
+            userName = details.getUsername();
+            bmi = PRE_WEIGHT * 10000/(currentHeight*currentHeight);
 
             bubbleSort();
 
@@ -570,6 +586,9 @@ public class WeightGraphFragment extends Fragment {
         }
     }
 
+    /*
+        Method to update the weight of chosen record
+     */
     private class UpdateUserInfo extends AsyncTask<Double,Void,String>{
         @Override protected String doInBackground(Double... params){
             double pos1 = (double) params[1];
@@ -586,6 +605,9 @@ public class WeightGraphFragment extends Fragment {
         }
     }
 
+    /*
+        Bubble sort to sort out week
+     */
     public void bubbleSort()
     {
         int i,j;
@@ -605,6 +627,9 @@ public class WeightGraphFragment extends Fragment {
         }
     }
 
+    /*
+        Show the dialog box to edit weight
+     */
     private void showInputBox(String oldWeight, final double index){
         final Dialog dialog = new Dialog(this.getContext());
         dialog.setContentView(R.layout.input_box);
@@ -642,6 +667,9 @@ public class WeightGraphFragment extends Fragment {
         dialog.show();
     }
 
+    /*
+        Method to insert record to user table
+     */
     private class InsertRecord extends AsyncTask<String, Void, String>
     {
         @Override protected String doInBackground(String... params) {
@@ -660,6 +688,9 @@ public class WeightGraphFragment extends Fragment {
         }
     }
 
+    /*
+        Method to add new record in weight table
+     */
     public void addNewWeight(View view){
         AlertDialog.Builder alert = new AlertDialog.Builder(context);
         LinearLayout layout = new LinearLayout(context);
@@ -730,6 +761,9 @@ public class WeightGraphFragment extends Fragment {
         alert.show();
     }
 
+    /*
+        Validation to check if the week exists
+     */
     private boolean checkIfWeekExists(int week)
     {
         for(Weight record:weightList)
@@ -740,6 +774,9 @@ public class WeightGraphFragment extends Fragment {
         return false;
     }
 
+    /*
+        Refresh the weight table
+     */
     private void populateWeightDB()
     {
         loggedInUserdb.weightDao().deleteAll();
