@@ -25,7 +25,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-
+/*
+* This class is responsible to handle profile page which allows user to edit information she entered during registration
+* */
 public class Profile extends Fragment {
 
     View view;
@@ -55,6 +57,8 @@ public class Profile extends Fragment {
         readDatabase.execute();
         return view;
     }
+
+    //Reads and prints already stored user info
     private class ReadDatabase extends AsyncTask<Void, Void, LoggedinUser> {
 
 
@@ -71,6 +75,7 @@ public class Profile extends Fragment {
             tvWeight.setText(String.valueOf(currentUser.getWeightBeforePregnancy()));
         }
     }
+    //Allows to edit value
     public void alertChangeHeight(View view) {
         Log.d("editCurrentWeight","editWeight");
         final EditText editWeight = new EditText(this.getActivity());
@@ -100,6 +105,8 @@ public class Profile extends Fragment {
         });
         alert.show();
     }
+    //Updates  already stored user info to new info in Db
+
     private class UpdateDatabase extends AsyncTask<Void, Void, String > {
 
 
@@ -115,6 +122,7 @@ public class Profile extends Fragment {
                  }
 
     }
+    //  Dialog to change pre pregnancy weight
     public void dialogChangePreWeight(View view) {
         final EditText editWeight = new EditText(this.getActivity());
         editWeight.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);

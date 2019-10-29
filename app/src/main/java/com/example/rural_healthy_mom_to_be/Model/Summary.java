@@ -6,7 +6,9 @@ import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.PrimaryKey;
 
 import java.util.Date;
-
+/*
+This class was written to record Summary of food nutrients a user writes in food diary
+* */
 @Entity
 public class Summary {
     @PrimaryKey(autoGenerate = true)
@@ -40,25 +42,6 @@ public class Summary {
     public Double cholesterol;
     @ColumnInfo(name = "time")
     public String time;
-
-//    public Summary(int uid, String foodname, int quantity, Double calories, Double sugar,
-//                   Double protein, Double fat, Double calcium, Double energy, Double iron,
-//                   Double cholesterol, String time) {
-//        this.uid = uid;
-//        this.foodname = foodname;
-//        this.quantity = quantity;
-//        this.calories = calories;
-//        this.sugar = sugar;
-//        this.protein = protein;
-//        this.fat = fat;
-//        this.calcium = calcium;
-//        this.energy = energy;
-//        this.iron = iron;
-//        this.cholesterol = cholesterol;
-//        this.time = time;
-//    }
-//updated one; without calories
-
 
     public Summary(int uid, String foodname, int quantity, Double calories,Double fat, String time) {
         this.uid = uid;

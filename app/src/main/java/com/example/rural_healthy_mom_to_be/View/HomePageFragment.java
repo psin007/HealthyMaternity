@@ -35,7 +35,10 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
+/*
+* This class is responsible to show user's week of pregnancy and the idea range and a message if ther weight is within the range or not
+* It also adds navigation to the other three pages
+* */
 public class HomePageFragment  extends Fragment
 {
     View vHomePage;
@@ -57,7 +60,6 @@ public class HomePageFragment  extends Fragment
     Button hospitalsTab;
     Button foodTab;
 
-    //TODO remove static and global variable
     static public double maxWeightValue;
     static public double minWeightValue;
     @Override
@@ -79,6 +81,7 @@ public class HomePageFragment  extends Fragment
         weightTab = vHomePage.findViewById(R.id.weighttab);
         hospitalsTab = vHomePage.findViewById(R.id.hospitalTab);
         foodTab = vHomePage.findViewById(R.id.foodTab);
+        //Navigation to Weight tracker page
         weightTab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,7 +95,7 @@ public class HomePageFragment  extends Fragment
                 fragmentTransaction.commit();
             }
         });
-
+        //Navigation to naearby hospitals page
         hospitalsTab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,7 +108,7 @@ public class HomePageFragment  extends Fragment
                 fragmentTransaction.commit();
             }
         });
-
+    //Navigation to Food diary page
         foodTab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -124,7 +127,7 @@ public class HomePageFragment  extends Fragment
         return vHomePage;
     }
 
-
+    //gives option to edit current weight of week for the specific week
     public void editCurrentWeight(View view) {
         Log.d("editCurrentWeight","editWeight");
         final EditText editWeight = new EditText(this.getActivity());
@@ -166,7 +169,7 @@ public class HomePageFragment  extends Fragment
         alert.show();
     }
 
-
+    // to show message to user if their weight falls in recommended range or not
     public void alertIdealMessage(View view) {
         final TextView textView = new TextView(this.getActivity());
         textView.setText("You can check here how much of weight you should have gained this week and compare it with your progress. ");
@@ -184,6 +187,7 @@ public class HomePageFragment  extends Fragment
         alert.show();
     }
 
+    //TO show information about our application by clicking cards displayed in homepage
     public void messageDialog(View view) {
         final TextView textView = new TextView(this.getActivity());
         textView.setText("You can generate report of your weight gain during different weeks of pregnancy and share it with your doctor to get feedback ! ");
@@ -201,7 +205,7 @@ public class HomePageFragment  extends Fragment
         alert.show();
     }
 
-
+    //uupdates the edited weight in database
     private class UpdateDatabase extends AsyncTask<Void, Void, String > {
 
 
@@ -226,7 +230,7 @@ public class HomePageFragment  extends Fragment
 
     }
 
-
+    //Reads and prints existing values of user weight in screen
     private class ReadDatabase extends AsyncTask<Void, Void, LoggedinUser> {
         @Override
         protected LoggedinUser doInBackground(Void... voids) {
@@ -264,6 +268,8 @@ public class HomePageFragment  extends Fragment
 
         }
     }
+
+    //To know ideal weight range for BMI and week
     private class GetWeightValues extends AsyncTask<String,Void,String> {
 
         @Override

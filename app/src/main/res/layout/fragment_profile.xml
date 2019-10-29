@@ -129,7 +129,7 @@
                     android:layout_height="wrap_content"
                     tools:context=".RegisterActivity"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="24dp"
+                    android:layout_marginRight="14dp"
                     android:orientation="horizontal">
                     <TextView
                         android:id="@+id/tvprePregWeight"

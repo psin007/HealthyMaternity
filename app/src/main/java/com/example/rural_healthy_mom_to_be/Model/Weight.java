@@ -4,7 +4,11 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.PrimaryKey;
-
+/*
+* This class includes getters and setters to maintain weight per week
+* an entity class
+*
+* */
 @Entity
 public class Weight {
     @PrimaryKey(autoGenerate = true)

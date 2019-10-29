@@ -2,6 +2,9 @@ package com.example.rural_healthy_mom_to_be.Model;
 
 
 import java.util.Collection;
+/*
+*Model class of Food to be shown in Food diary. It will consist all the food attributes and getters and setters
+* */
 
 public class Food {
     private Integer foodid;

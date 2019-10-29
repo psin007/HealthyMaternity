@@ -18,7 +18,9 @@ import android.widget.Toast;
 
 import com.example.rural_healthy_mom_to_be.MainActivity;
 import com.example.rural_healthy_mom_to_be.R;
-
+/*
+* This class is responsible for welcome page that has terms and conditions of our application
+* */
 public class WelcomeActvity extends AppCompatActivity {
     private CheckBox checkBoxTNC;
     private TextView textViewErrorMessage;
@@ -77,7 +79,6 @@ public class WelcomeActvity extends AppCompatActivity {
         if(((checkBoxTNC)).isChecked()){
             Intent intent = new Intent(WelcomeActvity.this, FormActivity.class);
             startActivity(intent);
-            //ToDo: RR added this line to remove the WelcomeActivity from back stack.
             finish();
         }
         else{

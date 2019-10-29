@@ -15,7 +15,10 @@ import com.example.rural_healthy_mom_to_be.Model.Weight;
 import com.example.rural_healthy_mom_to_be.R;
 import com.example.rural_healthy_mom_to_be.Repository.LoggedInUserDb;
 
-
+/*
+* This class is responsible to handle registration form page. It checks all error conditions and if everything is correct, saves user's information
+* in shared preference and navigates to home page
+* */
 public class FormActivity extends AppCompatActivity {
 
     private EditText etUserName;
@@ -34,15 +37,12 @@ public class FormActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form);
-
-        //ToDo: RR added these lines
         loggedInUserdb = Room.databaseBuilder(getApplicationContext(),
                 LoggedInUserDb.class, "LoggedInUserDatabase")
                 .fallbackToDestructiveMigration()
                 .build();
-        //ToDo: RR added the above lines
     }
-
+    // This method is called when Next button is clicked in registration page
     public void nextForm(View view){
         int flag = 0;
         etUserName = (EditText)findViewById(R.id.etUserName);
@@ -114,12 +114,13 @@ public class FormActivity extends AppCompatActivity {
             checkIfUserExist();
         }
     }
+    //method to check if user already exist in SQLite table
     protected void checkIfUserExist(){
         CheckUserInDb checkUserInDb = new CheckUserInDb();
         checkUserInDb.execute();
     }
 
-
+    //This async class check sin DB
     private class CheckUserInDb extends AsyncTask<Void,Void,String>{
 
         @Override
@@ -136,24 +137,17 @@ public class FormActivity extends AppCompatActivity {
         }
         @Override
         protected void onPostExecute(String userCheck) {
-            if(userCheck.equals("exists")){
+            if(userCheck.equals("exists")){ // if user already exist
                 etUserName.setError("Username already exists!");
             }
             else{
-                putValuesInSharedPreference();
-                //ToDo: RR Removed these lines as it is better to redirect once the data is stored.
-//                    Intent intent = new Intent(FormActivity.this, NavigationDrawer.class);
-//                    startActivity(intent);
-
+                putValuesInSharedPreference(); // save user information in shared preference
             }
         }
+        //saves user information in shared preferance
         protected void putValuesInSharedPreference(){
-            //ToDo: RR changed the name of sharedpreference to "loggedUser" which is used by MainActivity
             SharedPreferences loggedUser = getApplicationContext().getSharedPreferences("loggedUser", Context.MODE_PRIVATE);
             SharedPreferences.Editor loggedUsered = loggedUser.edit();
-            //ToDo: DO we really need to save this data other than loggedIn in our shared preference?
-
-
             loggedUsered.putString("username",username);
             loggedUsered.putString("userHeight",height);
             loggedUsered.putString("prePregnancyWeight",prePregnancyWeight);
@@ -161,21 +155,17 @@ public class FormActivity extends AppCompatActivity {
             loggedUsered.putString("weeksPregnant",weeksPregnant);
             loggedUsered.putString("loggedIn","yes");
 
-            //ToDo: RR added the below lines
             loggedUsered.commit();
             InsertDatabase insertDatabase = new InsertDatabase();
             insertDatabase.execute();
-            //ToDo: RR added the above lines
         }
     }
-
-    //ToDo: RR added the below asynctask
+// Store user info in Database to be used in later pages
     private class InsertDatabase extends AsyncTask<Void, Void, String> {
 
         @Override
         protected String doInBackground(Void... voids) {
-            //ToDo: change the first parameter to make it unique
-            //ToDo: calculate BMI class
+
             double heightInM = Double.parseDouble(height)*0.01;
             heightInM = heightInM *heightInM;
             double BMI = Double.parseDouble(prePregnancyWeight) / heightInM;
@@ -193,17 +183,15 @@ public class FormActivity extends AppCompatActivity {
                 BMIClass = "obesity";
             }
             LoggedinUser loggedinUser = new LoggedinUser(username, BMIClass, Double.valueOf(height),Double.valueOf(prePregnancyWeight), Integer.parseInt(weeksPregnant), Integer.parseInt(weeksPregnant), Double.valueOf(currentWeight));
-            //ToDo: check the return value for ensuring that the insert is succesfull or not.
             long id = loggedInUserdb.loggedInUserDao().insert(loggedinUser);
 
             loggedInUserdb.weightDao().deleteAll();
             Weight newWeight = new Weight((int)id,Double.valueOf(currentWeight),Integer.parseInt(weeksPregnant));
-            loggedInUserdb.weightDao().insert(newWeight);
+            loggedInUserdb.weightDao().insert(newWeight); // inserted into db
             return id+"";
         }
 
         @Override protected void onPostExecute(String details) {
-            //ToDo: based on the return value make the neccesary redirection.
             Intent intent = new Intent(FormActivity.this, NavigationDrawer.class);
             startActivity(intent);
             finish();

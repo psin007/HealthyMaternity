@@ -7,7 +7,9 @@ import org.json.JSONObject;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
-
+/*
+ * class to call API  to get fat and calorie information to be used in food diary
+ * */
 public class NutritionAPI {
     private static final String API_KEY = "RQHAUOGvrQaZFz6yEGnoLKCNaiS2eO0ZcOWncfa2";
 

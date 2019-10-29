@@ -115,7 +115,7 @@ public class NavigationDrawer extends AppCompatActivity
         String tag = "";
 
         nextFragment = new NearbyServicesFragment();
-        getSupportActionBar().setTitle("Nearby Services");
+        getSupportActionBar().setTitle("Nearby Hospitals");
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.content_frame, nextFragment,tag).commit();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -144,7 +144,7 @@ public class NavigationDrawer extends AppCompatActivity
                         ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},REQUEST_LOCATION);
                     } else {
                         nextFragment = new NearbyServicesFragment();
-                        getSupportActionBar().setTitle("Nearby Services");
+                        getSupportActionBar().setTitle("Nearby Hospitals");
                 }
                 }
                 break;

@@ -9,7 +9,7 @@
             android:title="Weight Tracker" />
         <item
             android:id="@+id/nav_nearbyservices"
-            android:title="Nearby Services" />
+            android:title="Nearby Hospitals" />
         <item
             android:id="@+id/nav_fooddiary"
             android:title="Food Diary" />

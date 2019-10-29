@@ -1,5 +1,7 @@
 package com.example.rural_healthy_mom_to_be.Model;
-
+/*
+* Constructor, getters and setters of all the attributes of a user
+* */
 public class User {
     private String user_name;
     private Double height;

@@ -9,6 +9,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.rural_healthy_mom_to_be.R;
+/*
+ *Hospital Adaptor class linked to Nearby hospitals page and Hospital class. It will decide whow to show hospitals in recycler view
+ * */
 
 public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.ViewHolder> {
     private Hospital[] listdata;

@@ -11,7 +11,9 @@ import com.example.rural_healthy_mom_to_be.Model.Weight;
 import java.util.List;
 
 import static android.arch.persistence.room.OnConflictStrategy.REPLACE;
-
+/*
+ * DAO class to call database Weight
+ * */
 @Dao
 public interface WeightDao {
 

@@ -3,7 +3,9 @@ package com.example.rural_healthy_mom_to_be.Repository;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
-
+/*
+ * class to call API  to get ideal weight range information per BMI and week
+ * */
 public class WeightValuesAPI {
     //ToChange - parameters value of method
     public static String getWeightValues() {

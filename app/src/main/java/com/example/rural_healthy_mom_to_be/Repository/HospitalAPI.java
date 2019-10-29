@@ -3,7 +3,9 @@ package com.example.rural_healthy_mom_to_be.Repository;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
-
+/*
+ * class to call API  to get hospital information
+ * */
 public class HospitalAPI {
     public static String gethospitalInfo() {
         //initialise

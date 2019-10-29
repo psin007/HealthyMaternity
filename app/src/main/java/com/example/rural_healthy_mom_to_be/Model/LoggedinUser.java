@@ -4,6 +4,10 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
+/*
+* Model class to set and get all the attributes of a  logged in user
+* Consist only constructor, getter and setter
+* */
 @Entity
 public class LoggedinUser {
     @PrimaryKey(autoGenerate = true)

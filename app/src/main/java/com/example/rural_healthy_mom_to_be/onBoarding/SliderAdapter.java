@@ -17,29 +17,27 @@ import com.example.rural_healthy_mom_to_be.R;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-
+/*
+* This class is responsible to show flascards at beginning of application
+* */
 public class SliderAdapter extends PagerAdapter {
 
     private Context context;
     private LayoutInflater layoutInflater;
-
-//    private TextView slideHeading, slideDescription;
-//    private ImageView slide_imageView;
-
 
     public SliderAdapter(Context context) {
 
         this.context = context;
     }
 
-    // img Array
+    // three images of flashcards
     public int[] image_slide ={
             R.drawable.weighttrack,
             R.drawable.report,
             R.drawable.fooddiary
     };
 
-    // heading Array
+    // three headings of flashcards
     public String[] heading_slide ={
             "Track Weight",
             "Generate Report",
@@ -69,12 +67,11 @@ public class SliderAdapter extends PagerAdapter {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
+    // to show flashcards
     public Object instantiateItem(ViewGroup container, int position) {
         layoutInflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
         View view = layoutInflater.inflate(R.layout.slide_layout, container,false);
         container.addView(view);
-
-//        ImageView slide_imageView = view.findViewById(R.id.imageView1);
         CircleImageView slide_imageView = view.findViewById(R.id.imageView1);
 
         TextView slideHeading = view.findViewById(R.id.tvHeading);
@@ -85,7 +82,6 @@ public class SliderAdapter extends PagerAdapter {
         slideDescription.setAllCaps(false);
         slideDescription.setText(description_slide[position]);
         slideDescription.setTextColor(Color.parseColor("#000000"));
-        //slideDescription.setJustificationMode(Layout.JUSTIFICATION_MODE_INTER_WORD);
         slideHeading.setTextColor(Color.parseColor("#000000"));
 
         return view;
@@ -98,10 +94,5 @@ public class SliderAdapter extends PagerAdapter {
         container.removeView((RelativeLayout)object);
     }
 
-//    @Override
-//    public void destroyItem(ViewGroup container, int position, Object object) {
-//        View view = (View) object;
-//        container.removeView(view);
-//    }
 
 }

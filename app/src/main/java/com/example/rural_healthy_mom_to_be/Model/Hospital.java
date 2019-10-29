@@ -1,4 +1,7 @@
 package com.example.rural_healthy_mom_to_be.Model;
+/*
+ *Model class of Hospital to be shown in Nearby hospitals page. It will consist all the hospitals attributes and getters and setters
+ * */
 
 public class Hospital
 {   private double latitude;

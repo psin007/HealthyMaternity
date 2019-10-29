@@ -8,7 +8,9 @@ import android.content.Context;
 import com.example.rural_healthy_mom_to_be.Model.LoggedinUser;
 import com.example.rural_healthy_mom_to_be.Model.Summary;
 import com.example.rural_healthy_mom_to_be.Model.Weight;
-
+/*
+ * Database class to to store all Dao classes
+ *  * */
 @Database(entities = {LoggedinUser.class, Weight.class, Summary.class}, version = 6, exportSchema = false)
 public abstract class LoggedInUserDb extends RoomDatabase {
     public abstract LoggedInUserDao loggedInUserDao();

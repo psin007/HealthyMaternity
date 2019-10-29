@@ -8,7 +8,10 @@ import org.json.JSONObject;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
-
+/*
+* class to call API  to get Fertility center
+* Note - not in use
+* */
 public class FertilityCenterAPI {
     private static final String BASE_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?";
 
@@ -46,7 +49,7 @@ public class FertilityCenterAPI {
         }
         return textResult;
     }
-
+//Not in use
     public static FertilityCentre[] getFertilityCenter(String result) {
         double lat = 0;
         double lon=0;
@@ -59,14 +62,6 @@ public class FertilityCenterAPI {
             JSONObject jsonObject = new JSONObject(result);
             JSONArray jsonlinkArray = jsonObject.getJSONArray("results");
             fertilityCentres = new FertilityCentre[jsonlinkArray.length()];
-
-
-//            for(int i = 0; i<jsonlinkArray.length();i++){
-//                lat = jsonlinkArray.getJSONObject(i).getJSONObject("geometry").getJSONObject("location").getDouble("lat"); //from json response
-//                lon = jsonlinkArray.getJSONObject(i).getJSONObject("geometry").getJSONObject("location").getDouble("lng");
-//                name = jsonlinkArray.getJSONObject(i).getString("name");
-//                parks[i]=new Park(lat,lon,name);
-//            }
         }
         catch(Exception e){
             e.printStackTrace();

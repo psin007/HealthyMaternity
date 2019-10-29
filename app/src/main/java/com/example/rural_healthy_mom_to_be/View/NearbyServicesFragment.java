@@ -58,7 +58,9 @@ import java.util.List;
 
 import static android.content.Context.LOCATION_SERVICE;
 
-
+/*
+* This class is responsible to show google maps and recycler view list of all the nearby hospitals selected within a radius
+* */
 public class NearbyServicesFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap myMap;
     View vmyMaps;
@@ -134,7 +136,7 @@ public class NearbyServicesFragment extends Fragment implements OnMapReadyCallba
                     radius = (Double.parseDouble(etRadius.getText().toString()));
                 }
                 else{
-                    radius = 40;
+                    radius = 40; //default radius
                 }
                 clearData();
                 searchHospitals();

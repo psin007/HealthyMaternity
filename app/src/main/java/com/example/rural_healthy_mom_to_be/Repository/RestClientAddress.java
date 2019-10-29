@@ -1,5 +1,7 @@
 package com.example.rural_healthy_mom_to_be.Repository;
-
+/*
+ * class stores all API keys ans links to call to
+ * */
 public class RestClientAddress {
     protected static String address = "https://jitsq13t2f.execute-api.ap-southeast-2.amazonaws.com/v1/getWeightGain";
    // protected static String hospitalAddress ="https://4v5j5wv9g2.execute-api.ap-southeast-2.amazonaws.com/default/listAllLocation";

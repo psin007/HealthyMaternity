@@ -44,18 +44,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences loggedUser = getApplicationContext().getSharedPreferences("loggedUser", Context.MODE_PRIVATE);
         final String loggedIn = loggedUser.getString("loggedIn","no");
 
-//        Thread timer = new Thread() {
-//            public void run() {
-//                try {
-//                    sleep(SPLASH_TIME);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                } finally {
-//
-//                }
-//            }
-//        };
-//        timer.start();
+
         if(loggedIn.equals("yes")){
             Intent intent = new Intent(MainActivity.this, NavigationDrawer.class);
             startActivity(intent);
@@ -67,20 +56,6 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
 
-//        SharedPreferences loggedUser = getApplicationContext().getSharedPreferences("loggedUser", Context.MODE_PRIVATE);
-//        String loggedIn = loggedUser.getString("loggedIn","no");
-//        if(loggedIn.equals("yes")){
-//            Intent intent = new Intent(MainActivity.this, NavigationDrawer.class);
-//            startActivity(intent);
-//            //ToDo: RR added this line to remove the MainActivity from back stack.
-//            finish();
-//        }
-//        else{
-//            Intent intent = new Intent(MainActivity.this, WelcomeActvity.class);
-//            startActivity(intent);
-//            //ToDo: RR added this line to remove the MainActivity from back stack.
-//            finish();
-//        }
     }
 
     /**

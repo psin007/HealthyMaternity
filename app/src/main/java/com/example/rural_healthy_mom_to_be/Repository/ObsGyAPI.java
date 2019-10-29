@@ -9,7 +9,10 @@ import org.json.JSONObject;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
-
+/*
+ * class to call API  to get Obstretician- Gynaecologist center
+ * Note - not in use
+ * */
 public class ObsGyAPI {
     private static final String BASE_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?";
 
